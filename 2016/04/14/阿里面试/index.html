@@ -1,0 +1,742 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="面试," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="自我介绍 
+做过的项目（Java 基础） 
+Java的四个基本特性（抽象、封装、继承，多态），对多态的理解(多态的实现方式)以及在项目中那些地方用到多态Java的四个基本特性抽象：抽象是将一类对象的共同特征总结出来构造类的过程，包括数据抽象和行为抽象两方面。抽象只关注对象有哪些属性和行为，并不关注这些行为的细节是什么。 继承：继承是从已有类得到继承信息创建新类的过程。提供继承信息的类被称为父类（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试（转）">
+<meta property="og:url" content="http://yoursite.com/2016/04/14/阿里面试/index.html">
+<meta property="og:site_name" content="高沛'blog">
+<meta property="og:description" content="自我介绍 
+做过的项目（Java 基础） 
+Java的四个基本特性（抽象、封装、继承，多态），对多态的理解(多态的实现方式)以及在项目中那些地方用到多态Java的四个基本特性抽象：抽象是将一类对象的共同特征总结出来构造类的过程，包括数据抽象和行为抽象两方面。抽象只关注对象有哪些属性和行为，并不关注这些行为的细节是什么。 继承：继承是从已有类得到继承信息创建新类的过程。提供继承信息的类被称为父类（">
+<meta property="og:updated_time" content="2016-11-24T11:28:46.066Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面试（转）">
+<meta name="twitter:description" content="自我介绍 
+做过的项目（Java 基础） 
+Java的四个基本特性（抽象、封装、继承，多态），对多态的理解(多态的实现方式)以及在项目中那些地方用到多态Java的四个基本特性抽象：抽象是将一类对象的共同特征总结出来构造类的过程，包括数据抽象和行为抽象两方面。抽象只关注对象有哪些属性和行为，并不关注这些行为的细节是什么。 继承：继承是从已有类得到继承信息创建新类的过程。提供继承信息的类被称为父类（">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/04/14/阿里面试/"/>
+
+
+
+
+
+  <title> 面试（转） | 高沛'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">高沛'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/14/阿里面试/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高沛">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="高沛'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                面试（转）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-14T12:45:23+08:00">
+                2016-04-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ol>
+<li>自我介绍 </li>
+<li>做过的项目<br>（Java 基础） </li>
+<li><p>Java的四个基本特性（抽象、封装、继承，多态），对多态的理解(多态的实现方式)以及在项目中那些地方用到多态<br>Java的四个基本特性<br>抽象：抽象是将一类对象的共同特征总结出来构造类的过程，包括数据抽象和行为抽象两方面。抽象只关注对象有哪些属性和行为，并不关注这些行为的细节是什么。 <br>继承：继承是从已有类得到继承信息创建新类的过程。提供继承信息的类被称为父类（超类、基类）；得到继承信息的类被称为子类（派生类）。继承让变化中的软件系统有了一定的延续性，同时继承也是封装程序中可变因素的重要手段。<br>封装：通常认为封装是把数据和操作数据的方法绑定起来，对数据的访问只能通过已定义的接口。面向对象的本质就是将现实世界描绘成一系列完全自治、封闭的对象。我们在类中编写的方法就是对实现细节的一种封装；我们编写一个类就是对数据和数据操作的封装。可以说，封装就是隐藏一切可隐藏的东西，只向外界提供最简单的编程接口。<br>多态性是指允许不同子类型的对象对同一消息作出不同的响应。<br>多态的理解(多态的实现方式)<br>方法重载（overload）实现的是编译时的多态性（也称为前绑定）。<br>方法重写（override）实现的是运行时的多态性（也称为后绑定）。运行时的多态是面向对象最精髓的东西。<br>要实现多态需要做两件事：1). 方法重写（子类继承父类并重写父类中已有的或抽象的方法）；2). 对象造型（用父类型引用引用子类型对象，这样同样的引用调用同样的方法就会根据子类对象的不同而表现出不同的行为）。<br>项目中对多态的应用<br>举一个简单的例子，在物流信息管理系统中，有两种用户：订购客户和卖房客户，两个客户都可以登录系统，他们有相同的方法Login，但登陆之后他们会进入到不同的页面，也就是在登录的时候会有不同的操作，两种客户都继承父类的Login方法，但对于不同的对象，拥有不同的操作。 </p>
+</li>
+<li><p>面向对象和面向过程的区别？用面向过程可以实现面向对象吗？那是不是不能面向对象？<br>面向对象和面向过程的区别<br>面向过程就像是一个细心的管家，事无具细的都要考虑到。而面向对象就像是个家用电器，你只需要知道他的功能，不需要知道它的工作原理。<br>面向过程”是一种是事件为中心的编程思想。就是分析出解决问题所需的步骤，然后用函数把这些步骤实现，并按顺序调用。面向对象是以“对象”为中心的编程思想。<br>简单的举个例子：汽车发动、汽车到站<br>这对于“面向过程”来说，是两个事件，汽车启动是一个事件，汽车到站是另一个事件，面向过程编程的过程中我们关心的是事件，而不是汽车本身。针对上述两个事件，形成两个函数，之 后依次调用。<br>然而这对于面向对象来说，我们关心的是汽车这类对象，两个事件只是这类对象所具有的行为。而且对于这两个行为的顺序没有强制要求。<br>用面向过程可以实现面向对象吗 </p>
+</li>
+</ol>
+<p>那是不是不能面向对象 </p>
+<ol>
+<li>重载和重写，如何确定调用哪个函数<br>重载：重载发生在同一个类中，同名的方法如果有不同的参数列表（参数类型不同、参数个数不同或者二者都不同）则视为重载。<br>重写：重写发生在子类与父类之间，重写要求子类被重写方法与父类被重写方法有相同的返回类型，比父类被重写方法更好访问，不能比父类被重写方法声明更多的异常（里氏代换原则）。根据不同的子类对象确定调用的那个方法。 </li>
+<li>面向对象开发的六个基本原则(单一职责、开放封闭、里氏替换、依赖倒置、合成聚合复用、接口隔离)，迪米特法则。在项目中用过哪些原则<br>六个基本原则<br>单一职责：一个类只做它该做的事情(高内聚)。在面向对象中，如果只让一个类完成它该做的事，而不涉及与它无关的领域就是践行了高内聚的原则，这个类就只有单一职责。<br>开放封闭：软件实体应当对扩展开放，对修改关闭。要做到开闭有两个要点：①抽象是关键，一个系统中如果没有抽象类或接口系统就没有扩展点；②封装可变性，将系统中的各种可变因素封装到一个继承结构中，如果多个可变因素混杂在一起，系统将变得复杂而换乱。<br>里氏替换：任何时候都可以用子类型替换掉父类型。子类一定是增加父类的能力而不是减少父类的能力，因为子类比父类的能力更多，把能力多的对象当成能力少的对象来用当然没有任何问题。<br>依赖倒置：面向接口编程。（该原则说得直白和具体一些就是声明方法的参数类型、方法的返回类型、变量的引用类型时，尽可能使用抽象类型而不用具体类型，因为抽象类型可以被它的任何一个子类型所替代） <br>合成聚和复用：优先使用聚合或合成关系复用代码。<br>接口隔离：接口要小而专，绝不能大而全。臃肿的接口是对接口的污染，既然接口表示能力，那么一个接口只应该描述一种能力，接口也应该是高度内聚的。<br>迪米特法则<br>迪米特法则又叫最少知识原则，一个对象应当对其他对象有尽可能少的了解。<br>项目中用到的原则<br>单一职责、开放封闭、合成聚合复用(最简单的例子就是String类)、接口隔离 </li>
+<li>static和final的区别和用途<br>Static<br>修饰变量：静态变量随着类加载时被完成初始化，内存中只有一个，且JVM也只会为它分配一次内存，所有类共享静态变量。<br>修饰方法：在类加载的时候就存在，不依赖任何实例；static方法必须实现，不能用abstract修饰。<br>修饰代码块：在类加载完之后就会执行代码块中的内容。<br>父类静态代码块-&gt;子类静态代码块-&gt;父类非静态代码块-&gt;父类构造方法-&gt;子类非静态代码块-&gt;子类构造方法<br>Final<br>修饰变量：<br>编译期常量：类加载的过程完成初始化，编译后带入到任何计算式中。只能是基本类型。<br>运行时常量：基本数据类型或引用数据类型。引用不可变，但引用的对象内容可变。<br>修饰方法：不能被继承，不能被子类修改。<br>修饰类：不能被继承。<br>修饰形参：final形参不可变 </li>
+<li>Hash Map和Hash Table的区别，Hash Map中的key可以是任何对象或数据类型吗？HashTable是线程安全的么？<br>Hash Map和Hash Table的区别<br>Hashtable的方法是同步的，HashMap未经同步，所以在多线程场合要手动同步HashMap这个区别就像Vector和ArrayList一样。<br>Hashtable不允许 null 值(key 和 value 都不可以)，HashMap允许 null 值(key和value都可以)。<br>两者的遍历方式大同小异，Hashtable仅仅比HashMap多一个elements方法。<br>Hashtable 和 HashMap 都能通过values()方法返回一个 Collection ，然后进行遍历处理。<br>两者也都可以通过 entrySet() 方法返回一个 Set ， 然后进行遍历处理。<br>HashTable使用Enumeration，HashMap使用Iterator。<br>哈希值的使用不同，Hashtable直接使用对象的hashCode。而HashMap重新计算hash值，而且用于代替求模。<br>Hashtable中hash数组默认大小是11，增加的方式是 old*2+1。HashMap中hash数组的默认大小是16，而且一定是2的指数。<br>HashTable基于Dictionary类，而HashMap基于AbstractMap类<br>Hash Map中的key可以是任何对象或数据类型吗<br>可以为null，但不能是可变对象，如果是可变对象的话，对象中的属性改变，则对象HashCode也进行相应的改变，导致下次无法查找到已存在Map中的数据。<br>如果可变对象在HashMap中被用作键，那就要小心在改变对象状态的时候，不要改变它的哈希值了。我们只需要保证成员变量的改变能保证该对象的哈希值不变即可。<br>HashTable是线程安全的么<br>HashTable是线程安全的，其实现是在对应的方法上添加了synchronized关键字进行修饰，由于在执行此方法的时候需要获得对象锁，则执行起来比较慢。所以现在如果为了保证线程安全的话，使用CurrentHashMap。<br>HashMap和Concurrent HashMap区别， Concurrent HashMap 线程安全吗， Concurrent HashMap如何保证 线程安全？<br>HashMap和Concurrent HashMap区别？<br>HashMap是非线程安全的，CurrentHashMap是线程安全的。<br>ConcurrentHashMap将整个Hash桶进行了分段segment，也就是将这个大的数组分成了几个小的片段segment，而且每个小的片段segment上面都有锁存在，那么在插入元素的时候就需要先找到应该插入到哪一个片段segment，然后再在这个片段上面进行插入，而且这里还需要获取segment锁。<br>ConcurrentHashMap让锁的粒度更精细一些，并发性能更好。<br>Concurrent HashMap 线程安全吗， Concurrent HashMap如何保证 线程安全？<br>HashTable容器在竞争激烈的并发环境下表现出效率低下的原因是所有访问HashTable的线程都必须竞争同一把锁，那假如容器里有多把锁，每一把锁用于锁容器其中一部分数据，那么当多线程访问容器里不同数据段的数据时，线程间就不会存在锁竞争，从而可以有效的提高并发访问效率，这就是ConcurrentHashMap所使用的锁分段技术，首先将数据分成一段一段的存储，然后给每一段数据配一把锁，当一个线程占用锁访问其中一个段数据的时候，其他段的数据也能被其他线程访问。<br>get操作的高效之处在于整个get过程不需要加锁，除非读到的值是空的才会加锁重读。get方法里将要使用的共享变量都定义成volatile，如用于统计当前Segement大小的count字段和用于存储值的HashEntry的value。定义成volatile的变量，能够在线程之间保持可见性，能够被多线程同时读，并且保证不会读到过期的值，但是只能被单线程写（有一种情况可以被多线程写，就是写入的值不依赖于原值），在get操作里只需要读不需要写共享变量count和value，所以可以不用加锁。<br>Put方法首先定位到Segment，然后在Segment里进行插入操作。插入操作需要经历两个步骤，第一步判断是否需要对Segment里的HashEntry数组进行扩容，第二步定位添加元素的位置然后放在HashEntry数组里。 </li>
+</ol>
+<p>因为别人知道源码怎么实现的，故意构造相同的hash的字符串进行攻击，怎么处理？那jdk7怎么办？<br>怎么处理构造相同hash的字符串进行攻击?<br>当客户端提交一个请求并附带参数的时候，web应用服务器会把我们的参数转化成一个HashMap存储，这个HashMap的逻辑结构如下：key1–&gt;value1;<br>但是物理存储结构是不同的，key值会被转化成Hashcode，这个hashcode有会被转成数组的下标：0–&gt;value1；<br>不同的string就会产生相同hashcode而导致碰撞，碰撞后的物理存储结构可能如下：0–&gt;value1–&gt;value2;<br>1、限制post和get的参数个数，越少越好<br>2、限制post数据包的大小<br>3、WAF<br>Jdk7 如何处理hashcode字符串攻击<br>HashMap会动态的使用一个专门的treemap实现来替换掉它。<br>String、StringBuffer、StringBuilder以及对String不变性的理解<br>String、StringBuffer、StringBuilder<br>都是 final 类, 都不允许被继承;<br>String 长度是不可变的, StringBuffer、StringBuilder 长度是可变的;<br>StringBuffer 是线程安全的, StringBuilder 不是线程安全的，但它们两个中的所有方法都是相同的，StringBuffer在StringBuilder的方法之上添加了synchronized修饰，保证线程安全。<br>StringBuilder比StringBuffer拥有更好的性能。<br>如果一个String类型的字符串，在编译时就可以确定是一个字符串常量，则编译完成之后，字符串会自动拼接成一个常量。此时String的速度比StringBuffer和StringBuilder的性能好的多。<br>String不变性的理解<br>String 类是被final进行修饰的，不能被继承。<br>在用+号链接字符串的时候会创建新的字符串。<br>String s = new String(“Hello world”); 可能创建两个对象也可能创建一个对象。如果静态区中有“Hello world”字符串常量对象的话，则仅仅在堆中创建一个对象。如果静态区中没有“Hello world”对象，则堆上和静态区中都需要创建对象。<br> 在 java 中, 通过使用 “+” 符号来串联字符串的时候, 实际上底层会转成通过 StringBuilder 实例的 append() 方法来实现。 </p>
+<p>String有重写Object的hashcode和toString吗？如果重写equals不重写hashcode会出现什么问题？<br>String有重写Object的hashcode和toString吗？<br>String重写了Object类的hashcode和toString方法。<br>当equals方法被重写时，通常有必要重写hashCode方法，以维护hashCode方法的常规协定，该协定声明相对等的两个对象必须有相同的hashCode<br>object1.euqal(object2)时为true， object1.hashCode() ==  object2.hashCode() 为true<br>object1.hashCode() ==  object2.hashCode() 为false时，object1.euqal(object2)必定为false<br>object1.hashCode() ==  object2.hashCode() 为true时，但object1.euqal(object2)不一定定为true<br>重写equals不重写hashcode会出现什么问题<br>在存储散列集合时(如Set类)，如果原对象.equals(新对象)，但没有对hashCode重写，即两个对象拥有不同的hashCode，则在集合中将会存储两个值相同的对象，从而导致混淆。因此在重写equals方法时，必须重写hashCode方法。 </p>
+<p>Java序列化，如何实现序列化和反序列化，常见的序列化协议有哪些<br>Java序列化定义<br>将那些实现了Serializable接口的对象转换成一个字节序列，并能够在以后将这个字节序列完全恢复为原来的对象，序列化可以弥补不同操作系统之间的差异。<br>Java序列化的作用<br>Java远程方法调用（RMI）<br>对JavaBeans进行序列化<br>如何实现序列化和反序列化<br>实现序列化方法<br>实现Serializable接口<br>该接口只是一个可序列化的标志，并没有包含实际的属性和方法。<br>如果不在改方法中添加readObject()和writeObject()方法，则采取默认的序列化机制。如果添加了这两个方法之后还想利用Java默认的序列化机制，则在这两个方法中分别调用defaultReadObject()和defaultWriteObject()两个方法。<br>为了保证安全性，可以使用transient关键字进行修饰不必序列化的属性。因为在反序列化时，private修饰的属性也能发查看到。<br>实现ExternalSerializable方法<br>自己对要序列化的内容进行控制，控制那些属性能被序列化，那些不能被序列化。<br>反序列化<br>实现Serializable接口的对象在反序列化时不需要调用对象所在类的构造方法，完全基于字节。<br>实现externalSerializable接口的方法在反序列化时会调用构造方法。<br>注意事项<br>被static修饰的属性不会被序列化<br>对象的类名、属性都会被序列化，方法不会被序列化<br>要保证序列化对象所在类的属性也是可以被序列化的<br>当通过网络、文件进行序列化时，必须按照写入的顺序读取对象。<br>反序列化时必须有序列化对象时的class文件<br>最好显示的声明serializableID，因为在不同的JVM之间，默认生成serializableID 可能不同，会造成反序列化失败。<br>常见的序列化协议有哪些<br>COM主要用于Windows平台，并没有真正实现跨平台，另外COM的序列化的原理利用了编译器中虚表，使得其学习成本巨大。<br>CORBA是早期比较好的实现了跨平台，跨语言的序列化协议。COBRA的主要问题是参与方过多带来的版本过多，版本之间兼容性较差，以及使用复杂晦涩。<br>XML&amp;SOAP<br>XML是一种常用的序列化和反序列化协议，具有跨机器，跨语言等优点。<br>SOAP（Simple Object Access protocol） 是一种被广泛应用的，基于XML为序列化和反序列化协议的结构化消息传递协议。SOAP具有安全、可扩展、跨语言、跨平台并支持多种传输层协议。<br>JSON（Javascript Object Notation）<br>这种Associative array格式非常符合工程师对对象的理解。<br>它保持了XML的人眼可读（Human-readable）的优点。<br>相对于XML而言，序列化后的数据更加简洁。<br>它具备Javascript的先天性支持，所以被广泛应用于Web browser的应用常景中，是Ajax的事实标准协议。<br>与XML相比，其协议比较简单，解析速度比较快。<br>松散的Associative array使得其具有良好的可扩展性和兼容性。<br>Thrift是Facebook开源提供的一个高性能，轻量级RPC服务框架，其产生正是为了满足当前大数据量、分布式、跨语言、跨平台数据通讯的需求。Thrift在空间开销和解析性能上有了比较大的提升，对于对性能要求比较高的分布式系统，它是一个优秀的RPC解决方案；但是由于Thrift的序列化被嵌入到Thrift框架里面，Thrift框架本身并没有透出序列化和反序列化接口，这导致其很难和其他传输层协议共同使用<br>Protobuf具备了优秀的序列化协议的所需的众多典型特征<br>标准的IDL和IDL编译器，这使得其对工程师非常友好。<br>序列化数据非常简洁，紧凑，与XML相比，其序列化之后的数据量约为1/3到1/10。<br>解析速度非常快，比对应的XML快约20-100倍。<br>提供了非常友好的动态库，使用非常简介，反序列化只需要一行代码。由于其解析性能高，序列化后数据量相对少，非常适合应用层对象的持久化场景 </p>
+<p>Avro的产生解决了JSON的冗长和没有IDL的问题，Avro属于Apache Hadoop的一个子项目。 Avro提供两种序列化格式：JSON格式或者Binary格式。Binary格式在空间开销和解析性能方面可以和Protobuf媲美，JSON格式方便测试阶段的调试。适合于高性能的序列化服务。<br>几种协议的对比<br>XML序列化（Xstream）无论在性能和简洁性上比较差；<br>Thrift与Protobuf相比在时空开销方面都有一定的劣势；<br>Protobuf和Avro在两方面表现都非常优越。 </p>
+<p>Java实现多线程的方式及三种方式的区别<br>实现多线程的方式<br>继承Thread类，重写run函数。<br>实现Runnable接口<br>实现Callable接口<br>三种方式的区别<br>实现Runnable接口可以避免Java单继承特性而带来的局限；增强程序的健壮性，代码能够被多个线程共享，代码与数据是独立的；适合多个相同程序代码的线程区处理同一资源的情况。<br>继承Thread类和实现Runnable方法启动线程都是使用start方法，然后JVM虚拟机将此线程放到就绪队列中，如果有处理机可用，则执行run方法。<br>实现Callable接口要实现call方法，并且线程执行完毕后会有返回值。其他的两种都是重写run方法，没有返回值。 </p>
+<p>线程安全<br>定义<br>某个类的行为与其规范一致。<br>不管多个线程是怎样的执行顺序和优先级,或是wait,sleep,join等控制方式,，如果一个类在多线程访问下运转一切正常，并且访问类不需要进行额外的同步处理或者协调，那么我们就认为它是线程安全的。<br>如何保证线程安全？6<br>对变量使用volitate<br>对程序段进行加锁(synchronized,lock)<br>注意<br>非线程安全的集合在多线程环境下可以使用，但并不能作为多个线程共享的属性，可以作为某个线程独享的属性。<br>例如Vector是线程安全的，ArrayList不是线程安全的。如果每一个线程中new一个ArrayList，而这个ArrayList只是在这一个线程中使用，肯定没问题。<br>多线程如何进行信息交互<br>Object中的方法，wait()， notify()，notifyAll();<br>多线程共用一个数据变量需要注意什么？<br>当我们在线程对象（Runnable）中定义了全局变量，run方法会修改该变量时，如果有多个线程同时使用该线程对象，那么就会造成全局变量的值被同时修改，造成错误.<br>ThreadLocal是JDK引入的一种机制，它用于解决线程间共享变量，使用ThreadLocal声明的变量，即使在线程中属于全局变量，针对每个线程来讲，这个变量也是独立的。<br>volatile变量每次被线程访问时，都强迫线程从主内存中重读该变量的最新值，而当该变量发生修改变化时，也会强迫线程将最新的值刷新回主内存中。这样一来，不同的线程都能及时的看到该变量的最新值。<br>什么是线程池？如果让你设计一个动态大小的线程池，如何设计，应该有哪些方法？<br>什么是线程池<br>线程池顾名思义就是事先创建若干个可执行的线程放入一个池（容器）中，需要的时候从池中获取线程不用自行创建，使用完毕不需要销毁线程而是放回池中，从而减少创建和销毁线程对象的开销。<br>设计一个动态大小的线程池，如何设计，应该有哪些方法<br>一个线程池包括以下四个基本组成部分：<br>线程管理器(ThreadPool)：用于创建并管理线程池，包括创建线程，销毁线程池，添加新任务；<br>工作线程(PoolWorker)：线程池中线程，在没有任务时处于等待状态，可以循环的执行任务；<br>任务接口(Task)：每个任务必须实现的接口，以供工作线程调度任务的执行，它主要规定了任务的入口，任务执行完后的收尾工作，任务的执行状态等；<br>任务队列(TaskQueue)：用于存放没有处理的任务。提供一种缓冲机制；<br>所包含的方法<br>private ThreadPool()  创建线程池<br>public static ThreadPool getThreadPool()  获得一个默认线程个数的线程池<br> public void execute(Runnable task)  执行任务,其实只是把任务加入任务队列，什么时候执行有线程池管理器决定<br>public void execute(Runnable[] task)  批量执行任务,其实只是把任务加入任务队列，什么时候执行有线程池管理器决定<br>public void destroy()  销毁线程池,该方法保证在所有任务都完成的情况下才销毁所有线程，否则等待任务完成才销毁<br>public int getWorkThreadNumber() 返回工作线程的个数<br>public int getFinishedTasknumber() 返回已完成任务的个数,这里的已完成是只出了任务队列的任务个数，可能该任务并没有实际执行完成<br>public void addThread() 在保证线程池中所有线程正在执行，并且要执行线程的个数大于某一值时。增加线程池中线程的个数<br>public void reduceThread() 在保证线程池中有很大一部分线程处于空闲状态，并且空闲状态的线程在小于某一值时，减少线程池中线程的个数  </p>
+<p>Java是否有内存泄露和内存溢出<br>静态集合类，使用Set、Vector、HashMap等集合类的时候需要特别注意。当这些类被定义成静态的时候，由于他们的生命周期跟应用程序一样长，这时候就有可能发生内存泄漏。<br>例子<br>class StaticTest<br>{<br>    private static Vector v = new Vector(10); </p>
+<p>public void init()<br>    {<br>        for (int i = 1; i &lt; 100; i++)<br>        {<br>            Object object = new Object();<br>            v.add(object);<br>            object = null;<br>        }<br>    }<br>}<br>在上面的代码中，循环申请了Object对象，并添加到Vector中，然后设置为null，可是这些对象呗vector引用着，因此必能被GC回收，因此造成内存泄漏。因此要释放这些对象，还需要将它们从vector删除，最简单的方法就是将vector设置为null </p>
+<p>监听器： 在Java编程中，我们都需要和监听器打交道，通常一个应用中会用到很多监听器，我们会调用一个控件，诸如addXXXListener()等方法来增加监听器，但往往在释放的时候却没有去删除这些监听器，从而增加了内存泄漏的机会。 </p>
+<p>物理连接：一些物理连接，比如数据库连接和网络连接，除非其显式的关闭了连接，否则是不会自动被GC 回收的。Java 数据库连接一般用DataSource.getConnection()来创建，当不再使用时必须用Close()方法来释放，因为这些连接是独立于JVM的。对于Resultset 和Statement 对象可以不进行显式回收，但Connection 一定要显式回收，因为Connection 在任何时候都无法自动回收，而Connection一旦回收，Resultset 和Statement 对象就会立即为NULL。但是如果使用连接池，情况就不一样了，除了要显式地关闭连接，还必须显式地关闭Resultset Statement 对象（关闭其中一个，另外一个也会关闭），否则就会造成大量的Statement 对象无法释放，从而引起内存泄漏。。一般情况下，在try代码块里创建连接，在finally里释放连接，就能够避免此类内存泄漏。 </p>
+<p>内部类和外部模块等的引用：内部类的引用是比较容易遗忘的一种，而且一旦没释放可能导致一系列的后继类对象没有释放。在调用外部模块的时候，也应该注意防止内存泄漏，如果模块A调用了外部模块B的一个方法，如：<br>public void register(Object o)<br>这个方法有可能就使得A模块持有传入对象的引用，这时候需要查看B模块是否提供了出去引用的方法，这种情况容易忽略，而且发生内存泄漏的话，还比较难察觉。 </p>
+<p>单例模式：因为单利对象初始化后将在JVM的整个生命周期内存在，如果它持有一个外部对象的（生命周期比较短）引用，那么这个外部对象就不能被回收，从而导致内存泄漏。如果这个外部对象还持有其他对象的引用，那么内存泄漏更严重。 </p>
+<p>concurrent包下面，都用过什么？ <br>concurrent下面的包<br>Executor  用来创建线程池，在实现Callable接口时，添加线程。<br>FeatureTask 此 FutureTask 的 get 方法所返回的结果类型。<br>TimeUnit<br>Semaphore<br>LinkedBlockingQueue<br>所用过的类<br>Executor   </p>
+<p>volatile 关键字的如何保证内存可见性<br>volatile 关键字的作用<br>保证内存的可见性<br>防止指令重排<br>注意：volatile 并不保证原子性<br>内存可见性<br>volatile保证可见性的原理是在每次访问变量时都会进行一次刷新，因此每次访问都是主内存中最新的版本。所以volatile关键字的作用之一就是保证变量修改的实时可见性。<br>当且仅当满足以下所有条件时，才应该使用volatile变量<br>对变量的写入操作不依赖变量的当前值，或者你能确保只有单个线程更新变量的值。<br>该变量没有包含在具有其他变量的不变式中。<br>volatile使用建议<br>在两个或者更多的线程需要访问的成员变量上使用volatile。当要访问的变量已在synchronized代码块中，或者为常量时，没必要使用volatile。<br>由于使用volatile屏蔽掉了JVM中必要的代码优化，所以在效率上比较低，因此一定在必要时才使用此关键字。<br>volatile和synchronized区别<br>volatile不会进行加锁操作：<br>volatile变量是一种稍弱的同步机制在访问volatile变量时不会执行加锁操作，因此也就不会使执行线程阻塞，因此volatile变量是一种比synchronized关键字更轻量级的同步机制。<br> volatile 变量作用类似于同步变量读写操作：<br>从内存可见性的角度看，写入volatile变量相当于退出同步代码块，而读取volatile变量相当于进入同步代码块。<br>volatile 不如 synchronized安全：<br>在代码中如果过度依赖volatile变量来控制状态的可见性，通常会比使用锁的代码更脆弱，也更难以理解。仅当volatile变量能简化代码的实现以及对同步策略的验证时，才应该使用它。一般来说，用同步机制会更安全些。<br>volatile 无法同时保证内存可见性和原则性：<br>加锁机制（即同步机制）既可以确保可见性又可以确保原子性，而volatile变量只能确保可见性，原因是声明为volatile的简单变量如果当前值与该变量以前的值相关，那么volatile关键字不起作用，也就是说如下的表达式都不是原子操作：“count++”、“count = count+1”。 </p>
+<p>sleep和wait分别是那个类的方法，有什么区别<br>sleep和wait<br>sleep是Thread类的方法<br>wait是Object类的方法<br>有什么区别<br>sleep()方法（休眠）是线程类（Thread）的静态方法，调用此方法会让当前线程暂停执行指定的时间，将执行机会（CPU）让给其他线程，但是对象的锁依然保持，因此休眠时间结束后会自动恢复（线程回到就绪状态）。<br>wait()是Object类的方法，调用对象的wait()方法导致当前线程放弃对象的锁（线程暂停执行），进入对象的等待池（wait pool），只有调用对象的notify()方法（或notifyAll()方法）时才能唤醒等待池中的线程进入等锁池（lock pool），如果线程重新获得对象的锁就可以进入就绪状态。<br>synchronized与lock的区别，使用场景。看过synchronized的源码没？<br>synchronized与lock的区别<br>（用法）synchronized(隐式锁)：在需要同步的对象中加入此控制，synchronized可以加在方法上，也可以加在特定代码块中，括号中表示需要锁的对象。<br>（用法）lock（显示锁）：需要显示指定起始位置和终止位置。一般使用ReentrantLock类做为锁，多个线程中必须要使用一个ReentrantLock类做为对 象才能保证锁的生效。且在加锁和解锁处需要通过lock()和unlock()显示指出。所以一般会在finally块中写unlock()以防死锁。<br>（性能）synchronized是托管给JVM执行的，而lock是java写的控制锁的代码。在Java1.5中，synchronize是性能低效的。因为 这是一个重量级操作，需要调用操作接口，导致有可能加锁消耗的系统时间比加锁以外的操作还多。相比之下使用Java提供的Lock对象，性能更高一些。但 是到了Java1.6，发生了变化。synchronize在语义上很清晰，可以进行很多优化，有适应自旋，锁消除，锁粗化，轻量级锁，偏向锁等等。导致 在Java1.6上synchronize的性能并不比Lock差。<br>（机制）synchronized原始采用的是CPU悲观锁机制，即线程获得的是独占锁。独占锁意味着其 他线程只能依靠阻塞来等待线程释放锁。Lock用的是乐观锁方式。所谓乐观锁就是，每次不加锁而是假设没有冲突而去完成某项操作，如果因为冲突失败就重试，直到成功为止。乐观锁实现的机制就 是CAS操作（Compare and Swap）。 </p>
+<p>synchronized底层如何实现的？用在代码块和方法上有什么区别？<br>synchronized底层如何实现的 </p>
+<p>用在代码块和方法上有什么区别？<br>synchronized用在代码块锁的是调用该方法的对象（this），也可以选择锁住任何一个对象。<br>synchronized用在方法上锁的是调用该方法的对象，<br>synchronized用在代码块可以减小锁的粒度，从而提高并发性能。<br>无论用在代码块上还是用在方法上，都是获取对象的锁；每一个对象只有一个锁与之相关联；实现同步需要很大的系统开销作为代价，甚至可能造成死锁，所以尽量避免无谓的同步控制。<br> synchronized与static synchronized的区别<br>synchronized是对类的当前实例进行加锁，防止其他线程同时访问该类的该实例的所有synchronized块，同一个类的两个不同实例就没有这种约束了。<br>那么static synchronized恰好就是要控制类的所有实例的访问了，static synchronized是限制线程同时访问jvm中该类的所有实例同时访问对应的代码快。 </p>
+<p>常见异常分为那两种(Exception，Error)，常见异常的基类以及常见的异常<br>Throwable是java语言中所有错误和异常的超类（万物即可抛）。它有两个子类：Error、Exception。<br>异常种类<br>Error：Error为错误，是程序无法处理的，如OutOfMemoryError、ThreadDeath等，出现这种情况你唯一能做的就是听之任之，交由JVM来处理，不过JVM在大多数情况下会选择终止线程。<br>Exception：Exception是程序可以处理的异常。它又分为两种CheckedException（受捡异常），一种是UncheckedException（不受检异常）。<br>CheckException发生在编译阶段，必须要使用try…catch（或者throws）否则编译不通过。<br>UncheckedException发生在运行期，具有不确定性，主要是由于程序的逻辑问题所引起的，难以排查，我们一般都需要纵观全局才能够发现这类的异常错误，所以在程序设计中我们需要认真考虑，好好写代码，尽量处理异常，即使产生了异常，也能尽量保证程序朝着有利方向发展。<br>常见异常的基类<br>IOException<br>RuntimeException<br>常见的异常<br>图像<br>Java中的NIO，BIO，AIO分别是什么？ <br>BIO<br>同步并阻塞，服务器实现模式为一个连接一个线程，即客户端有连接请求时服务器端就需要启动一个线程进行处理，如果这个连接不做任何事情会造成不必要的线程开销，当然可以通过线程池机制改善。<br>BIO方式适用于连接数目比较小且固定的架构，这种方式对服务器资源要求比较高，并发局限于应用中，JDK1.4以前的唯一选择，但程序直观简单易理解。<br>NIO<br>同步非阻塞，服务器实现模式为一个请求一个线程，即客户端发送的连接请求都会注册到多路复用器上，多路复用器轮询到连接有I/O请求时才启动一个线程进行处理。<br>NIO方式适用于连接数目多且连接比较短（轻操作）的架构，比如聊天服务器，并发局限于应用中，编程比较复杂，JDK1.4开始支持。<br>AIO<br> 异步非阻塞，服务器实现模式为一个有效请求一个线程，客户端的I/O请求都是由OS先完成了再通知服务器应用去启动线程进行处理.<br>AIO方式使用于连接数目多且连接比较长（重操作）的架构，比如相册服务器，充分调用OS参与并发操作，编程比较复杂，JDK7开始支持。<br>所了解的设计模式，单例模式的注意事项，jdk源码哪些用到了你说的设计模式<br>所了解的设计模式<br>工厂模式：定义一个用于创建对象的接口，让子类决定实例化哪一个类， Factory Method 使一个类的实例化延迟到了子类。<br>单例模式：保证一个类只有一个实例，并提供一个访问它的全局访问点；<br>适配器模式：将一类的接口转换成客户希望的另外一个接口，Adapter 模式使得原本由于接口不兼容而不能一起工作那些类可以一起工作。<br>装饰者模式：动态地给一个对象增加一些额外的职责，就增加的功能来说， Decorator 模式相比生成子类更加灵活。<br>代理：为其他对象提供一种代理以控制对这个对象的访问<br>迭代器模式：提供一个方法顺序访问一个聚合对象的各个元素，而又不需要暴露该对象的内部表示。<br>单例模式的注意事项<br>尽量使用懒加载<br>双重检索实现线程安全<br>构造方法为private<br>定义静态的Singleton instance对象和getInstance()方法<br>jdk源码中用到的设计模式<br>装饰器模式：IO流中<br>迭代器模式：Iterator<br>单利模式： java.lang.Runtime<br>代理模式：RMI<br>匿名内部类是什么？如何访问在其外面定义的变量？<br>匿名内部类是什么？<br>匿名内部类是没有访问修饰符的。<br>所以当所在方法的形参需要被匿名内部类使用，那么这个形参就必须为final<br>匿名内部类是没有构造方法的。因为它连名字都没有何来构造方法。<br>如何访问在其外面定义的变量？<br>所以当所在方法的形参需要被匿名内部类使用，那么这个形参就必须为final<br>如果你定义一个类，包括学号，姓名，分数，如何把这个对象作为key？要重写equals和hashcode吗<br>需要重写equals方法和hashcode，必须保证对象的属性改变时，其hashcode不能改变。<br>为什么要实现内存模型？<br>内存模型的就是为了在现代计算机平台中保证程序可以正确性的执行，但是不同的平台实现是不同的。<br>编译器中生成的指令顺序， 可以与源代码中的顺序不同；<br>编译器可能把变量保存在寄存器而不是内存中；<br>处理器可以采用乱序或并行等方式来执行指令；<br>缓存可能会改变将写入变量提交到主内存的次序；<br>保存在处理器本地缓存中的值，对其他处理器是不可见的； </p>
+<p>（数据库）<br>常用的数据库有哪些？redis用过吗？<br>常用的数据库<br>MySQL<br>SQLServer<br>Redis<br> Redis是一个速度非常快的非关系型数据库，他可以存储键(key)与5种不同类型的值（value）之间的映射，可以将存储在内存中的键值对数据持久化到硬盘中。<br>与Memcached相比<br>两者都可用于存储键值映射，彼此性能也相差无几<br>Redis能够自动以两种不同的方式将数据写入硬盘<br>Redis除了能存储普通的字符串键之外，还可以存储其他4种数据结构，memcached只能存储字符串键<br>Redis既能用作主数据库，由可以作为其他存储系统的辅助数据库<br>数据库索引的优缺点以及什么时候数据库索引失效<br>索引的特点<br>可以加快数据库的检索速度<br>降低数据库插入、修改、删除等维护的速度<br>只能创建在表上，不能创建到视图上<br>既可以直接创建又可以间接创建<br>可以在优化隐藏中使用索引<br>使用查询处理器执行SQL语句，在一个表上，一次只能使用一个索引<br>索引的优点<br>创建唯一性索引，保证数据库表中每一行数据的唯一性<br>大大加快数据的检索速度，这是创建索引的最主要的原因<br>加速数据库表之间的连接，特别是在实现数据的参考完整性方面特别有意义<br>在使用分组和排序子句进行数据检索时，同样可以显著减少查询中分组和排序的时间<br>通过使用索引，可以在查询中使用优化隐藏器，提高系统的性能<br>索引的缺点<br>创建索引和维护索引要耗费时间，这种时间随着数据量的增加而增加<br>索引需要占用物理空间，除了数据表占用数据空间之外，每一个索引还要占一定的物理空间，如果建立聚簇索引，那么需要的空间就会更大<br>当对表中的数据进行增加、删除和修改的时候，索引也需要维护，降低数据维护的速度<br>索引分类<br>直接创建索引和间接创建索引<br>普通索引和唯一性索引<br>单个索引和复合索引<br>聚簇索引和非聚簇索引<br>索引失效<br>如果条件中有or，即使其中有条件带索引也不会使用(这就是问什么尽量少使用or的原因)<br>对于多列索引，不是使用的第一部分，则不会使用索引<br>like查询是以%开头<br>如果列类型是字符串，那一定要在条件中使用引号引起来，否则不会使用索引<br>如果mysql估计使用全表扫秒比使用索引快，则不适用索引。<br>各引擎支持索引<br>图像<br>事务隔离级别<br>串行化(Serializable)：所有事务一个接着一个的执行，这样可以避免幻读(phantom read),对于基于锁来实现并发控制的数据库来说，串行化要求在执行范围查询的时候，需要获取范围锁，如果不是基于锁实现并发控制的数据库，则检查到有违反串行操作的事务时，需回滚该事务。<br>可重复读(Repeated Read)：所有被Select获取的数据都不能被修改，这样就可以避免一个事务前后读取不一致的情况。但是没有办法控制幻读，因为这个时候其他事务不能更改所选的数据，但是可以增加数据，因为强恶意事务没有范围锁<br>读已提交(Read Committed)：被读取的数据可以被其他事务修改，这样可能导致不可重复读。也就是说，事务读取的时候获取读锁，但是在读完之后立即释放(不需要等事务结束)，而写锁则是事务提交之后才释放，释放读锁之后，就可能被其他事务修改数据。改等级也是SQL Server默认的隔离等级<br>读未提交(Read Uncommitted)：最低的隔离等级，允许其他事务看到没有提交的数据，会导致脏读<br>总结<br>四个级别逐渐增强，每个级别解决一个问题，每个级别解决一个问题，事务级别遇到，性能越差，大多数环境(Read committed 就可以用了)<br>图像<br>数据库中的范式有哪些？<br>目前关系数据库有六种范式：第一范式（1NF）、第二范式（2NF）、第三范式（3NF）、巴斯-科德范式（BCNF）、第四范式(4NF）和第五范式（5NF，又称完美范式）。满足最低要求的范式是第一范式（1NF）。在第一范式的基础上进一步满足更多规范要求的称为第二范式（2NF），其余范式以次类推。一般说来，数据库只需满足第三范式(3NF）就行了。<br>范式的包含关系。一个数据库设计如果符合第二范式，一定也符合第一范式。如果符合第三范式，一定也符合第二范式…<br>范式<br>1NF ：符合1NF的关系中的每个属性都不可再分<br>2NF：属性完全依赖于主键 [消除部分子函数依赖]<br>3NF：属性不依赖于其它非主属性[消除传递依赖]<br>BCNF：在1NF基础上，任何非主属性不能对主键子集依赖[在3NF基础上消除对主码子集的依赖]<br>4NF：要求把同一表内的多对多关系删除。<br>5NF：从最终结构重新建立原始结构。<br>数据库中的索引的结构？什么情况下适合建索引？<br>数据库中的索引结构<br>因为在使用二叉树的时候，由于二叉树的深度过大而造成I/O读写过于频繁，进而导致查询效率低下。因此采用多叉树结构。B树的各种操作能使B树能保持较低的高度。<br>B 树又叫平衡多路查找树，一棵 m 阶的 B 树的特性如下<br>树中每个结点最多含有 m 个孩子（m&gt;=2）；<br>除根结点和叶子结点外，其他每个结点至少有[ceil(m / 2)]个孩子（其中 ceil(x)是一个取上限的函数）；<br>根结点至少有 2 个孩子（除非 B 树只包含一个结点：根结点）；<br>所有叶子结点都出现在同一层， 叶子结点不包含任何关键字信息 (可以看做是外部结点或查询失败的结<br>点，指向这些结点的指针都为 null)；（注：叶子节点只是没有孩子和指向孩子的指针，这些节点也存<br>在，也有元素。类似红黑树中，每一个 NULL 指针即当做叶子结点，只是没画出来而已）。<br> 每个非终端结点中包含有 n 个关键字信息： (n，P0，K1，P1，K2，P2，……，Kn，Pn)。其中：<br>a) Ki (i=1…n)为关键字，且关键字按顺序升序排序 K(i-1)&lt; Ki。<br>b) Pi 为指向子树根的结点，且指针 P(i-1)指向子树种所有结点的关键字均小于 Ki，但都大于 K(i-1)。<br>c) 关键字的个数 n 必须满足： [ceil(m / 2)-1]&lt;= n &lt;= m-1。比如有 j 个孩子的非叶结点恰好有 j-1 个关<br>键码。<br>图像</p>
+<p>B+树<br>图像</p>
+<p>在什么情况下适合建立索引<br>为经常出现在关键字order by、group by、distinct后面的字段，建立索引。<br>在union等集合操作的结果集字段上，建立索引。其建立索引的目的同上。<br>为经常用作查询选择的字段，建立索引。<br>在经常用作表连接的属性上，建立索引。<br>考虑使用索引覆盖。对数据很少被更新的表，如果用户经常只查询其中的几个字段，可以考虑在这几个字段上建立索引，从而将表的扫描改变为索引的扫描。 </p>
+<p>Redis的存储结构，或者说如何工作的，与mysql的区别？有哪些数据类型？<br>Redis的数据结构<br>STRING：可以是字符串、整数或者浮点数<br>LIST：一个链表，链表上的每个节点都包含了一个字符串<br>SET：包含字符串的无序收集器（unordered collection），并且被包含的每个字符串都是独一无二、各不相同的<br>HAST：包含键值对的无序散列表<br>ZSET：字符串成员（member）与浮点数分值（score）之间的有序映射，元素的排列顺序由分值的大小决定 </p>
+<p>数据库中的分页查询语句怎么写？<a href="http://qimo601.iteye.com/blog/1634748" target="_blank" rel="external">http://qimo601.iteye.com/blog/1634748</a><br>Mysql的limit用法<br>SELECT * FROM table LIMIT [offset,] rows | rows OFFSET offset<br>LIMIT 接受一个或两个数字参数。参数必须是一个整数常量。如果给定两个参数，第一个参数指定第一个返回记录行的偏移量，第二个参数指定返回记录行的最大数目。初始记录行的偏移量是 0(而不是 1)<br>最基本的分页方式：SELECT … FROM … WHERE … ORDER BY … LIMIT …<br>子查询的分页方式：<br>数据库ACID<br>原子性(Atomicity)：保证事务中的所有操作全部执行或全部不执行<br>一致性(Consistency)：保证数据库始终保持数据的一致性——事务操作之前和之后都是一致的<br>隔离性(Isolation)：多个事务并发执行的话，结果应该与多个事务串行执行效果是一样的<br>持久性(Durability)：事务操作完成之后，对数据库的影响是持久的，即使数据库因故障而受到破坏，数据库也能够恢复(日志)<br>脏读、不可重复读和幻读<br>脏读：事务T1更新了一行记录的内容，但是并没有提交所做的修改。事务T2读取更新后的行，然后T1执行了回滚操作，取消了刚才所做的修改。现在T2读取的行就无效了（一个事务读取了另一个事务未提交的数据）<br>不可重复读：事务T1读取了一行记录，紧接着T2修改了T1刚才读取的那一行记录，然后T1又再次读取这行记录，发现与刚才读取的结果不同。<br>幻读：事务T1读取一条指定的Where子句所返回的结果集，然后T2事务新插入一行记录，这行记录恰好可以满足T1所使用的查询条件。然后T1再次对表进行检索，但又看到了T2插入的数据。<br>MyISAM和InnoDB引擎的区别<br>主要区别：<br>MyISAM是非事务安全型的，而InnoDB是事务安全型的。<br>MyISAM锁的粒度是表级，而InnoDB支持行级锁定。<br>MyISAM支持全文类型索引，而InnoDB不支持全文索引。<br>MyISAM相对简单，所以在效率上要优于InnoDB，小型应用可以考虑使用MyISAM。<br>MyISAM表是保存成文件的形式，在跨平台的数据转移中使用MyISAM存储会省去不少的麻烦。<br>InnoDB表比MyISAM表更安全，可以在保证数据不会丢失的情况下，切换非事务表到事务表（alter table tablename type=innodb）。<br>应用场景：<br>MyISAM管理非事务表。它提供高速存储和检索，以及全文搜索能力。如果应用中需要执行大量的SELECT查询，那么MyISAM是更好的选择。<br>InnoDB用于事务处理应用程序，具有众多特性，包括ACID事务支持。如果应用中需要执行大量的INSERT或UPDATE操作，则应该使用InnoDB，这样可以提高多用户并发操作的性能。 </p>
+<p>（Java 虚拟机）<br>JVM垃圾处理方法(标记清除、复制、标记整理)<br>标记-清除算法<br>标记阶段：先通过根节点，标记所有从根节点开始的对象，未被标记的为垃圾对象<br>清除阶段：清除所有未被标记的对象<br>复制算法<br>将原有的内存空间分为两块，每次只使用其中一块，在垃圾回收时，将正在使用的内存中的存活对象复制到未使用的内存块中，然后清除正在使用的内存块中的所有对象。<br>标记-整理<br>标记阶段：先通过根节点，标记所有从根节点开始的可达对象，为被标记的为垃圾对象<br>整理阶段：将所有的存活对象压缩到内存的一段，之后清理边界所有的空间<br>三种算法的比较<br>效率：复制算法 &gt; 标记/整理算法 &gt; 标记/清除算法（此处的效率只是简单的对比时间复杂度，实际情况不一定如此）。<br>内存整齐度：复制算法=标记/整理算法&gt;标记/清除算法。<br>内存利用率：标记/整理算法=标记/清除算法&gt;复制算法。<br>JVM如何GC，新生代，老年代，持久代，都存储哪些东西，以及各个区的作用？<br>新生代<br>在方法中去new一个对象，那这方法调用完毕后，对象就会被回收，这就是一个典型的新生代对象。<br>老年代<br>在新生代中经历了N次垃圾回收后仍然存活的对象就会被放到老年代中。而且大对象直接进入老年代<br>当Survivor空间不够用时，需要依赖于老年代进行分配担保，所以大对象直接进入老年代<br>永久代<br>即方法区。<br>GC用的引用可达性分析算法中，哪些对象可作为GC Roots对象？<br>Java虚拟机栈中的对象<br>方法区中的静态成员<br>方法区中的常量引用对象<br>本地方法区中的JNI（Native方法）引用对象。<br>什么时候进行MinGC，FullGC<br>MinGC<br>新生代中的垃圾收集动作，采用的是复制算法<br>对于较大的对象，在Minor GC的时候可以直接进入老年代<br>FullGC<br>Full GC是发生在老年代的垃圾收集动作，采用的是标记-清除/整理算法。<br>由于老年代的对象几乎都是在Survivor区熬过来的，不会那么容易死掉。因此Full GC发生的次数不会有Minor GC那么频繁，并且Time(Full GC)&gt;Time(Minor GC)<br>各个垃圾收集器是怎么工作的<br>Serial收集器<br>是一个单线程的收集器，不是只能使用一个CPU。在进行垃圾收集时，必须暂停其他所有的工作线程，直到收集结束。<br>新生代采用复制算法，Stop-The-World<br>老年代采用标记-整理算法，Stop-The-World<br>简单高效，Client模式下默认的新生代收集器<br>图像<br>ParNew收集器<br>ParNew收集器是Serial收集器的多线程版本<br>新生代采用复制算法，Stop-The-World<br>老年代采用标记-整理算法，Stop-The-World<br>它是运行在Server模式下首选新生代收集器<br>除了Serial收集器之外，只有它能和CMS收集器配合工作<br>图像<br>ParNew Scanvenge收集器<br>类似ParNew，但更加关注吞吐量。目标是：达到一个可控制吞吐量的收集器。<br>停顿时间和吞吐量不可能同时调优。我们一方面希望停顿时间少，另外一方面希望吞吐量高，其实这是矛盾的。因为：在GC的时候，垃圾回收的工作总量是不变的，如果将停顿时间减少，那频率就会提高；既然频率提高了，说明就会频繁的进行GC，那吞吐量就会减少，性能就会降低。<br>G1收集器<br>是当今收集器发展的最前言成果之一，对垃圾回收进行了划分优先级的操作，这种有优先级的区域回收方式保证了它的高效率<br>最大的优点是结合了空间整合，不会产生大量的碎片，也降低了进行gc的频率<br>让使用者明确指定指定停顿时间<br>CMS收集器：（Concurrent Mark Sweep：并发标记清除老年代收集器）<br>一种以获得最短回收停顿时间为目标的收集器，适用于互联网站或者B/S系统的服务器上<br>初始标记(Stop-The-World)：根可以直接关联到的对象<br>并发标记(和用户线程一起)：主要标记过程，标记全部对象<br>重新标记(Stop-The-World)：由于并发标记时，用户线程依然运行，因此在正式清理前，再做修正<br>并发清除(和用户线程一起)：基于标记结果，直接清理对象<br>并发收集，低停顿<br>图像<br>Java虚拟机内存的划分，每个区域的功能<br>程序计数器(线程私有)<br>线程创建时创建，执行本地方法时其值为undefined。<br>虚拟机栈(线程私有)<br>（栈内存）为虚拟机执行java方法服务：方法被调用时创建栈帧–&gt;局部变量表-&gt;局部变量、对象引用<br>如果线程请求的栈深度超出了虚拟机所允许的深度，就会出现StackOverFlowError。-Xss规定了栈的最大空间<br>虚拟机栈可以动态扩展，如果扩展到无法申请到足够的内存，会出现OOM<br>本地方法栈(线程私有)<br>java虚拟机栈是为虚拟机执行java方法服务的，而本地方法栈则为虚拟机执使用到的Native方法服务。<br>Java虚拟机没有对本地方法栈的使用和数据结构做强制规定。Sun HotSpot把Java虚拟机栈和本地方法栈合二为一<br>会抛出StackOverFlowError和OutOfMemoryError<br>Java堆<br>被所有线程共享，在Java虚拟机启动时创建，几乎所有的对象实例都存放到堆中<br>GC的管理的主要区域<br>物理不连续，逻辑上连续，并可以动态扩展，无法扩展时抛出OutOfMemoryError<br>方法区<br>用于存储已被虚拟机加载的类信息、常量、静态变量、即使编译器编译后的代码的数据<br>Sun HotSpot 虚拟机把方法区叫做永久待(Permanent Generation)<br>运行时常量池<br>受到方法区的限制，抛出OutOfMemoryError<br>用什么工具可以查出内存泄漏<br>MemoryAnalyzer：一个功能丰富的 JAVA 堆转储文件分析工具，可以帮助你发现内存漏洞和减少内存消耗<br>EclipseMAT：是一款开源的JAVA内存分析软件，查找内存泄漏，能容易找到大块内存并验证谁在一直占用它，它是基于Eclipse RCP(Rich Client Platform)，可以下载RCP的独立版本或者Eclipse的插件<br>JProbe：分析Java的内存泄漏。<br>JVM如何加载一个类的过程，双亲委派模型中有哪些方法有没有可能父类加载器和子类加载器，加载同一个类？如果加载同一个类，该使用哪一个类？<br>双亲委派机制图<br>图像<br>双亲委派概念<br>如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成，每一个层次的加载器都是如此，因此所有的类加载请求都会传给顶层的启动类加载器，只有当父加载器反馈自己无法完成该加载请求（该加载器的搜索范围中没有找到对应的类）时，子加载器才会尝试自己去加载。<br>加载器<br>启动（Bootstrap）类加载器：是用本地代码实现的类装入器，它负责将 <java_runtime_home>/lib下面的类库加载到内存中（比如rt.jar）。由于引导类加载器涉及到虚拟机本地实现细节，开发者无法直接获取到启动类加载器的引用，所以不允许直接通过引用进行操作。<br>标准扩展（Extension）类加载器：是由 Sun 的 ExtClassLoader（sun.misc.Launcher$ExtClassLoader）实现的。它负责将&lt; Java_Runtime_Home &gt;/lib/ext或者由系统变量 java.ext.dir指定位置中的类库加载到内存中。开发者可以直接使用标准扩展类加载器。、<br>系统（System）类加载器：由 Sun 的 AppClassLoader（sun.misc.Launcher$AppClassLoader）实现的。它负责将系统类路径（CLASSPATH）中指定的类库加载到内存中。开发者可以直接使用系统类加载器。除了以上列举的三种类加载器，还有一种比较特殊的类型 — 线程上下文类加载器。<br>如果加载同一个类，该使用哪一个类？<br>父类的 </java_runtime_home></p>
+<p>JVM线程死锁，你该如何判断是因为什么？如果用VisualVM，dump线程信息出来，会有哪些信息<br>常常需要在隔两分钟后再次收集一次thread dump，如果得到的输出相同，仍然是大量thread都在等待给同一个地址上锁，那么肯定是死锁了。<br>java是如何进行对象实例化的<br>Student s = new Student();在内存中做了哪些事情?<br>加载Student.class文件进内存<br> 在栈内存为s开辟空间<br>在堆内存为学生对象开辟空间<br>对学生对象的成员变量进行默认初始化<br>对学生对象的成员变量进行显示初始化<br>通过构造方法对学生对象的成员变量赋值<br>学生对象初始化完毕，把对象地址赋值给s变量 </p>
+<p>用什么工具调试程序？JConsole，用过吗？ <br> JConsole 中，您将能够监视 JVM 内存的使用情况、线程堆栈跟踪、已装入的类和 VM 信息以及 CE MBean。<br>了解过JVM调优没，基本思路是什么 </p>
+<p>（JSP&amp;Servlet）<br>Servlet的生存周期<br>Servlet接口定义了5个方法，其中前三个方法与Servlet生命周期相关： <br>-void init(ServletConfig config) throws ServletException <br> void service(ServletRequest req, ServletResponse resp) throws ServletException, java.io.IOException <br>void destory() <br>java.lang.String getServletInfo() <br>ServletConfig getServletConfig()<br>Web容器加载Servlet并将其实例化后，Servlet生命周期开始，容器运行其init()方法进行Servlet的初始化；请求到达时调用Servlet的service()方法，service()方法会根据需要调用与请求对应的doGet或doPost等方法；当服务器关闭或项目被卸载时服务器会将Servlet实例销毁，此时会调用Servlet的destroy()方法。 </p>
+<p>Jsp和Servlet的区别<br>Servlet是一个特殊的Java程序，它运行于服务器的JVM中，能够依靠服务器的支持向浏览器提供显示内容。JSP本质上是Servlet的一种简易形式，JSP会被服务器处理成一个类似于Servlet的Java程序，可以简化页面内容的生成。Servlet和JSP最主要的不同点在于，Servlet的应用逻辑是在Java文件中，并且完全从表示层中的HTML分离开来。而JSP的情况是Java和HTML可以组合成一个扩展名为.jsp的文件。有人说，Servlet就是在Java中写HTML，而JSP就是在HTML中写Java代码，当然这个说法是很片面且不够准确的。JSP侧重于视图，Servlet更侧重于控制逻辑，在MVC架构模式中，JSP适合充当视图（view）而Servlet适合充当控制器<br>保存会话状态，有哪些方式、区别如何<br>由于HTTP协议本身是无状态的，服务器为了区分不同的用户，就需要对用户会话进行跟踪，简单的说就是为用户进行登记，为用户分配唯一的ID，下一次用户在请求中包含此ID，服务器据此判断到底是哪一个用户。 <br>①URL 重写：在URL中添加用户会话的信息作为请求的参数，或者将唯一的会话ID添加到URL结尾以标识一个会话。 <br>②设置表单隐藏域：将和会话跟踪相关的字段添加到隐式表单域中，这些信息不会在浏览器中显示但是提交表单时会提交给服务器。 <br>这两种方式很难处理跨越多个页面的信息传递，因为如果每次都要修改URL或在页面中添加隐式表单域来存储用户会话相关信息，事情将变得非常麻烦。 <br>③<strong>补充：</strong>HTML5中可以使用Web Storage技术通过JavaScript来保存数据，例如可以使用localStorage和sessionStorage来保存用户会话的信息，也能够实现会话跟踪。 </p>
+<p>cookie和session的区别<br>session 在服务器端，cookie 在客户端（浏览器）<br>session 的运行依赖 session id，而 session id 是存在 cookie 中的，也就是说，如果浏览器禁用了 cookie ，同时 session 也会失效（但是可以通过其它方式实现，比如在 url 中传递 session_id）<br>session 可以放在 文件、数据库、或内存中都可以。<br>用户验证这种场合一般会用 session<br>cookie不是很安全，别人可以分析存放在本地的COOKIE并进行COOKIE欺骗  考虑到安全应当使用session。<br>session会在一定时间内保存在服务器上。当访问增多，会比较占用你服务器的性能考虑到减轻服务器性能方面，应当使用COOKIE。<br>单个cookie保存的数据不能超过4K，很多浏览器都限制一个站点最多保存20个cookie。 </p>
+<p>（Spring&amp;Hibernate）<br>Spring IOC、AOP的理解以及实现的原理<br>Spring IOC<br>IoC叫控制反转，是Inversion of Control的缩写，DI（Dependency Injection）叫依赖注入，是对IoC更简单的诠释。控制反转是把传统上由程序代码直接操控的对象的调用权交给容器，通过容器来实现对象组件的装配和管理。所谓的”控制反转”就是对组件对象控制权的转移，从程序代码本身转移到了外部容器，由容器来创建对象并管理对象之间的依赖关系。DI是对IoC更准确的描述，即组件之间的依赖关系由容器在运行期决定，形象的来说，即由容器动态的将某种依赖关系注入到组件之中。<br>举个例子：一个类A需要用到接口B中的方法，那么就需要为类A和接口B建立关联或依赖关系，最原始的方法是在类A中创建一个接口B的实现类C的实例，但这种方法需要开发人员自行维护二者的依赖关系，也就是说当依赖关系发生变动的时候需要修改代码并重新构建整个系统。如果通过一个容器来管理这些对象以及对象的依赖关系，则只需要在类A中定义好用于关联接口B的方法（构造器或setter方法），将类A和接口B的实现类C放入容器中，通过对容器的配置来实现二者的关联。 </p>
+<p>Spring IOC实现原理<br> 通过反射创建实例；<br>获取需要注入的接口实现类并将其赋值给该接口。<br>Spring AOP<br>AOP（Aspect-Oriented Programming）指一种程序设计范型，该范型以一种称为切面（aspect）的语言构造为基础，切面是一种新的模块化机制，用来描述分散在对象、类或方法中的横切关注点（crosscutting concern）。<br>“横切关注”是会影响到整个应用程序的关注功能，它跟正常的业务逻辑是正交的，没有必然的联系，但是几乎所有的业务逻辑都会涉及到这些关注功能。通常，事务、日志、安全性等关注就是应用中的横切关注功能。<br>Spring AOP实现原理<br>动态代理（利用反射和动态编译将代理模式变成动态的）<br>JDK的动态代理<br>JDKProxy返回动态代理类，是目标类所实现接口的另一个实现版本，它实现了对目标类的代理（如同UserDAOProxy与UserDAOImp的关系）<br>cglib动态代理<br>CGLibProxy返回的动态代理类，则是目标代理类的一个子类（代理类扩展了UserDaoImpl类）<br>Ioc容器的加载过程<br>创建IOC配置文件的抽象资源<br>创建一个BeanFactory<br>把读取配置信息的BeanDefinitionReader,这里是XmlBeanDefinitionReader配置给BeanFactory<br>从定义好的资源位置读入配置信息，具体的解析过程由XmlBeanDefinitionReader来完成，这样完成整个载入bean定义的过程。 </p>
+<p>动态代理与cglib实现的区别<br>JDK动态代理只能对实现了接口的类生成代理，而不能针对类.<br>CGLIB是针对类实现代理，主要是对指定的类生成一个子类，覆盖其中的方法因为是继承，所以该类或方法最好不要声明成final。<br>JDK代理是不需要以来第三方的库，只要JDK环境就可以进行代理<br>CGLib 必须依赖于CGLib的类库，但是它需要类来实现任何接口代理的是指定的类生成一个子类，覆盖其中的方法，是一种继承 </p>
+<p>代理的实现原理呗 </p>
+<p>HIbernate一级缓存与二级缓存之间的区别<br>Hibernate的Session提供了一级缓存的功能，默认总是有效的，当应用程序保存持久化实体、修改持久化实体时，Session并不会立即把这种改变提交到数据库，而是缓存在当前的Session中，除非显示调用了Session的flush()方法或通过close()方法关闭Session。通过一级缓存，可以减少程序与数据库的交互，从而提高数据库访问性能。 <br>SessionFactory级别的二级缓存是全局性的，所有的Session可以共享这个二级缓存。不过二级缓存默认是关闭的，需要显示开启并指定需要使用哪种二级缓存实现类（可以使用第三方提供的实现）。一旦开启了二级缓存并设置了需要使用二级缓存的实体类，SessionFactory就会缓存访问过的该实体类的每个对象，除非缓存的数据超出了指定的缓存空间。 <br>一级缓存和二级缓存都是对整个实体进行缓存，不会缓存普通属性，如果希望对普通属性进行缓存，可以使用查询缓存。查询缓存是将HQL或SQL语句以及它们的查询结果作为键值对进行缓存，对于同样的查询可以直接从缓存中获取数据。查询缓存默认也是关闭的，需要显示开启。 </p>
+<p>Spring MVC的原理<br>Spring MVC的工作原理如下图所示： <br>这里写图片描述<br> <br>① 客户端的所有请求都交给前端控制器DispatcherServlet来处理，它会负责调用系统的其他模块来真正处理用户的请求。 <br>② DispatcherServlet收到请求后，将根据请求的信息（包括URL、HTTP协议方法、请求头、请求参数、Cookie等）以及HandlerMapping的配置找到处理该请求的Handler（任何一个对象都可以作为请求的Handler）。 <br>③在这个地方Spring会通过HandlerAdapter对该处理进行封装。 <br>④ HandlerAdapter是一个适配器，它用统一的接口对各种Handler中的方法进行调用。 <br>⑤ Handler完成对用户请求的处理后，会返回一个ModelAndView对象给DispatcherServlet，ModelAndView顾名思义，包含了数据模型以及相应的视图的信息。 <br>⑥ ModelAndView的视图是逻辑视图，DispatcherServlet还要借助ViewResolver完成从逻辑视图到真实视图对象的解析工作。 <br>⑦ 当得到真正的视图对象后，DispatcherServlet会利用视图对象对模型数据进行渲染。 <br>⑧ 客户端得到响应，可能是一个普通的HTML页面，也可以是XML或JSON字符串，还可以是一张图片或者一个PDF文件。 </p>
+<p>简述Hibernate常见优化策略。<br>制定合理的缓存策略（二级缓存、查询缓存）。 <br>采用合理的Session管理机制。 <br>尽量使用延迟加载特性。 <br>设定合理的批处理参数。 <br>如果可以，选用UUID作为主键生成器。 <br>如果可以，选用基于版本号的乐观锁替代悲观锁。 <br>在开发过程中, 开启hibernate.show_sql选项查看生成的SQL，从而了解底层的状况；开发完成后关闭此选项。 <br>考虑数据库本身的优化，合理的索引、恰当的数据分区策略等都会对持久层的性能带来可观的提升，但这些需要专业的DBA（数据库管理员）提供支持。 </p>
+<p>（操作系统）<br>操作系统什么情况下会死锁？<br>产生死锁的必要条件<br>互斥条件。即某个资源在一段时间内只能由一个进程占有，不能同时被两个或两个以上的进程占有。这种独占资源如CD-ROM驱动器，打印机等等，必须在占有该资源的进程主动释放它之后，其它进程才能占有该资源。这是由资源本身的属性所决定的。如独木桥就是一种独占资源，两方的人不能同时过桥。<br>不可抢占条件。进程所获得的资源在未使用完毕之前，资源申请者不能强行地从资源占有者手中夺取资源，而只能由该资源的占有者进程自行释放。如过独木桥的人不能强迫对方后退，也不能非法地将对方推下桥，必须是桥上的人自己过桥后空出桥面（即主动释放占有资源），对方的人才能过桥。<br>占有且申请条件。进程至少已经占有一个资源，但又申请新的资源；由于该资源已被另外进程占有，此时该进程阻塞；但是，它在等待新资源之时，仍继续占用已占有的资源。还以过独木桥为例，甲乙两人在桥上相遇。甲走过一段桥面（即占有了一些资源），还需要走其余的桥面（申请新的资源），但那部分桥面被乙占有（乙走过一段桥面）。甲过不去，前进不能，又不后退；乙也处于同样的状况。<br>循环等待条件。存在一个进程等待序列{P1，P2，…，Pn}，其中P1等待P2所占有的某一资源，P2等待P3所占有的某一源，……，而Pn等待P1所占有的的某一资源，形成一个进程循环等待环。就像前面的过独木桥问题，甲等待乙占有的桥面，而乙又等待甲占有的桥面，从而彼此循环等待。<br>死锁预防<br>打破互斥条件。即允许进程同时访问某些资源。但是，有的资源是不允许被同时访问的，像打印机等等，这是由资源本身的属性所决定的。所以，这种办法并无实用价值。<br>打破不可抢占条件。即允许进程强行从占有者那里夺取某些资源。就是说，当一个进程已占有了某些资源，它又申请新的资源，但不能立即被满足时，它必须释放所占有的全部资源，以后再重新申请。它所释放的资源可以分配给其它进程。这就相当于该进程占有的资源被隐蔽地强占了。这种预防死锁的方法实现起来困难，会降低系统性能。<br>打破占有且申请条件。可以实行资源预先分配策略。即进程在运行前一次性地向系统申请它所需要的全部资源。如果某个进程所需的全部资源得不到满足，则不分配任何资源，此进程暂不运行。只有当系统能够满足当前进程的全部资源需求时，才一次性地将所申请的资源全部分配给该进程。由于运行的进程已占有了它所需的全部资源，所以不会发生占有资源又申请资源的现象，因此不会发生死锁。但是，这种策略也有如下缺点：<br>在许多情况下，一个进程在执行之前不可能知道它所需要的全部资源。这是由于进程在执行时是动态的，不可预测的；<br>资源利用率低。无论所分资源何时用到，一个进程只有在占有所需的全部资源后才能执行。即使有些资源最后才被该进程用到一次，但该进程在生存期间却一直占有它们，造成长期占着不用的状况。这显然是一种极大的资源浪费；<br>降低了进程的并发性。因为资源有限，又加上存在浪费，能分配到所需全部资源的进程个数就必然少了。<br> 打破循环等待条件，实行资源有序分配策略。采用这种策略，即把资源事先分类编号，按号分配，使进程在申请，占用资源时不会形成环路。所有进程对资源的请求必须严格按资源序号递增的顺序提出。进程占用了小号资源，才能申请大号资源，就不会产生环路，从而预防了死锁。这种策略与前面的策略相比，资源的利用率和系统吞吐量都有很大提高，但是也存在以下缺点：<br>限制了进程对资源的请求，同时给系统中所有资源合理编号也是件困难事，并增加了系统开销；<br>为了遵循按编号申请的次序，暂不使用的资源也需要提前申请，从而增加了进程对资源的占用时间。<br>死锁避免<br>安全序列<br>银行家算法 </p>
+<p>如何理解分布式锁？<br>分布式锁，是控制分布式系统之间同步访问共享资源的一种方式。在分布式系统中，常常需要协调他们的动作。如果不同的系统或是同一个系统的不同主机之间共享了一个或一组资源，那么访问这些资源的时候，往往需要互斥来防止彼此干扰来保证一致性，在这种情况下，便需要使用到分布式锁。<br>进程间通信有哪几种方式？<br> 管道(PIPE)：管道可用于具有亲缘关系进程间的通信，允许一个进程和另一个与它有共同祖先的进程之间进行通信。<br> 命名管道(FIFO)：命名管道克服了管道没有名字的限制，因此，除具有管道所具有的功能外，它还允许无亲缘关系进程间的通信。命名管道在文件系统中有对应的文件名。命名管道通过命令mkfifo或系统调用mkfifo来创建。<br> 信号(Signal)：信号是比较复杂的通信方式，用于通知接受进程有某种事件发生，除了用于进程间通信外，进程还可以发送信号给进程本身。<br> 消息队列(MessageQueue)：消息队列是消息的链接表，包括Posix消息队列system V消息队列。有足够权限的进程可以向队列中添加消息，被赋予读权限的进程则可以读走队列中的消息。消息队列克服了信号承载信息量少，管道只能承载无格式字节流以及缓冲区大小受限等缺限。<br> 共享内存(SharedMemory)：使得多个进程可以访问同一块内存空间，是最快的可用IPC形式。是针对其他通信机制运行效率较低而设计的。往往与其它通信机制，如信号量结合使用，来达到进程间的同步及互斥。<br>内存映射（mapped memory）：内存映射允许任何多个进程间通信，每一个使用该机制的进程通过把一个共享的文件映射到自己的进程地址空间来实现它。<br>信号量（semaphore）：主要作为进程间以及同一进程不同线程之间的同步手段。<br>套接口（Socket）：更为一般的进程间通信机制，可用于不同机器之间的进程间通信。起初是由Unix系统的BSD分支开发出来的，但现在一般可以移植到其它类Unix系统上：Linux和System V的变种都支持套接字。 </p>
+<p>线程同步与阻塞的关系？同步一定阻塞吗？阻塞一定同步吗？ <br>线程同步与阻塞的关系<br>线程同步与阻塞没有一点关系<br>同步和异步关注的是消息通信机制（synchronous communication/ asynchronous communication）。<br>所谓同步，就是在发出一个<em>调用</em>时，在没有得到结果之前，该<em>调用</em>就不返回。但是一旦调用返回，就得到返回值了。换句话说，就是由<em>调用者</em>主动等待这个<em>调用</em>的结果。而异步则是相反，<em>调用</em>在发出之后，这个调用就直接返回了，所以没有返回结果。换句话说，当一个异步过程调用发出后，调用者不会立刻得到结果。而是在<em>调用</em>发出后，<em>被调用者</em>通过状态、通知来通知调用者，或通过回调函数处理这个调用。<br>阻塞和非阻塞关注的是程序在等待调用结果（消息，返回值）时的状态。阻塞调用是指调用结果返回之前，当前线程会被挂起。调用线程只有在得到结果之后才会返回。非阻塞调用指在不能立刻得到结果之前，该调用不会阻塞当前线程 </p>
+<p>操作系统如何进行分页调度？  </p>
+<p>（Linux）<br>Linux下如何进行进程调度的？<br>Linux下你常用的命令有哪些？ </p>
+<p>（其他）<br>常用的hash算法有哪些？<br> 加法Hash；把输入元素一个一个的加起来构成最后的结果<br> 位运算Hash；这类型Hash函数通过利用各种位运算（常见的是移位和异或）来充分的混合输入元素<br> 乘法Hash；这种类型的Hash函数利用了乘法的不相关性（乘法的这种性质，最有名的莫过于平方取头尾的随机数生成算法，虽然这种算法效果并不好）；jdk5.0里面的String类的hashCode()方法也使用乘法Hash；32位FNV算法<br> 除法Hash；除法和乘法一样，同样具有表面上看起来的不相关性。不过，因为除法太慢，这种方式几乎找不到真正的应用<br> 查表Hash；查表Hash最有名的例子莫过于CRC系列算法。虽然CRC系列算法本身并不是查表，但是，查表是它的一种最快的实现方式。查表Hash中有名的例子有：Universal Hashing和Zobrist Hashing。他们的表格都是随机生成的。<br> 混合Hash；混合Hash算法利用了以上各种方式。各种常见的Hash算法，比如MD5、Tiger都属于这个范围。它们一般很少在面向查找的Hash函数里面使用 </p>
+<p>如何设计存储海量数据的存储系统<br>缓存的实现原理，设计缓存要注意什么<br>什么是一致性哈希？用来解决什么问题？<br>在设计分布式cache系统的时候，我们需要让key的分布均衡，并且在增加cache server后，cache的迁移做到最少。 </p>
+<p>现在有一个进程挂起了，如何用工具查出原因？ <br>通过 Javacore 了解线程运行状况<br>javacore，也可以称为“threaddump”或是“javadump”，它是 Java 提供的一种诊断特性，能够提供一份可读的当前运行的 JVM 中线程使用情况的快照。即在某个特定时刻，JVM 中有哪些线程在运行，每个线程执行到哪一个类，哪一个方法。<br>应用程序如果出现不可恢复的错误或是内存泄露，就会自动触发 Javacore 的生成。而为了性能问题诊断的需要，我们也会主动触发生成 Javacore。在 AIX、Linux、Solaris 环境中，我们通常使用 kill -3 <pid> 产生该进程的 Javacore。IBM Java6 中产生 Javacore 的详细方法可以参考文章 [1]。 </pid></p>
+<p>你知道的开源协议有哪些？ <br>Mozilla Public License： MPL License，允许免费重发布、免费修改，但要求修改后的代码版权归软件的发起者。这种授权维护了商业软件的利益，它要求基于这种软件得修改无偿贡献版权给该软件。这样，围绕该软件得所有代码得版权都集中在发起开发人得手中。但MPL是允许修改，无偿使用得。MPL软件对链接没有要求。<br>BSD开源协议：给于使用者很大自由的协议。可以自由的使用，修改源代码，也可以将修改后的代码作为开源或者专有软件再发布。<br>Apache Licence 2.0 ：Apache Licence是著名的非盈利开源组织Apache采用的协议。该协议和BSD类似，同样鼓励代码共享和尊重原作者的著作权，同样允许代码修改，再发布(作为开源或商业软件)。<br>GPL：GPL许可证是自由软件的应用最广泛的软件许可证，人们可以修改程式的一个或几个副本或程式的任何部分，以此形成基於这些程式的衍生作品。必须在修改过的档案中附有明显的说明：您修改了此一档案及任何修改的日期。 您必须让您发布或出版的作品，包括本程式的全部或一部分，或内含本程式的全部或部分所衍生的作品，允许第三方在此许可证条款下使用，并且不得因为此项授权行为而收费。<br>LGPL：LGPL是GPL的一个为主要为类库使用设计的开源协议。和GPL要求任何使用/修改/衍生之GPL类库的的软件必须采用GPL协议不同。LGPL允许商业软件通过类库引用(link)方式使用LGPL类库而不需要开源商业软件的代码。这使得采用LGPL协议的开源代码可以被商业软件作为类库引用并发布和销售。<br>Public Domain：公共域授权。将软件授权为公共域，这些软件包没有授权协议，任何人都可以随意使用它<br>你知道的开源软件有哪些？ <br>JDK<br>Eclipse<br>Tomcat<br>Spring<br>Hibernate<br>MySQL </p>
+<p>（计算机网络）<br>Http和https的区别<br>http是HTTP协议运行在TCP之上。所有传输的内容都是明文，客户端和服务器端都无法验证对方的身份。<br>https是HTTP运行在SSL/TLS之上，SSL/TLS运行在TCP之上。所有传输的内容都经过加密，加密采用对称加密，但对称加密的密钥用服务器方的证书进行了非对称加密。此外客户端可以验证服务器端的身份，如果配置了客户端验证，服务器方也可以验证客户端的身份。<br>https协议需要到ca申请证书，一般免费证书很少，需要交费。<br>http是超文本传输协议，信息是明文传输，https 则是具有安全性的ssl加密传输协议<br>http和https使用的是完全不同的连接方式用的端口也不一样,前者是80,后者是443。<br>http的连接很简单,是无状态的<br>HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议 要比http协议安全 </p>
+<p>TCP如何保证可靠传输？三次握手过程？<br>TCP如何保证可靠传输<br>数据包校验<br>超时重传机制<br>应答机制<br>对失序数据包重排序<br>TCP还能提供流量控制<br>三次握手以及四次挥手<br>图像<br>四次挥手详图<br>图像</p>
+<p>为什么TCP连接需要三次握手，两次不可以吗，为什么<br>为了防止已失效的连接请求报文段突然又传送到了服务端，因而产生错误。<br>例子<br>“已失效的连接请求报文段”的产生在这样一种情况下：client发出的第一个连接请求报文段并没有丢失，而是在某个网络结点长时间的滞留了，以致延误到连接释放以后的某个时间才到达server。本来这是一个早已失效的报文段。但server收到此失效的连接请求报文段后，就误认为是client再次发出的一个新的连接请求。于是就向client发出确认报文段，同意建立连接。假设不采用“三次握手”，那么只要server发出确认，新的连接就建立了。由于现在client并没有发出建立连接的请求，因此不会理睬server的确认，也不会向server发送数据。但server却以为新的运输连接已经建立，并一直等待client发来数据。这样，server的很多资源就白白浪费掉了。采用“三次握手”的办法可以防止上述现象发生。例如刚才那种情况，client不会向server的确认发出确认。server由于收不到确认，就知道client并没有要求建立连接。”<br>如果客户端不断的发送请求连接会怎样？<br>服务器端回为每个请求创建一个链接，然后向client端发送创建链接时的回复，然后进行等待客户端发送第三次握手数据包，这样会白白浪费资源<br>DDos攻击<br>简单的说就是想服务器发送链接请求，首先进行<br>第一步：客户端向服务器端发送连接请求数据包（1）<br>第二步：服务器向客户端回复连接请求数据包（2），然后服务器等待客户端发送tcp/ip链接的第三步数据包(3)<br>第三步：如果客户端不向服务器端发送最后一个数据包(3)，则服务器须等待30s到2min中才能将此链接进行关闭。当大量的请求只进行到第二步，而不进行第三步，服务器又大量的资源等待第三个数据包。则造成DDos攻击。 </p>
+<p>DDos预防(没有根治的办法，除非不用TCP/IP链接)、<br>确保服务器的系统文件是最新版本，并及时更新系统补丁<br>关闭不必要的服务<br>限制同时打开SYN的半连接数目<br>缩短SYN半连接的time out时间<br>正确设置防火墙<br>禁止对主机的非开放服务的访问<br>限制特定IP短地址的访问<br>启用防火墙的防DDos的属性<br>严格限制对外开放的服务器的向外访问<br>运行端口映射程序祸端口扫描程序，要认真检查特权端口和非特权端口。<br>认真检查网络设备和主机/服务器系统的日志。只要日志出现漏洞或是时间变更，那这台机器就可能遭到了攻击。<br>限制在防火墙外与网络文件共享。这样会给黑客截取系统文件的机会，主机的信息暴露给黑客，无疑是给了对方入侵的机会。 </p>
+<p> 问：那怎么知道连接是恶意的呢？可能是正常连接？<br>GET和POST的区别？<br>GET 被强制服务器支持<br>浏览器对URL的长度有限制，所以GET请求不能代替POST请求发送大量数据<br>GET请求发送数据更小<br>GET请求是不安全的<br>GET请求是幂等的<br>POST请求不能被缓存<br>POST请求相对GET请求是「安全」的 </p>
+<p>在以下情况中，请使用 POST 请求： </p>
+<ol>
+<li>无法使用缓存文件（更新服务器上的文件或数据库） </li>
+<li>向服务器发送大量数据（POST 没有数据量限制） </li>
+<li>发送包含未知字符的用户输入时，POST 比 GET 更稳定也更可靠<br>4.post比Get安全性更高 </li>
+</ol>
+<p>TCP和UDP区别？如何改进TCP<br>TCP和UDP区别<br>UDP 是无连接的，即发送数据之前不需要建立连接。<br>UDP 使用尽最大努力交付，即不保证可靠交付，同时也不使用拥塞控制。<br>UDP 是面向报文的。UDP 没有拥塞控制，很适合多媒体通信的要求。<br>UDP 支持一对一、一对多、多对一和多对多的交互通信。<br>UDP 的首部开销小，只有 8 个字节。<br>TCP 是面向连接的运输层协议。<br>每一条 TCP 连接只能有两个端点(endpoint)，每一条 TCP 连接只能是点对点的（一对一）。<br>TCP 提供可靠交付的服务。<br>TCP 提供全双工通信。<br>TCP是面向字节流。  <br>首部最低20个字节。<br>TCP加快传输效率的方法<br>采取一块确认的机制<br>滑动窗口算法？<br><a href="http://coolshell.cn/articles/11609.html" target="_blank" rel="external">http://coolshell.cn/articles/11609.html</a><br>TCP的拥塞处理 – Congestion Handling<br>1）慢启动，2）拥塞避免，3）拥塞发生，4）快速恢复。<br>从输入网址到获得页面的过程<br>查询DNS，获取域名对应的IP地址<br>浏览器搜索自身的DNS缓存<br>搜索操作系统的DNS缓存<br>读取本地的HOST文件<br>发起一个DNS的系统调用<br>宽带运营服务器查看本身缓存<br>运营商服务器发起一个迭代DNS解析请求<br>浏览器获得域名对应的IP地址后，发起HTTP三次握手<br>TCP/IP连接建立起来后，浏览器就可以向服务器发送HTTP请求了<br>服务器接受到这个请求，根据路径参数，经过后端的一些处理生成HTML页面代码返回给浏览器<br>浏览器拿到完整的HTML页面代码开始解析和渲染，如果遇到引用的外部JS，CSS,图片等静态资源，它们同样也是一个个的HTTP请求，都需要经过上面的步骤<br>浏览器根据拿到的资源对页面进行渲染，最终把一个完整的页面呈现给用户 </p>
+<p>（算法）<br>如何判断一个单链表是否有环？ <br>快速排序，过程，复杂度？什么情况下适用，什么情况下不适用？<br>什么是二叉平衡树，如何插入节点，删除节点<br>二分搜索的过程<br>归并排序的过程？时间复杂度？空间复杂度？<br>给你一万个数，如何找出里面所有重复的数？用所有你能想到的方法，时间复杂度和空间复杂度分别是多少<br>给你一个数组，如何里面找到和为K的两个数<br>100000个数找出最小或最大的10个？<br>一堆数字里面继续去重，要怎么处理？阅读 RFC2616 文档，即 HTTP/1.1 规范，输入某个网址，利用 Java 的 Socket 发送 HTTP请求，特别要求能够解码 chunked 编码，观察文档中的伪代码实现，自己用Java代码实现，将解析后的整个html文档输出到控制台上，不要求关注太多细节。(就是不允许用httpclient的jar包，自行实现这个jar包类似的功能) </p>
+<p>（智力题）<br>给你50个红球和50个黑球，有两个一模一样的桶，往桶里放球，让朋友去随机抽，采用什么策略可以让朋友抽到红球的概率更高？<br>称重的方法（从100个硬币中找出最轻的那个假币）<br>两个鸡蛋<br>一筐鸡蛋 取 剩2 1，3 0， 4 1， 5 4， 6 3， </p>
+<p>在项目中遇到的最难的问题是什么？你是怎么解决的<br>你认为自己有那些方面不足<br>平常如何学习的 </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/12/Volley源码解析/" rel="next" title="Volley源码解析">
+                <i class="fa fa-chevron-left"></i> Volley源码解析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/14/Android的消息机制/" rel="prev" title="Android的消息机制">
+                Android的消息机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="高沛" />
+          <p class="site-author-name" itemprop="name">高沛</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高沛</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

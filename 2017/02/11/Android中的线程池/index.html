@@ -1,0 +1,733 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="一、前言使用线程池能给我们带来很多好处，线程池的优点可以概括为以下三点：
+
+重用线程池中的线程，减少创建和销毁线程的性能开销。
+有效控制线程池的最大并发数，避免因为大量的线程之间因为抢夺系统资源造成阻塞。
+能对线程进行简单的管理，并提供定时执行以及指定时间间隔循环执行等。
+
+二、ThreadPoolExecutorAndroid中的线程池实现为ThreadPoolExecutor，他提供一系列参">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android中的线程池">
+<meta property="og:url" content="http://yoursite.com/2017/02/11/Android中的线程池/index.html">
+<meta property="og:site_name" content="高沛'blog">
+<meta property="og:description" content="一、前言使用线程池能给我们带来很多好处，线程池的优点可以概括为以下三点：
+
+重用线程池中的线程，减少创建和销毁线程的性能开销。
+有效控制线程池的最大并发数，避免因为大量的线程之间因为抢夺系统资源造成阻塞。
+能对线程进行简单的管理，并提供定时执行以及指定时间间隔循环执行等。
+
+二、ThreadPoolExecutorAndroid中的线程池实现为ThreadPoolExecutor，他提供一系列参">
+<meta property="og:updated_time" content="2017-02-26T04:04:45.822Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android中的线程池">
+<meta name="twitter:description" content="一、前言使用线程池能给我们带来很多好处，线程池的优点可以概括为以下三点：
+
+重用线程池中的线程，减少创建和销毁线程的性能开销。
+有效控制线程池的最大并发数，避免因为大量的线程之间因为抢夺系统资源造成阻塞。
+能对线程进行简单的管理，并提供定时执行以及指定时间间隔循环执行等。
+
+二、ThreadPoolExecutorAndroid中的线程池实现为ThreadPoolExecutor，他提供一系列参">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/02/11/Android中的线程池/"/>
+
+
+
+
+
+  <title> Android中的线程池 | 高沛'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">高沛'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/Android中的线程池/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高沛">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="高沛'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android中的线程池
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T18:14:21+08:00">
+                2017-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>使用线程池能给我们带来很多好处，线程池的优点可以概括为以下三点：</p>
+<ol>
+<li>重用线程池中的线程，减少创建和销毁线程的性能开销。</li>
+<li>有效控制线程池的最大并发数，避免因为大量的线程之间因为抢夺系统资源造成阻塞。</li>
+<li>能对线程进行简单的管理，并提供定时执行以及指定时间间隔循环执行等。</li>
+</ol>
+<h2 id="二、ThreadPoolExecutor"><a href="#二、ThreadPoolExecutor" class="headerlink" title="二、ThreadPoolExecutor"></a>二、ThreadPoolExecutor</h2><p>Android中的线程池实现为ThreadPoolExecutor，他提供一系列参数来配置线程池。其构造方法为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public ThreadPoolExecutor(  </div><div class="line">    int corePoolSize,   //核心线程数</div><div class="line">    int maximumPoolSize,   //最大线程数</div><div class="line">    long keepAliveTime, //超时时长                           </div><div class="line">    TimeUnit unit,  //指定时间单位，枚举类型</div><div class="line">    BlockingQueue&lt;Runnable&gt; workQueue,  //任务队列</div><div class="line">    ThreadFactory threadFactory//线程工厂接口</div><div class="line">    )</div></pre></td></tr></table></figure></p>
+<p><strong>参数说明：</strong></p>
+<ul>
+<li>corePoolSize 核心线程数，默认核心线程会在线程中一直存活，即使闲置，除非allowCoreThreadTimeOut被设置为true，当allowCoreThreadTimeOut为true时，闲置的核心线程在等待新任务时会有超时闲置，时间由keepAliveTime设置，超时将被终止。</li>
+<li>maximumPoolSize 最大线程数，活动线程数量超过它，后续任务就会阻塞。</li>
+<li>keepAliveTime 非核心线程超时时长，超过便被回收。当allowCoreThreadTimeOut为true时，适用于核心线程。</li>
+<li>unit keepAliveTime的单位，枚举类型，常用有 TimeUnit.MILLISECONDS(ms) TimeUnit.SECONDS(s) TimeUnit.MINUTES(min) 等等。</li>
+<li>workQueue 任务队列，线程池的execute方法会将Runnable对象存储在这里。</li>
+<li>threadFactory 线程工厂，只有一个new Thread(Runnable r)方法，可为线程池创建新线程。</li>
+</ul>
+<p><strong>ThreadPoolExecutor执行任务规则：</strong></p>
+<ol>
+<li>线程数量&lt;核心线程数量 启动一个核心线程执行任务。</li>
+<li>线程数量&gt;=核心线程数量，将任务插入任务队列等待执行（任务队列未满）。</li>
+<li>当任务队列满了时，立即启动一个非核心线程执行任务。</li>
+<li>线程数量达到线程池规定最大值，拒绝执行，抛出异常。</li>
+</ol>
+<h2 id="三、线程池分类"><a href="#三、线程池分类" class="headerlink" title="三、线程池分类"></a>三、线程池分类</h2><p>根据不同的参数，Android中设计了四类不同功能特性的线程池，它们直接或者间接的通过设置ThreadPoolExecutor实现。它们分别为：FixedThreadPool、CachedThreadPool、ScheduledThreadPool、SingleThreadExecutor。</p>
+<p><strong>1. FixedThreadPool</strong><br>使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public static ExecutorService newFixThreadPool(int nThreads)&#123;  </div><div class="line">    return new ThreadPoolExecutor(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue&lt;Runnable&gt;());  </div><div class="line">&#125;  </div><div class="line"></div><div class="line">Executors.newFixThreadPool(5).execute(r);</div></pre></td></tr></table></figure></p>
+<p>说明：从参数上可以看出，它只有核心线程，数量固定，而且不会回收，也没有超时限制。所以，当所有核心线程满了时，新任务就处于等待状态，直到有线程空闲。 这些特性使得FixedThreadPool能够快速响应外界请求。</p>
+<p><strong>2. CachedThreadPool</strong><br>使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public static ExecutorService newCachedThreadPool()&#123;  </div><div class="line">    return new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60L, TimeUnit. SECONDS, new SynchronousQueue&lt;Runnable&gt;());  </div><div class="line">&#125;  </div><div class="line"></div><div class="line"></div><div class="line">Executors.newCachedThreadPool().execute(r);</div></pre></td></tr></table></figure></p>
+<p>说明：CachedThreadPool中没有核心线程，线程最大数为Integer.MAX_VALUE，意味着线程数量没有限制。所以当线程都活动时，会为新任务创建新线程，否则利用空闲线程（60s空闲时间，过了就会被回收，所以线程池中有0个线程的可能）处理任务。任务队列SynchronousQueue相当于一个空集合，任何任务都会被立即执行。</p>
+<p><strong>3.ScheduledThreadPool</strong><br>使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize)&#123;  </div><div class="line">return new ScheduledThreadPoolExecutor(corePoolSize);  </div><div class="line">&#125;  </div><div class="line">public ScheduledThreadPoolExecutor(int corePoolSize)&#123;  </div><div class="line">super(corePoolSize, Integer.MAX_VALUE, 0, NANOSECONDS, new DelayedQueue ());  </div><div class="line">&#125;  </div><div class="line"></div><div class="line">//2s后执行r任务</div><div class="line">Executors. newScheduledThreadPool(5).scheduleAtFixedRate(r, 2000, TimeUnit.MILLISECONDS);  </div><div class="line">//延迟10ms后，每隔2s执行一次r任务</div><div class="line">Executors. newScheduledThreadPool(5).scheduleAtFixedRate(r, 10, 2000, TimeUnit.MILLISECONDS);</div></pre></td></tr></table></figure></p>
+<p>说明：核心线程数固定，非核心线程（限制将被立即回收）数没有限制。ScheduledThreadPool主要用于执行定时任务以及有固定周期的重复任务。</p>
+<p><strong>4.SingeleThreadExecutor</strong><br>使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public static ExecutorService newSingleThreadPool ()&#123;  </div><div class="line">    return new FinalizableDelegatedExecutorService ( new ThreadPoolExecutor (1, 1, 0, TimeUnit. MILLISECONDS, new LinkedBlockingQueue&lt;Runnable&gt;()) );  </div><div class="line">&#125;  </div><div class="line"></div><div class="line"></div><div class="line">Executors.newSingleThreadPool ().execute(r);</div></pre></td></tr></table></figure></p>
+<p>说明：这种线程池只有一个核心线程，所有任务都在同一线程中按顺序完成。因此不需要处理线程同步的问题。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/12/Android中的Window与WindowManager/" rel="next" title="Android中的Window与WindowManager">
+                <i class="fa fa-chevron-left"></i> Android中的Window与WindowManager
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="高沛" />
+          <p class="site-author-name" itemprop="name">高沛</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、前言"><span class="nav-number">1.</span> <span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、ThreadPoolExecutor"><span class="nav-number">2.</span> <span class="nav-text">二、ThreadPoolExecutor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、线程池分类"><span class="nav-number">3.</span> <span class="nav-text">三、线程池分类</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高沛</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

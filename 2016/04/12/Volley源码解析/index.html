@@ -1,0 +1,720 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="一.使用Volley通过newRequestQueue(…)方法新建并启动一个请求队列RequestQueue后，只要往这个RequestQueue不断add Request即可。
+ 创建请求队列 1RequestQueue mQueue = Volley.newRequestQueue(context);
+ Get请求 123456789101112StringRequest stringReq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Volley源码解析">
+<meta property="og:url" content="http://yoursite.com/2016/04/12/Volley源码解析/index.html">
+<meta property="og:site_name" content="高沛'blog">
+<meta property="og:description" content="一.使用Volley通过newRequestQueue(…)方法新建并启动一个请求队列RequestQueue后，只要往这个RequestQueue不断add Request即可。
+ 创建请求队列 1RequestQueue mQueue = Volley.newRequestQueue(context);
+ Get请求 123456789101112StringRequest stringReq">
+<meta property="og:image" content="https://raw.githubusercontent.com/android-cn/android-open-project-analysis/master/tool-lib/network/volley/image/CacheDispatcher-run-flow-chart.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/android-cn/android-open-project-analysis/master/tool-lib/network/volley/image/NetworkDispatcher-run-flow-chart.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/android-cn/android-open-project-analysis/master/tool-lib/network/volley/image/Volley-run-flow-chart.png">
+<meta property="og:updated_time" content="2017-02-26T04:00:06.925Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Volley源码解析">
+<meta name="twitter:description" content="一.使用Volley通过newRequestQueue(…)方法新建并启动一个请求队列RequestQueue后，只要往这个RequestQueue不断add Request即可。
+ 创建请求队列 1RequestQueue mQueue = Volley.newRequestQueue(context);
+ Get请求 123456789101112StringRequest stringReq">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/android-cn/android-open-project-analysis/master/tool-lib/network/volley/image/CacheDispatcher-run-flow-chart.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/04/12/Volley源码解析/"/>
+
+
+
+
+
+  <title> Volley源码解析 | 高沛'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">高沛'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/12/Volley源码解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高沛">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="高沛'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Volley源码解析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-12T13:34:53+08:00">
+                2016-04-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一-使用"><a href="#一-使用" class="headerlink" title="一.使用"></a>一.使用</h3><p>Volley通过newRequestQueue(…)方法新建并启动一个请求队列RequestQueue后，只要往这个RequestQueue不断add Request即可。</p>
+<p><strong> 创建请求队列 </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">RequestQueue mQueue = Volley.newRequestQueue(context);</div></pre></td></tr></table></figure></p>
+<p><strong> Get请求 </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">StringRequest stringRequest = new StringRequest(&quot;http://www.baidu.com&quot;,</div><div class="line">        new Response.Linstener&lt;String&gt;()&#123;</div><div class="line">         @Override</div><div class="line">         public void onResponse(String response)&#123;</div><div class="line">           Lod.d(TAG,response);</div><div class="line">          &#125;</div><div class="line">        &#125;,new Response.ErrorLinstener()&#123;</div><div class="line">        @Override</div><div class="line">        public void onErrorResponse(VolleyError error)&#123;</div><div class="line">          Log.e(TAG,error.getMessage());</div><div class="line">        &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p><strong> Post请求 </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">StringRequest stringRequest = new StringRequest(Method.POST, url,  listener, errorListener) &#123;  </div><div class="line">    @Override  </div><div class="line">    protected Map&lt;String, String&gt; getParams() throws AuthFailureError &#123;  </div><div class="line">        Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();  </div><div class="line">        map.put(&quot;params1&quot;, &quot;value1&quot;);  </div><div class="line">        map.put(&quot;params2&quot;, &quot;value2&quot;);  </div><div class="line">        return map;  </div><div class="line">    &#125;  </div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p><strong> 加载图片 </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">ImageRequest imageRequest = new ImageRequest(  </div><div class="line">        picurl,  </div><div class="line">        new Response.Listener&lt;Bitmap&gt;() &#123;  </div><div class="line">            @Override  </div><div class="line">            public void onResponse(Bitmap response) &#123;  </div><div class="line">                imageView.setImageBitmap(response);  </div><div class="line">            &#125;  </div><div class="line">        &#125;, 0, 0, Config.RGB_565, new Response.ErrorListener() &#123;  </div><div class="line">            @Override  </div><div class="line">            public void onErrorResponse(VolleyError error) &#123;  </div><div class="line">                imageView.setImageResource(R.drawable.default_image);  </div><div class="line">            &#125;  </div><div class="line">        &#125;);</div></pre></td></tr></table></figure></p>
+<p><strong> 添加到队列 </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mQueue.add(stringRequest);</div></pre></td></tr></table></figure></p>
+<p>###二、关键类分析<br><strong> 1）Volley.java </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">public static RequestQueue newRequestQueue(Context context) &#123;  </div><div class="line">    return newRequestQueue(context, null);  </div><div class="line">&#125;  </div><div class="line"></div><div class="line">public static RequestQueue newRequestQueue(Context context, HttpStack stack) &#123;  </div><div class="line">    File cacheDir = new File(context.getCacheDir(), DEFAULT_CACHE_DIR);  </div><div class="line">    String userAgent = &quot;volley/0&quot;;  </div><div class="line">    try &#123;  </div><div class="line">        String packageName = context.getPackageName();  </div><div class="line">        PackageInfo info = context.getPackageManager().getPackageInfo(packageName, 0);  </div><div class="line">        userAgent = packageName + &quot;/&quot; + info.versionCode;  </div><div class="line">    &#125; catch (NameNotFoundException e) &#123;  </div><div class="line">    &#125;  </div><div class="line">    if (stack == null) &#123; </div><div class="line">    //根据手机版本号去创建HttpStack对象</div><div class="line">        if (Build.VERSION.SDK_INT &gt;= 9) &#123; </div><div class="line">           //HurlStack内部使用HttpURLConnection进行网络通讯</div><div class="line">            stack = new HurlStack();  </div><div class="line">        &#125; else &#123;  </div><div class="line">           //HttpClientStack内部使用HttpClient进行通讯</div><div class="line">            stack = new HttpClientStack(AndroidHttpClient.newInstance(userAgent));  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">    Network network = new BasicNetwork(stack);  </div><div class="line">    RequestQueue queue = new RequestQueue(new DiskBasedCache(cacheDir), network);  </div><div class="line">    //启动</div><div class="line">    queue.start();  </div><div class="line">    return queue;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里通过区别版本号得到了 HttpStack,然后通过它构造一个代表网络（Network）的具体实现BasicNetwork。<br>接着构造一个代表缓存（Cache）的基于 Disk 的具体实现DiskBasedCache。<br>最后将网络（Network）对象和缓存（Cache）对象传入构建一个 RequestQueue，启动这个 RequestQueue，并返回。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public void start() &#123;  </div><div class="line">    stop();  // Make sure any currently running dispatchers are stopped.  </div><div class="line">    // Create the cache dispatcher and start it.  </div><div class="line">    mCacheDispatcher = new CacheDispatcher(mCacheQueue, mNetworkQueue, mCache, mDelivery);  </div><div class="line">    mCacheDispatcher.start();  </div><div class="line">    // Create network dispatchers (and corresponding threads) up to the pool size.  </div><div class="line">    for (int i = 0; i &lt; mDispatchers.length; i++) &#123;  </div><div class="line">        NetworkDispatcher networkDispatcher = new NetworkDispatcher(mNetworkQueue, mNetwork,  </div><div class="line">                mCache, mDelivery);  </div><div class="line">        mDispatchers[i] = networkDispatcher;  </div><div class="line">        networkDispatcher.start();  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里是开启一个缓存调度线程CacheDispatcher和n个网络调度线程NetWorkDispatcher，这里n默认为4.所以到这里共开启了5个线程一直在后台运行，不断等待网络请求的到来。<br><strong> 2)Request.java </strong><br>网络请求抽象类，可通过创建其非抽象子类StringRequest等加入RequestQueue进行网络请求。<br><strong> 3)RequestQueue.java </strong><br>这个类中维护了两个基于优先级的Request队列<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//缓存队列 将通过缓存获取数据</div><div class="line">private final PriorityBlockingQueue&lt;Request&lt;?&gt;&gt; mCacheQueue = new PriorityBlockingQueue&lt;Request&lt;?&gt;&gt;();</div><div class="line">//网络请求队列 将通过网络获取数据</div><div class="line">private final PriorityBlockingQueue&lt;Request&lt;?&gt;&gt; mNetworkQueue = new PriorityBlockingQueue&lt;Request&lt;?&gt;&gt;();</div></pre></td></tr></table></figure></p>
+<p>还有一个正在进行中还未完成的队列<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">private final Set&lt;Request&lt;?&gt;&gt; mCurrentRequests = new HashSet&lt;Request&lt;?&gt;&gt;();</div></pre></td></tr></table></figure></p>
+<p>以及一个等待请求队列，如果一个请求正在被处理并且可以被缓存，后续的相同 url 的请求，将进入此等待队列。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">private final Map&lt;String, Queue&lt;Request&lt;?&gt;&gt;&gt; mWaitingRequests = new HashMap&lt;String, Queue&lt;Request&lt;?&gt;&gt;&gt;();</div></pre></td></tr></table></figure></p>
+<p>接下来是add（…)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">public &lt;T&gt; Request&lt;T&gt; add(Request&lt;T&gt; request) &#123;  </div><div class="line">    // Tag the request as belonging to this queue and add it to the set of current requests.  </div><div class="line">    request.setRequestQueue(this);  </div><div class="line">    synchronized (mCurrentRequests) &#123;  </div><div class="line">        mCurrentRequests.add(request);  </div><div class="line">    &#125;  </div><div class="line">    // Process requests in the order they are added.  </div><div class="line">    request.setSequence(getSequenceNumber());  </div><div class="line">    request.addMarker(&quot;add-to-queue&quot;);  </div><div class="line">    // If the request is uncacheable, skip the cache queue and go straight to the network. </div><div class="line">    //判断当前请求是否可以缓存</div><div class="line">    if (!request.shouldCache()) &#123;  </div><div class="line">        mNetworkQueue.add(request);  </div><div class="line">        return request;  </div><div class="line">    &#125;  </div><div class="line">    // Insert request into stage if there&apos;s already a request with the same cache key in flight.  </div><div class="line">    synchronized (mWaitingRequests) &#123;  </div><div class="line">        String cacheKey = request.getCacheKey();  </div><div class="line">        if (mWaitingRequests.containsKey(cacheKey)) &#123;  </div><div class="line">            // There is already a request in flight. Queue up.  </div><div class="line">            Queue&lt;Request&lt;?&gt;&gt; stagedRequests = mWaitingRequests.get(cacheKey);  </div><div class="line">            if (stagedRequests == null) &#123;  </div><div class="line">                stagedRequests = new LinkedList&lt;Request&lt;?&gt;&gt;();  </div><div class="line">            &#125;  </div><div class="line">            stagedRequests.add(request);  </div><div class="line">            mWaitingRequests.put(cacheKey, stagedRequests);  </div><div class="line">            if (VolleyLog.DEBUG) &#123;  </div><div class="line">                VolleyLog.v(&quot;Request for cacheKey=%s is in flight, putting on hold.&quot;, cacheKey);  </div><div class="line">            &#125;  </div><div class="line">        &#125; else &#123;  </div><div class="line">            // Insert &apos;null&apos; queue for this cacheKey, indicating there is now a request in  </div><div class="line">            // flight.  </div><div class="line">            mWaitingRequests.put(cacheKey, null);  </div><div class="line">            mCacheQueue.add(request);  </div><div class="line">        &#125;  </div><div class="line">        return request;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>12行判断当前请求是否可以缓存，默认都可以请求，我们可以通过调用Request的setShouldCache(false)方法改变。<br>然后判断是否在等待队列中已经有这个请求了，如果有则向等待队列添加这次请求，没有则将这个请求加入等待队列以及缓存队列。<br>之后将进入CacheDispatcher中处理。</p>
+<p><strong> 4）CacheDispatcher.java </strong><br>继承Thread，主要看run()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">public class CacheDispatcher extends Thread &#123;  </div><div class="line">  </div><div class="line">    ……  </div><div class="line">  </div><div class="line">    @Override  </div><div class="line">    public void run() &#123;  </div><div class="line">        if (DEBUG) VolleyLog.v(&quot;start new dispatcher&quot;);  </div><div class="line">        Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);  </div><div class="line">        // Make a blocking call to initialize the cache.  </div><div class="line">        mCache.initialize();  </div><div class="line">        while (true) &#123;  </div><div class="line">            try &#123;  </div><div class="line">                // Get a request from the cache triage queue, blocking until  </div><div class="line">                // at least one is available.  </div><div class="line">                final Request&lt;?&gt; request = mCacheQueue.take();  </div><div class="line">                request.addMarker(&quot;cache-queue-take&quot;);  </div><div class="line">                // If the request has been canceled, don&apos;t bother dispatching it.  </div><div class="line">                if (request.isCanceled()) &#123;  </div><div class="line">                    request.finish(&quot;cache-discard-canceled&quot;);  </div><div class="line">                    continue;  </div><div class="line">                &#125;  </div><div class="line">                // Attempt to retrieve this item from cache.  </div><div class="line">                Cache.Entry entry = mCache.get(request.getCacheKey());  </div><div class="line">                if (entry == null) &#123;  </div><div class="line">                    request.addMarker(&quot;cache-miss&quot;);  </div><div class="line">                    // Cache miss; send off to the network dispatcher.  </div><div class="line">                    mNetworkQueue.put(request);  </div><div class="line">                    continue;  </div><div class="line">                &#125;  </div><div class="line">                // If it is completely expired, just send it to the network.  </div><div class="line">                if (entry.isExpired()) &#123;  </div><div class="line">                    request.addMarker(&quot;cache-hit-expired&quot;);  </div><div class="line">                    request.setCacheEntry(entry);  </div><div class="line">                    mNetworkQueue.put(request);  </div><div class="line">                    continue;  </div><div class="line">                &#125;  </div><div class="line">                // We have a cache hit; parse its data for delivery back to the request.  </div><div class="line">                request.addMarker(&quot;cache-hit&quot;);  </div><div class="line">                Response&lt;?&gt; response = request.parseNetworkResponse(  </div><div class="line">                        new NetworkResponse(entry.data, entry.responseHeaders));  </div><div class="line">                request.addMarker(&quot;cache-hit-parsed&quot;);  </div><div class="line">                if (!entry.refreshNeeded()) &#123;  </div><div class="line">                    // Completely unexpired cache hit. Just deliver the response.  </div><div class="line">                    mDelivery.postResponse(request, response);  </div><div class="line">                &#125; else &#123;  </div><div class="line">                    // Soft-expired cache hit. We can deliver the cached response,  </div><div class="line">                    // but we need to also send the request to the network for  </div><div class="line">                    // refreshing.  </div><div class="line">                    request.addMarker(&quot;cache-hit-refresh-needed&quot;);  </div><div class="line">                    request.setCacheEntry(entry);  </div><div class="line">                    // Mark the response as intermediate.  </div><div class="line">                    response.intermediate = true;  </div><div class="line">                    // Post the intermediate response back to the user and have  </div><div class="line">                    // the delivery then forward the request along to the network.  </div><div class="line">                    mDelivery.postResponse(request, response, new Runnable() &#123;  </div><div class="line">                        @Override  </div><div class="line">                        public void run() &#123;  </div><div class="line">                            try &#123;  </div><div class="line">                                mNetworkQueue.put(request);  </div><div class="line">                            &#125; catch (InterruptedException e) &#123;  </div><div class="line">                                // Not much we can do about this.  </div><div class="line">                            &#125;  </div><div class="line">                        &#125;  </div><div class="line">                    &#125;);  </div><div class="line">                &#125;  </div><div class="line">            &#125; catch (InterruptedException e) &#123;  </div><div class="line">                // We may have been interrupted because it was time to quit.  </div><div class="line">                if (mQuit) &#123;  </div><div class="line">                    return;  </div><div class="line">                &#125;  </div><div class="line">                continue;  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里首先在11行可以看到一个while(true)循环，说明缓存线程start后始终是在运行的，接着在第23行会尝试从缓存当中取出响应结果，如何为空的话则把这条请求加入到网络请求队列中，如果不为空的话再判断该缓存是否已过期，如果已经过期了则把这条请求加入到网络请求队列中，否则就认为不需要重发网络请求，直接使用缓存中的数据即可。之后会在第39行调用Request的parseNetworkResponse()方法来对数据进行解析，再往后就是将解析出来的数据进行回调了。<br><img src="https://raw.githubusercontent.com/android-cn/android-open-project-analysis/master/tool-lib/network/volley/image/CacheDispatcher-run-flow-chart.png" alt="流程图"></p>
+<p><strong> 5）NetworkDispatcher.java </strong><br>还是继承Thread，主要看run()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">public class NetworkDispatcher extends Thread &#123;  </div><div class="line">    ……  </div><div class="line">    @Override  </div><div class="line">    public void run() &#123;  </div><div class="line">        Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);  </div><div class="line">        Request&lt;?&gt; request;  </div><div class="line">        while (true) &#123;  </div><div class="line">            try &#123;  </div><div class="line">                // Take a request from the queue.  </div><div class="line">                request = mQueue.take();  </div><div class="line">            &#125; catch (InterruptedException e) &#123;  </div><div class="line">                // We may have been interrupted because it was time to quit.  </div><div class="line">                if (mQuit) &#123;  </div><div class="line">                    return;  </div><div class="line">                &#125;  </div><div class="line">                continue;  </div><div class="line">            &#125;  </div><div class="line">            try &#123;  </div><div class="line">                request.addMarker(&quot;network-queue-take&quot;);  </div><div class="line">                // If the request was cancelled already, do not perform the  </div><div class="line">                // network request.  </div><div class="line">                if (request.isCanceled()) &#123;  </div><div class="line">                    request.finish(&quot;network-discard-cancelled&quot;);  </div><div class="line">                    continue;  </div><div class="line">                &#125;  </div><div class="line">                addTrafficStatsTag(request);  </div><div class="line">                // Perform the network request.  </div><div class="line">                NetworkResponse networkResponse = mNetwork.performRequest(request);  </div><div class="line">                request.addMarker(&quot;network-http-complete&quot;);  </div><div class="line">                // If the server returned 304 AND we delivered a response already,  </div><div class="line">                // we&apos;re done -- don&apos;t deliver a second identical response.  </div><div class="line">                if (networkResponse.notModified &amp;&amp; request.hasHadResponseDelivered()) &#123;  </div><div class="line">                    request.finish(&quot;not-modified&quot;);  </div><div class="line">                    continue;  </div><div class="line">                &#125;  </div><div class="line">                // Parse the response here on the worker thread.  </div><div class="line">                Response&lt;?&gt; response = request.parseNetworkResponse(networkResponse);  </div><div class="line">                request.addMarker(&quot;network-parse-complete&quot;);  </div><div class="line">                // Write to cache if applicable.  </div><div class="line">                // TODO: Only update cache metadata instead of entire record for 304s.  </div><div class="line">                if (request.shouldCache() &amp;&amp; response.cacheEntry != null) &#123;  </div><div class="line">                    mCache.put(request.getCacheKey(), response.cacheEntry);  </div><div class="line">                    request.addMarker(&quot;network-cache-written&quot;);  </div><div class="line">                &#125;  </div><div class="line">                // Post the response back.  </div><div class="line">                request.markDelivered();  </div><div class="line">                mDelivery.postResponse(request, response);  </div><div class="line">            &#125; catch (VolleyError volleyError) &#123;  </div><div class="line">                parseAndDeliverNetworkError(request, volleyError);  </div><div class="line">            &#125; catch (Exception e) &#123;  </div><div class="line">                VolleyLog.e(e, &quot;Unhandled exception %s&quot;, e.toString());  </div><div class="line">                mDelivery.postError(request, new VolleyError(e));  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>同样地，在第7行我们看到了类似的while(true)循环，说明网络请求线程也是在不断运行的。在第28行的时候会调用mNetwork（Network对象）的performRequest()方法来去发送网络请求，而Network是一个接口，这里具体的实现是BasicNetwork，我们来看下它的performRequest()方法，如下。</p>
+<p><img src="https://raw.githubusercontent.com/android-cn/android-open-project-analysis/master/tool-lib/network/volley/image/NetworkDispatcher-run-flow-chart.png" alt="流程图"></p>
+<p><strong> 6）BasicNetwork.java </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">public class BasicNetwork implements Network &#123;  </div><div class="line">    ……  </div><div class="line">    @Override  </div><div class="line">    public NetworkResponse performRequest(Request&lt;?&gt; request) throws VolleyError &#123;  </div><div class="line">        long requestStart = SystemClock.elapsedRealtime();  </div><div class="line">        while (true) &#123;  </div><div class="line">            HttpResponse httpResponse = null;  </div><div class="line">            byte[] responseContents = null;  </div><div class="line">            Map&lt;String, String&gt; responseHeaders = new HashMap&lt;String, String&gt;();  </div><div class="line">            try &#123;  </div><div class="line">                // Gather headers.  </div><div class="line">                Map&lt;String, String&gt; headers = new HashMap&lt;String, String&gt;();  </div><div class="line">                addCacheHeaders(headers, request.getCacheEntry());  </div><div class="line">                httpResponse = mHttpStack.performRequest(request, headers);  </div><div class="line">                StatusLine statusLine = httpResponse.getStatusLine();  </div><div class="line">                int statusCode = statusLine.getStatusCode();  </div><div class="line">                responseHeaders = convertHeaders(httpResponse.getAllHeaders());  </div><div class="line">                // Handle cache validation.  </div><div class="line">                if (statusCode == HttpStatus.SC_NOT_MODIFIED) &#123;  </div><div class="line">                    return new NetworkResponse(HttpStatus.SC_NOT_MODIFIED,  </div><div class="line">                            request.getCacheEntry() == null ? null : request.getCacheEntry().data,  </div><div class="line">                            responseHeaders, true);  </div><div class="line">                &#125;  </div><div class="line">                // Some responses such as 204s do not have content.  We must check.  </div><div class="line">                if (httpResponse.getEntity() != null) &#123;  </div><div class="line">                  responseContents = entityToBytes(httpResponse.getEntity());  </div><div class="line">                &#125; else &#123;  </div><div class="line">                  // Add 0 byte response as a way of honestly representing a  </div><div class="line">                  // no-content request.  </div><div class="line">                  responseContents = new byte[0];  </div><div class="line">                &#125;  </div><div class="line">                // if the request is slow, log it.  </div><div class="line">                long requestLifetime = SystemClock.elapsedRealtime() - requestStart;  </div><div class="line">                logSlowRequests(requestLifetime, request, responseContents, statusLine);  </div><div class="line">                if (statusCode &lt; 200 || statusCode &gt; 299) &#123;  </div><div class="line">                    throw new IOException();  </div><div class="line">                &#125;  </div><div class="line">                return new NetworkResponse(statusCode, responseContents, responseHeaders, false);  </div><div class="line">            &#125; catch (Exception e) &#123;  </div><div class="line">                ……  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里主要是一些网络请求方面的东西，主要是在第14行调用了HttpStack的performRequest()方法，这里的HttpStack就是在一开始调用newRequestQueue()方法是创建的实例，默认情况下如果系统版本号大于9就创建的HurlStack对象，否则创建HttpClientStack对象。前面已经说过，这两个对象的内部实际就是分别使用HttpURLConnection和HttpClient来发送网络请求的，之后会将服务器返回的数据组装成一个NetworkResponse对象进行返回。<br>在NetworkDispatcher中收到了NetworkResponse这个返回值后又会调用Request的parseNetworkResponse()方法来解析NetworkResponse中的数据，以及将数据写入到缓存，这个方法的实现是交给Request的子类来完成的，因为不同种类的Request解析的方式也不同。</p>
+<p><strong> 7）在解析完了NetworkResponse中的数据之后，又会调用ExecutorDelivery的postResponse()方法来回调解析出的数据，代码如下所示： </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public void postResponse(Request&lt;?&gt; request, Response&lt;?&gt; response, Runnable runnable) &#123;  </div><div class="line">    request.markDelivered();  </div><div class="line">    request.addMarker(&quot;post-response&quot;);  </div><div class="line">    mResponsePoster.execute(new ResponseDeliveryRunnable(request, response, runnable));  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong> 8） ResponseDeliveryRunnable.java </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">private class ResponseDeliveryRunnable implements Runnable &#123;  </div><div class="line">    private final Request mRequest;  </div><div class="line">    private final Response mResponse;  </div><div class="line">    private final Runnable mRunnable;  </div><div class="line">  </div><div class="line">    public ResponseDeliveryRunnable(Request request, Response response, Runnable runnable) &#123;  </div><div class="line">        mRequest = request;  </div><div class="line">        mResponse = response;  </div><div class="line">        mRunnable = runnable;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    @SuppressWarnings(&quot;unchecked&quot;)  </div><div class="line">    @Override  </div><div class="line">    public void run() &#123;  </div><div class="line">        // If this request has canceled, finish it and don&apos;t deliver.  </div><div class="line">        if (mRequest.isCanceled()) &#123;  </div><div class="line">            mRequest.finish(&quot;canceled-at-delivery&quot;);  </div><div class="line">            return;  </div><div class="line">        &#125;  </div><div class="line">        // Deliver a normal response or error, depending.  </div><div class="line">        if (mResponse.isSuccess()) &#123;  </div><div class="line">            mRequest.deliverResponse(mResponse.result);  </div><div class="line">        &#125; else &#123;  </div><div class="line">            mRequest.deliverError(mResponse.error);  </div><div class="line">        &#125;  </div><div class="line">        // If this is an intermediate response, add a marker, otherwise we&apos;re done  </div><div class="line">        // and the request can be finished.  </div><div class="line">        if (mResponse.intermediate) &#123;  </div><div class="line">            mRequest.addMarker(&quot;intermediate-response&quot;);  </div><div class="line">        &#125; else &#123;  </div><div class="line">            mRequest.finish(&quot;done&quot;);  </div><div class="line">        &#125;  </div><div class="line">        // If we have been provided a post-delivery runnable, run it.  </div><div class="line">        if (mRunnable != null) &#123;  </div><div class="line">            mRunnable.run();  </div><div class="line">        &#125;  </div><div class="line">   &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中在第22行调用了Request的deliverResponse()方法，这个自定义Request时需要重写的一个方法，每一条网络请求的响应都是回调到这个方法中，最后我们再在这个方法中将响应的数据回调到Response.Listener的onResponse()方法中就可以了。</p>
+<h3 id="三、总体流程图"><a href="#三、总体流程图" class="headerlink" title="三、总体流程图"></a>三、总体流程图</h3><p><img src="https://raw.githubusercontent.com/android-cn/android-open-project-analysis/master/tool-lib/network/volley/image/Volley-run-flow-chart.png" alt="此处输入图片的描述"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/23/Activity的生命周期和启动模式/" rel="next" title="Activity的生命周期和启动模式">
+                <i class="fa fa-chevron-left"></i> Activity的生命周期和启动模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/14/阿里面试/" rel="prev" title="面试（转）">
+                面试（转） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="高沛" />
+          <p class="site-author-name" itemprop="name">高沛</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-使用"><span class="nav-number">1.</span> <span class="nav-text">一.使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、总体流程图"><span class="nav-number">2.</span> <span class="nav-text">三、总体流程图</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高沛</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

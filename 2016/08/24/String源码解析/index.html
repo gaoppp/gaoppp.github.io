@@ -1,0 +1,700 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JAVA," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1、String类String为final类，所以String为不可变量，String类还实现了Serializable,Comparable,CharSequence接口。Comparable接口有compareTo（String s）方法。CharSequence接口有length(),charAt(int index),subSequence(int start,int end)方法。
+St">
+<meta property="og:type" content="article">
+<meta property="og:title" content="String源码解析">
+<meta property="og:url" content="http://yoursite.com/2016/08/24/String源码解析/index.html">
+<meta property="og:site_name" content="高沛'blog">
+<meta property="og:description" content="1、String类String为final类，所以String为不可变量，String类还实现了Serializable,Comparable,CharSequence接口。Comparable接口有compareTo（String s）方法。CharSequence接口有length(),charAt(int index),subSequence(int start,int end)方法。
+St">
+<meta property="og:updated_time" content="2017-02-26T03:56:17.182Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="String源码解析">
+<meta name="twitter:description" content="1、String类String为final类，所以String为不可变量，String类还实现了Serializable,Comparable,CharSequence接口。Comparable接口有compareTo（String s）方法。CharSequence接口有length(),charAt(int index),subSequence(int start,int end)方法。
+St">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/08/24/String源码解析/"/>
+
+
+
+
+
+  <title> String源码解析 | 高沛'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">高沛'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/24/String源码解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高沛">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="高沛'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                String源码解析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-24T21:35:23+08:00">
+                2016-08-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1、String类"><a href="#1、String类" class="headerlink" title="1、String类"></a>1、String类</h1><p>String为final类，所以String为不可变量，String类还实现了Serializable,Comparable<string>,CharSequence接口。<br>Comparable接口有compareTo（String s）方法。<br>CharSequence接口有length(),charAt(int index),subSequence(int start,int end)方法。</string></p>
+<p>String类中有一个final的char数组用来存放字符串，一个int类型的hash用来存放哈希值。</p>
+<h1 id="2、构造方法"><a href="#2、构造方法" class="headerlink" title="2、构造方法"></a>2、构造方法</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div></pre></td><td class="code"><pre><div class="line">//不含参数，基本没用</div><div class="line">public String() &#123;</div><div class="line">        this.value = new char[0];</div><div class="line">&#125;</div><div class="line"></div><div class="line">//参数为String类型</div><div class="line">public String(String original) &#123;</div><div class="line">         this.value = original.value;</div><div class="line">         this.hash = original.hash;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//参数为char数组，使用Arrays.copyOf()给value复制</div><div class="line">public String(char value[]) &#123;</div><div class="line">         this.value = Arrays.copyOf(value, value.length);</div><div class="line">     &#125;</div><div class="line">     </div><div class="line">//将char数组从offset开始的长度为length的字符复制给value</div><div class="line">public String(char value[], int offset, int count) &#123;</div><div class="line">         if (offset &lt; 0) &#123;</div><div class="line">             throw new StringIndexOutOfBoundsException(offset);</div><div class="line">         &#125;</div><div class="line">         if (count &lt; 0) &#123;</div><div class="line">             throw new StringIndexOutOfBoundsException(count);</div><div class="line">         &#125;</div><div class="line">         // Note: offset or count might be near -1&gt;&gt;&gt;1.</div><div class="line">         if (offset &gt; value.length - count) &#123;</div><div class="line">             throw new StringIndexOutOfBoundsException(offset + count);</div><div class="line">         &#125;</div><div class="line">         this.value = Arrays.copyOfRange(value, offset, offset+count);</div><div class="line">     &#125;</div><div class="line">     </div><div class="line">//将int数组从offset开始的长度为length的数据转型为字符复制给value</div><div class="line">  public String(int[] codePoints, int offset, int count) &#123;</div><div class="line">         if (offset &lt; 0) &#123;</div><div class="line">             throw new StringIndexOutOfBoundsException(offset);</div><div class="line">         &#125;</div><div class="line">         if (count &lt; 0) &#123;</div><div class="line">             throw new StringIndexOutOfBoundsException(count);</div><div class="line">         &#125;</div><div class="line">         // Note: offset or count might be near -1&gt;&gt;&gt;1.</div><div class="line">         if (offset &gt; codePoints.length - count) &#123;</div><div class="line">             throw new StringIndexOutOfBoundsException(offset + count);</div><div class="line">         &#125;</div><div class="line"> </div><div class="line">         final int end = offset + count;</div><div class="line"> </div><div class="line">         // Pass 1: Compute precise size of char[]</div><div class="line">         int n = count;</div><div class="line">         for (int i = offset; i &lt; end; i++) &#123;</div><div class="line">             int c = codePoints[i];</div><div class="line">             if (Character.isBmpCodePoint(c))</div><div class="line">                 continue;</div><div class="line">             else if (Character.isValidCodePoint(c))</div><div class="line">                 n++;</div><div class="line">             else throw new IllegalArgumentException(Integer.toString(c));</div><div class="line">         &#125;</div><div class="line"> </div><div class="line">         // Pass 2: Allocate and fill in char[]</div><div class="line">         final char[] v = new char[n];</div><div class="line"> </div><div class="line">         for (int i = offset, j = 0; i &lt; end; i++, j++) &#123;</div><div class="line">             int c = codePoints[i];</div><div class="line">             if (Character.isBmpCodePoint(c))</div><div class="line">                 v[j] = (char)c;</div><div class="line">             else</div><div class="line">                 Character.toSurrogates(c, v, j++);</div><div class="line">         &#125;</div><div class="line">         this.value = v;</div><div class="line">&#125;</div><div class="line">public String(byte ascii[], int hibyte, int offset, int count) &#123;</div><div class="line">        //检查是否越界</div><div class="line">         checkBounds(ascii, offset, count);</div><div class="line">         char value[] = new char[count];</div><div class="line"> </div><div class="line">         if (hibyte == 0) &#123;</div><div class="line">             for (int i = count; i-- &gt; 0;) &#123;</div><div class="line">                 value[i] = (char)(ascii[i + offset] &amp; 0xff);</div><div class="line">             &#125;</div><div class="line">         &#125; else &#123;</div><div class="line">             hibyte &lt;&lt;= 8;</div><div class="line">             for (int i = count; i-- &gt; 0;) &#123;</div><div class="line">                 value[i] = (char)(hibyte | (ascii[i + offset] &amp; 0xff));</div><div class="line">            &#125;</div><div class="line">         &#125;</div><div class="line">         this.value = value;</div><div class="line">     &#125;</div><div class="line">//从bytes数组中的offset位置开始，将长度为length的字节，以charsetName格式编码，拷贝到value</div><div class="line"> public String(byte bytes[], int offset, int length, String charsetName)</div><div class="line">             throws UnsupportedEncodingException &#123;</div><div class="line">         if (charsetName == null)</div><div class="line">             throw new NullPointerException(&quot;charsetName&quot;);</div><div class="line">         checkBounds(bytes, offset, length);</div><div class="line">         this.value = StringCoding.decode(charsetName, bytes, offset, length);</div><div class="line">     &#125;</div><div class="line">     </div><div class="line">//参数为StringBuffer（线程安全）</div><div class="line">public String(StringBuffer buffer) &#123;</div><div class="line">         synchronized(buffer) &#123;</div><div class="line">            this.value = Arrays.copyOf(buffer.getValue(), buffer.length());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">//参数为StringBuilder</div><div class="line">public String(StringBuilder builder) &#123;</div><div class="line">         this.value = Arrays.copyOf(builder.getValue(), builder.length());</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h1 id="3、String常用方法"><a href="#3、String常用方法" class="headerlink" title="3、String常用方法"></a>3、String常用方法</h1><p>length()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public int length() &#123;</div><div class="line">         return value.length;</div><div class="line">     &#125;</div></pre></td></tr></table></figure></p>
+<p>isEmpty()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public boolean isEmpty() &#123;</div><div class="line">        return value.length == 0;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>equals(Object o)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">public boolean equals(Object anObject) &#123;</div><div class="line">       //是否同一对象</div><div class="line">        if (this == anObject) &#123;</div><div class="line">            return true;</div><div class="line">        &#125;</div><div class="line">        //是否为String类型数据</div><div class="line">        if (anObject instanceof String) &#123;</div><div class="line">            String anotherString = (String)anObject;</div><div class="line">            int n = value.length;</div><div class="line">            //长度是否相同</div><div class="line">            if (n == anotherString.value.length) &#123;</div><div class="line">                char v1[] = value;</div><div class="line">                char v2[] = anotherString.value;</div><div class="line">                int i = 0;</div><div class="line">                //从后向前判断</div><div class="line">                while (n-- != 0) &#123;</div><div class="line">                    if (v1[i] != v2[i])</div><div class="line">                        return false;</div><div class="line">                    i++;</div><div class="line">                &#125;</div><div class="line">                return true;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return false;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public int compareTo(String anotherString) &#123;</div><div class="line">        int len1 = value.length;</div><div class="line">        int len2 = anotherString.value.length;</div><div class="line">        //取长度最小值</div><div class="line">        int lim = Math.min(len1, len2);</div><div class="line">        char v1[] = value;</div><div class="line">        char v2[] = anotherString.value;</div><div class="line">        </div><div class="line">        int k = 0;</div><div class="line">        //从前往后直到第lim个进行比较</div><div class="line">        while (k &lt; lim) &#123;</div><div class="line">            char c1 = v1[k];</div><div class="line">            char c2 = v2[k];</div><div class="line">            if (c1 != c2) &#123;</div><div class="line">                return c1 - c2;</div><div class="line">            &#125;</div><div class="line">            k++;</div><div class="line">     &#125;</div><div class="line">       //相同则比较长度</div><div class="line">        return len1 - len2;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>hashCode()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">public int hashCode() &#123;</div><div class="line">        int h = hash;</div><div class="line">        //hash是否计算过</div><div class="line">        if (h == 0 &amp;&amp; value.length &gt; 0) &#123;</div><div class="line">            char val[] = value;</div><div class="line"></div><div class="line">            for (int i = 0; i &lt; value.length; i++) &#123;</div><div class="line">                h = 31 * h + val[i];</div><div class="line">            &#125;</div><div class="line">            //给hash赋值</div><div class="line">            hash = h;</div><div class="line">        &#125;</div><div class="line">        return h;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>concat(String s)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public String concat(String str) &#123;</div><div class="line">       int otherLen = str.length();</div><div class="line">       if (otherLen == 0) &#123;</div><div class="line">           return this;</div><div class="line">       &#125;</div><div class="line">       int len = value.length;</div><div class="line">       char buf[] = Arrays.copyOf(value, len + otherLen);</div><div class="line">       str.getChars(buf, len);</div><div class="line">       return new String(buf, true);</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>trim()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public String trim() &#123;</div><div class="line">        int len = value.length;</div><div class="line">        int st = 0;</div><div class="line">        char[] val = value;    /* avoid getfield opcode */</div><div class="line"></div><div class="line">        while ((st &lt; len) &amp;&amp; (val[st] &lt;= &apos; &apos;)) &#123;</div><div class="line">            st++;</div><div class="line">        &#125;</div><div class="line">        while ((st &lt; len) &amp;&amp; (val[len - 1] &lt;= &apos; &apos;)) &#123;</div><div class="line">            len--;</div><div class="line">        &#125;</div><div class="line">        return ((st &gt; 0) || (len &lt; value.length)) ? substring(st, len) : this;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>intern方法是Native调用，它的作用是在方法区中的常量池里通过equals方法寻找等值的对象，如果没有找到则在常量池中开辟一片空间存放字符串并返回该对应String的引用，否则直接返回常量池中已存在String对象的引用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public native String intern();</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/14/RxJava/" rel="next" title="RxJava学习笔记">
+                <i class="fa fa-chevron-left"></i> RxJava学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/24/Java 注解-Annotation/" rel="prev" title="Java 注解-Annotation">
+                Java 注解-Annotation <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="高沛" />
+          <p class="site-author-name" itemprop="name">高沛</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、String类"><span class="nav-number">1.</span> <span class="nav-text">1、String类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、构造方法"><span class="nav-number">2.</span> <span class="nav-text">2、构造方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、String常用方法"><span class="nav-number">3.</span> <span class="nav-text">3、String常用方法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高沛</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

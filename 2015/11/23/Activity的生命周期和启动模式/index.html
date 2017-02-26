@@ -1,0 +1,742 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="一 、Activity的生命周期1.典型情况下：  
+onCreate() Activity正在被创建，可以做些初始化工作。
+onRestart() Activity正在重新启动，一般，当当前Activity从不可见重新可见时调用。
+onStart() Activity正在启动，Activity可见当时还没出现在前台，还无法与用户交互。
+onResume() Activity可见，并在出现在前台。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Activity的生命周期和启动模式">
+<meta property="og:url" content="http://yoursite.com/2015/11/23/Activity的生命周期和启动模式/index.html">
+<meta property="og:site_name" content="高沛'blog">
+<meta property="og:description" content="一 、Activity的生命周期1.典型情况下：  
+onCreate() Activity正在被创建，可以做些初始化工作。
+onRestart() Activity正在重新启动，一般，当当前Activity从不可见重新可见时调用。
+onStart() Activity正在启动，Activity可见当时还没出现在前台，还无法与用户交互。
+onResume() Activity可见，并在出现在前台。">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201211/08/1352357481_8342.png">
+<meta property="og:updated_time" content="2017-02-26T03:50:09.379Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Activity的生命周期和启动模式">
+<meta name="twitter:description" content="一 、Activity的生命周期1.典型情况下：  
+onCreate() Activity正在被创建，可以做些初始化工作。
+onRestart() Activity正在重新启动，一般，当当前Activity从不可见重新可见时调用。
+onStart() Activity正在启动，Activity可见当时还没出现在前台，还无法与用户交互。
+onResume() Activity可见，并在出现在前台。">
+<meta name="twitter:image" content="http://img.my.csdn.net/uploads/201211/08/1352357481_8342.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/11/23/Activity的生命周期和启动模式/"/>
+
+
+
+
+
+  <title> Activity的生命周期和启动模式 | 高沛'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">高沛'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/23/Activity的生命周期和启动模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高沛">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="高沛'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Activity的生命周期和启动模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-23T17:04:36+08:00">
+                2015-11-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一-、Activity的生命周期"><a href="#一-、Activity的生命周期" class="headerlink" title="一 、Activity的生命周期"></a>一 、Activity的生命周期</h3><p><strong>1.典型情况下：</strong><br>  <img src="http://img.my.csdn.net/uploads/201211/08/1352357481_8342.png" alt=""></p>
+<p><code>onCreate()</code> Activity正在被创建，可以做些初始化工作。</p>
+<p><code>onRestart()</code> Activity正在重新启动，一般，当当前Activity从不可见重新可见时调用。</p>
+<p><code>onStart()</code> Activity正在启动，Activity可见当时还没出现在前台，还无法与用户交互。</p>
+<p><code>onResume()</code> Activity可见，并在出现在前台。</p>
+<p><code>onPause</code> 表示Activity正在停止，正常情况下，紧接着<code>onStop</code>会被调用，如果在这个时候快速回到原Activity，<code>onResume()</code> 将被调用。 此处鲁能进行太耗时的操作，将会影响新Activity的显示（<code>onPause()</code>执行完，新Activity的<code>onResume()</code>才会执行）。</p>
+<p><code>onStop()</code> Activity即将停止，不能太耗时。</p>
+<p><code>onDestroy()</code> Activity即将被销毁，可以进行最终的回收工作与资源释放。</p>
+<p><strong>注意</strong></p>
+<ul>
+<li>新Activity是透明主题时，旧Activity不会走onStop。</li>
+<li>Activity切换时，旧Activity的onPause会先执行，然后才会启动新的Activity。</li>
+<li><code>onStart()</code>和<code>onResume()</code>、<code>onPause()</code> 和<code>onStop()</code>的区别：这两个配对分别代表不同的意义，onStart与onStop是从Activity是否可见这个角度调用的，onResume和onPause是从Activity是否显示在前台这个角度来回调的，在实际使用没其他明显区别。</li>
+</ul>
+<p><strong>2.异常情况下：</strong><br>当Activity被异常终止时（如旋转屏幕），系统将调用onSavaInstanceState来保存状态。调用是在onStop之前，它与onPause没有时序关系。<br>当Activity被重新创建时，将调用onRestoreInstanceState（调用在onStop之后），并将onSavaInstanceState保存的Bundle对象作为参数传到onRestoreInstanceState与onCreate方法。我们可以在onRestoreInstanceState与onCreate方法中判断Activity是否被重建，并可以取出数据进行恢复。</p>
+<h3 id="二、Activity的启动模式"><a href="#二、Activity的启动模式" class="headerlink" title="二、Activity的启动模式"></a>二、Activity的启动模式</h3><ol>
+<li>standard:标准模式，默认模式。每次启动一个Activity就会创建一个新的实例。（使用ApplicationContext去启动standard模式Activity就会报错。因为sandard模式的Activity会默认进入启动它所属的任务栈，但是由于非Activity的Context没有所谓的任务栈 就出错了。）</li>
+<li>singleTop：栈顶复用模式。如果新Activity已经位于任务栈的栈顶，就不会重新创建，同时回调它的onNewIntent方法。</li>
+<li>singleTask：栈内复用模式。 单实例模式，只要Activity在一个任务栈中存在，那么就不会重新创建，系统将回调onNewIntent方法。如果不存在就会重新创建一个任务栈 并将A实例化后放入栈中。</li>
+<li>singleInstance：单实例模式。 具有此模式的Activity只能单独位于一个任务栈中。</li>
+</ol>
+<h3 id="三、IntentFilter的匹配规则"><a href="#三、IntentFilter的匹配规则" class="headerlink" title="三、IntentFilter的匹配规则"></a>三、IntentFilter的匹配规则</h3><pre><code>&lt;activity
+ android:name=&quot;com.gaop.MainActivity&quot;
+ android:configChanges=&quot;screenLayout&quot;//设置在某些情况下不重新创建Activity
+ android:lable=&quot;@string/app_name&quot;
+ android:launchMode=&quot;singleTask&quot;
+ android:taskAffinity=&quot;com.gaop.task1&quot;//设置任务栈
+ &lt;intent-filter&gt;
+  &lt;action android:name=&quot;com.gaop.c&quot;/&gt;  
+  &lt;action android:name=&quot;com.gaop.d&quot;/&gt;
+  &lt;category android:name=&quot;com.gaop.category.c&quot;/&gt;
+  &lt;category android:name=&quot;com.gaop.category.d&quot;/&gt;
+  &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;
+  &lt;data android:mimeType=&quot;text/plain&quot;/&gt;
+ &lt;/intent-filter&gt;
+&lt;/activity&gt;
+</code></pre><ol>
+<li>action匹配规则 要Intent中的action能够与过滤规则中的任何一个相同即可匹配成功，如果没有指定action，匹配失败。</li>
+<li>category匹配规则 Intent中一旦出现category就必须每个category与过滤规则中的其中一个相同，Intent中没有category也会匹配成功。</li>
+<li>data的匹配规则 data由mimeType（媒体类型，如 image/jpeg ）与URL组成。  规则中只有mimeType时，Intent必须是指定的mimeType。  有多组data规则时，匹配其中一组即可。</li>
+</ol>
+<p>采用隐式方式启动Activity时，可以用PackageManager的resolveActivity方法或者Intent的resolveActivity方法判断是否有Activity匹配我们的隐式Intent。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/23/Git/" rel="next" title="Git笔记">
+                <i class="fa fa-chevron-left"></i> Git笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/12/Volley源码解析/" rel="prev" title="Volley源码解析">
+                Volley源码解析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="高沛" />
+          <p class="site-author-name" itemprop="name">高沛</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-、Activity的生命周期"><span class="nav-number">1.</span> <span class="nav-text">一 、Activity的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、Activity的启动模式"><span class="nav-number">2.</span> <span class="nav-text">二、Activity的启动模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、IntentFilter的匹配规则"><span class="nav-number">3.</span> <span class="nav-text">三、IntentFilter的匹配规则</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高沛</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

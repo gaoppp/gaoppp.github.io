@@ -1,0 +1,726 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="一、简介　　App Widget是应用程序窗口小部件（Widget）是微型的应用程序视图，它可以被嵌入到其它应用程序中（比如桌面）并接收周期性的更新。你可以通过一个App Widget Provider来发布一个Widget。　　小部件通过AppWidgetProvide来实现，AppWidgetProvide本质上是一个广播，在小部件的开发过程中会用到RemoteViews,因为小部件在更新界面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android桌面小部件与RemoteViews">
+<meta property="og:url" content="http://yoursite.com/2016/11/14/Android桌面小部件与RemoteViews/index.html">
+<meta property="og:site_name" content="高沛'blog">
+<meta property="og:description" content="一、简介　　App Widget是应用程序窗口小部件（Widget）是微型的应用程序视图，它可以被嵌入到其它应用程序中（比如桌面）并接收周期性的更新。你可以通过一个App Widget Provider来发布一个Widget。　　小部件通过AppWidgetProvide来实现，AppWidgetProvide本质上是一个广播，在小部件的开发过程中会用到RemoteViews,因为小部件在更新界面">
+<meta property="og:updated_time" content="2017-02-26T03:49:43.551Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android桌面小部件与RemoteViews">
+<meta name="twitter:description" content="一、简介　　App Widget是应用程序窗口小部件（Widget）是微型的应用程序视图，它可以被嵌入到其它应用程序中（比如桌面）并接收周期性的更新。你可以通过一个App Widget Provider来发布一个Widget。　　小部件通过AppWidgetProvide来实现，AppWidgetProvide本质上是一个广播，在小部件的开发过程中会用到RemoteViews,因为小部件在更新界面">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/14/Android桌面小部件与RemoteViews/"/>
+
+
+
+
+
+  <title> Android桌面小部件与RemoteViews | 高沛'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">高沛'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/14/Android桌面小部件与RemoteViews/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高沛">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="高沛'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android桌面小部件与RemoteViews
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-14T20:44:20+08:00">
+                2016-11-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>　　App Widget是应用程序窗口小部件（Widget）是微型的应用程序视图，它可以被嵌入到其它应用程序中（比如桌面）并接收周期性的更新。你可以通过一个App Widget Provider来发布一个Widget。<br>　　小部件通过AppWidgetProvide来实现，AppWidgetProvide本质上是一个广播，在小部件的开发过程中会用到RemoteViews,因为小部件在更新界面时无法像在Activity中直接更新View，这是因为它的界面运行在其他进程中，确切来说是在系统的SystemServer进程中。为了跨进程更新界面，RemoteViews中提供一系列的set方法，并且这些方法只是View全部方法的子集，而且它支持的View类型也是有限的。</p>
+<h3 id="二、使用小部件"><a href="#二、使用小部件" class="headerlink" title="二、使用小部件"></a>二、使用小部件</h3><h4 id="1-定义小部件界面"><a href="#1-定义小部件界面" class="headerlink" title="1.定义小部件界面"></a>1.定义小部件界面</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">    android:layout_width=&quot;match_parent&quot;</div><div class="line">    android:layout_height=&quot;wrap_content&quot;</div><div class="line">    android:orientation=&quot;vertical&quot;</div><div class="line">    &gt;</div><div class="line"> &lt;TextView</div><div class="line">    android:id=&quot;@+id/tv_widget_content&quot;</div><div class="line">    android:layout_width=&quot;wrap_content&quot;</div><div class="line">    android:layout_height=&quot;wrap_content&quot;</div><div class="line">    android:text=&quot;点击更换内容&quot;</div><div class="line">    android:textSize=&quot;16sp&quot;</div><div class="line">   &gt;</div><div class="line">  &lt;Button</div><div class="line">    android:id=&quot;@+id/btn_widget_openactivityt&quot;</div><div class="line">    android:layout_width=&quot;wrap_content&quot;</div><div class="line">    android:layout_height=&quot;wrap_content&quot;</div><div class="line">    android:text=&quot;点击打开MainActivity&quot;</div><div class="line">    android:textSize=&quot;16sp&quot;</div><div class="line">   &gt;</div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure>
+<h4 id="2-定义小部件配置信息"><a href="#2-定义小部件配置信息" class="headerlink" title="2.定义小部件配置信息"></a>2.定义小部件配置信息</h4><p>在res/xml/下新建一个appwidget_provide_info.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;appwidget-provider xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">    android:initialLayout=&quot;@layout/widget&quot;</div><div class="line">    android:minHeight=&quot;84dp&quot;</div><div class="line">    android:minWidth=&quot;84dp&quot;</div><div class="line">    android:updatePeriodMillis=&quot;86400000&quot;</div><div class="line">   &gt;</div><div class="line">&lt;/appwidget-provider&gt;</div></pre></td></tr></table></figure></p>
+<p>其中initialLayout－初始化布局，updatePeriodMillis－自动更新周期。</p>
+<h4 id="3-定义小部件的实现类"><a href="#3-定义小部件的实现类" class="headerlink" title="3.定义小部件的实现类"></a>3.定义小部件的实现类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line">public class MyWidgetProvider extends AppWidgetProvider &#123;</div><div class="line"></div><div class="line">    public static final String TAG = &quot;MyWidgetProvider&quot;;</div><div class="line"></div><div class="line">    public static final String CLICK_ACTION = &quot;com.gaop.HutHelper.action_click&quot;;</div><div class="line"></div><div class="line">   @Override</div><div class="line">    public void onReceive(Context context, Intent intent) &#123;</div><div class="line">        super.onReceive(context, intent);//不可去掉</div><div class="line">        if(intent.getAction().equals(CLICK_ACTION))&#123;</div><div class="line">        RemoteViews remoteviews = new RemoteViews(context.getPackageName(), R.layout.widget);</div><div class="line">        remoteviews.setTextViewText(R.id.tv_widget_content, &quot;已点击&quot;);</div><div class="line">        </div><div class="line">        //获得appwidget管理实例，用于管理appwidget以便进行更新操作</div><div class="line">        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);</div><div class="line">        //相当于获得所有本程序创建的appwidget</div><div class="line">        ComponentName componentName = new ComponentName(context, MyWidgetProvider.class);</div><div class="line">        //更新appwidget</div><div class="line">        appWidgetManager.updateAppWidget(componentName, remoteviews);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) &#123;</div><div class="line">        final int counter = appWidgetIds.length;</div><div class="line">        for (int i = 0; i &lt; counter; i++) &#123;</div><div class="line">            int appWidgetId = appWidgetIds[i];</div><div class="line">            onWidgetUpdate(context, appWidgetManager, appWidgetId);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onEnabled(Context context) &#123;</div><div class="line">        // Enter relevant functionality for when the first widget is created</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onDisabled(Context context) &#123;</div><div class="line">        // Enter relevant functionality for when the last widget is disabled</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void onWidgetUpdate(Context context, AppWidgetManager appWidgetManager, int appWidgetId) &#123;</div><div class="line"></div><div class="line">        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);</div><div class="line">     </div><div class="line">        Intent intent = new Intent(context, MyWidgetProvider.class);</div><div class="line">        intent.setAction(CLICK_ACTION);</div><div class="line">        PendingIntent pendingIntentpre = PendingIntent.getBroadcast(context, 0, intent, 0);</div><div class="line">        //打开MainActivity</div><div class="line">        Intent intent2 = new Intent(context,MainActivity.class);</div><div class="line">        PendingIntent pendingIntent2 = PendingIntent.getActivity(context, 0, intent2, 0);</div><div class="line">        remoteViews.setOnClickPendingIntent(R.id.btn_widget_openactivity, pendingIntent2);</div><div class="line">        </div><div class="line">        appWidgetManager.updateAppWidget(appWidgetId, remoteViews);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面实现了一个特别简单的小部件，点击TextView更换内容，点击Button打开MainActiviy。当小部件添加到桌面时，会通过RemoteViews来加载布局文件，点击更换效果则是通过不断更新RemoteViews来实现的。</p>
+<h4 id="4-在AndroidManifest-xml中声明小部件"><a href="#4-在AndroidManifest-xml中声明小部件" class="headerlink" title="4.在AndroidManifest.xml中声明小部件"></a>4.在AndroidManifest.xml中声明小部件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;receiver android:name=&quot;.view.CourseWidget&quot;&gt;</div><div class="line">           &lt;intent-filter&gt;</div><div class="line">               &lt;action android:name=&quot;android.appwidget.action.APPWIDGET_UPDATE&quot; /&gt;</div><div class="line">           &lt;/intent-filter&gt;</div><div class="line">           &lt;meta-data</div><div class="line">               android:name=&quot;android.appwidget.provider&quot;</div><div class="line">               android:resource=&quot;@xml/appwidget_provider_info&quot; /&gt;</div><div class="line"> &lt;/receiver&gt;</div></pre></td></tr></table></figure>
+<p>当然这是一个特简单的例子，具体开发会复杂很多。</p>
+<h3 id="三、小部件常用方法"><a href="#三、小部件常用方法" class="headerlink" title="三、小部件常用方法"></a>三、小部件常用方法</h3><p>AppWidgetProvider除了最常用的onUpdate方法，还有onEnable、onDisabled、onDeleted、onReceive。它们都自动的在合适的时间调用（其实就是onReceive方法中的super()所做的：AppWidgetProvider会自动的根据广播的Action通过onReceive方法分发广播）。以下为调用时机：</p>
+<ul>
+<li>onEnable:小部件第一次添加到桌面时调用，添加多次也只会调用一次。</li>
+<li>onUpdate：小部件被添加到桌面或者更新时就会调用一次该方法。</li>
+<li>onDelete：每删除一个小部件，调用一次。</li>
+<li>onDisabled：当最后一个小部件被删除时调用。</li>
+<li>onReceive：广播的内置方法，用于分发具体事件。</li>
+</ul>
+<p>以下为onReceive方法的分发过程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line">public void More ...onReceive(Context context, Intent intent) &#123;</div><div class="line">         // Protect against rogue update broadcasts (not really a security issue,</div><div class="line">         // just filter bad broacasts out so subclasses are less likely to crash).</div><div class="line">         String action = intent.getAction();</div><div class="line">         if (AppWidgetManager.ACTION_APPWIDGET_UPDATE.equals(action)) &#123;</div><div class="line">             Bundle extras = intent.getExtras();</div><div class="line">             if (extras != null) &#123;</div><div class="line">                 int[] appWidgetIds = extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS);</div><div class="line">                 if (appWidgetIds != null &amp;&amp; appWidgetIds.length &gt; 0) &#123;</div><div class="line">                     this.onUpdate(context, AppWidgetManager.getInstance(context), appWidgetIds);</div><div class="line">                 &#125;</div><div class="line">             &#125;</div><div class="line">         &#125; else if (AppWidgetManager.ACTION_APPWIDGET_DELETED.equals(action)) &#123;</div><div class="line">             Bundle extras = intent.getExtras();</div><div class="line">             if (extras != null &amp;&amp; extras.containsKey(AppWidgetManager.EXTRA_APPWIDGET_ID)) &#123;</div><div class="line">                 final int appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);</div><div class="line">                 this.onDeleted(context, new int[] &#123; appWidgetId &#125;);</div><div class="line">             &#125;</div><div class="line">         &#125; else if (AppWidgetManager.ACTION_APPWIDGET_OPTIONS_CHANGED.equals(action)) &#123;</div><div class="line">             Bundle extras = intent.getExtras();</div><div class="line">             if (extras != null &amp;&amp; extras.containsKey(AppWidgetManager.EXTRA_APPWIDGET_ID)</div><div class="line">                     &amp;&amp; extras.containsKey(AppWidgetManager.EXTRA_APPWIDGET_OPTIONS)) &#123;</div><div class="line">                 int appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);</div><div class="line">                 Bundle widgetExtras = extras.getBundle(AppWidgetManager.EXTRA_APPWIDGET_OPTIONS);</div><div class="line">                 this.onAppWidgetOptionsChanged(context, AppWidgetManager.getInstance(context),</div><div class="line">                         appWidgetId, widgetExtras);</div><div class="line">             &#125;</div><div class="line">         &#125; else if (AppWidgetManager.ACTION_APPWIDGET_ENABLED.equals(action)) &#123;</div><div class="line">             this.onEnabled(context);</div><div class="line">         &#125; else if (AppWidgetManager.ACTION_APPWIDGET_DISABLED.equals(action)) &#123;</div><div class="line">             this.onDisabled(context);</div><div class="line">         &#125; else if (AppWidgetManager.ACTION_APPWIDGET_RESTORED.equals(action)) &#123;</div><div class="line">             Bundle extras = intent.getExtras();</div><div class="line">             if (extras != null) &#123;</div><div class="line">                 int[] oldIds = extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_OLD_IDS);</div><div class="line">                 int[] newIds = extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS);</div><div class="line">                 if (oldIds != null &amp;&amp; oldIds.length &gt; 0) &#123;</div><div class="line">                     this.onRestored(context, oldIds, newIds);</div><div class="line">                     this.onUpdate(context, AppWidgetManager.getInstance(context), newIds);</div><div class="line">                 &#125;</div><div class="line">             &#125;</div><div class="line">         &#125;</div><div class="line">     &#125;</div></pre></td></tr></table></figure>
+<h3 id="四、PendingIntent"><a href="#四、PendingIntent" class="headerlink" title="四、PendingIntent"></a>四、PendingIntent</h3><p>上面的例子中使用到PendingIntent，这其实是一种等待（pending）状态的intent,就是intent将在接下来的某个待定时间发生，而Intent是立即发生。<br>给RemoteViews添加点击事件就是一个典型的使用场景，因为RemoteViews无法直接向View那个通过setOnClickListener来设置点击事件，PendingIntent通过send和cancel来发送、取消待定的Intent。<br>它支持三种特定的意图：</p>
+<ol>
+<li>getActivity(Context context,int requestCode,Intent intent,int flags) 获取一个PendingIntent，发生时效果相当于startActivity(Intent intent).</li>
+<li>getService(Context context,int requestCode,Intent intent,int flags) 获取一个PendingIntent，发生时效果相当于startService(Intent intent).</li>
+<li>getBroadcast(Context context,int requestCode,Intent intent,int flags) 获取一个PendingIntent，发生时效果相当于sendBroadcast(Intent intent).</li>
+</ol>
+<p>其中requestCode为发送方的请求码，一般设为0，同时它也会影响flags的效果。flags常见的类型有：</p>
+<ol>
+<li>FLAG_ONE_SHOT:当前PendingIntent只能被使用一次，然后就被cancel，如果后续有相同的PendingInent，它们的send方法都会调用失败。</li>
+<li>FLAG_NO_CREATE:当前PendingIntent不会主动创建，如果当前PendingIntent之前不存在，那么get××()方法直接返回null。</li>
+<li>FLAG_CANCEL_CURRENT:当前PendingIntent如果不存在，那么它们都会被cancel，然后系统会构建一个新的PendingIntent。</li>
+<li>FLAG_UPDATE_CURRENT:如果当前PendingIntent存在，那么它会被更新。</li>
+</ol>
+<p>然后再说下PendingIntent的匹配规则：如果两个PendingIntent的Intent相同而且requestCode也相同，那么两个PendingIntent就是相同的。其中Intent的匹配规则为：如果两个Intent的ComponentName和intent-filter都相同，则它们相同。</p>
+<h3 id="五、RemoteViews的内部机制"><a href="#五、RemoteViews的内部机制" class="headerlink" title="五、RemoteViews的内部机制"></a>五、RemoteViews的内部机制</h3><p>首先看一下RemoteViews的构造方法： public(String packagename，int layoutid);<br>其中Remoteviews并不支持全部Layout和View，只支持以下：<br>layout：<br>FrameLayout  LinearLayout  RelativeLayout  GridLayout<br>View：<br>AnalogClock button Chronometer ImageButton ImageView ProgressBar TextView ViewFlipper ListView GridView StackView AdapterViewFilpper ViewStub</p>
+<p>由于RemoteViews没有findViewById的方法  因为它是远程的View即使findViewById我们也不知道远程app的资源文件,它提供了一系列的set方法（例如 setTextViewText，setImageViewResource）来设置内容。</p>
+<p>接下来要说的是RemoteViews的工作过程，在小部件中AppWidgetManager是通过Binder与在SystemServer进程中的AppWidgetService通信。可见，小部件的布局文件实际是在SystemServer中加载的。<br>首先RemoteViews（实现了Parcelable接口）通过Binder传递到SystemServer进程，系统根据RemoteViews中的包名等信息获取该应用的资源。然后通过LayoutInflater加载RemoteViews中的布局文件。接着系统会根据通过我们的set方法提交的内容来更新View，这样小部件就可以使用了。<br>下面再说一下更新View的具体实现：Android这里提供了一个Action的概念，Action代表一个View操作，同样，它也实现了Parcealable接口，在RemoteViews中有一个mActions的ArrayList对象，每调用一次set方法，RemoteViews就会创建相应的Action添加到mActions中，然后通过Binder将包含mActions的RemoteViews传递到SystemServer进程中。接着调用RemoteViews的apply方法来更新View，这个方法将遍历每个Action并调用它们的apply方法，根据Action的不同来更新不同View的内容。下面根据setTextViewText方法的源码分析下整个流程：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public void setTextViewText(int viewId, CharSequence text) &#123;</div><div class="line">        setCharSequence(viewId, &quot;setText&quot;, text);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public void setCharSequence(int viewId, String methodName, CharSequence value) &#123;</div><div class="line">        //ReflectionAction为一个通用Acton，通过反射调用得到具体的Method对象</div><div class="line">        addAction(new ReflectionAction(viewId, methodName, ReflectionAction.CHAR_SEQUENCE, value));</div><div class="line">        </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">private void addAction(Action a) &#123;</div><div class="line">        if (hasLandscapeAndPortraitLayouts()) &#123;</div><div class="line">            throw new RuntimeException(&quot;RemoteViews specifying separate landscape and portrait&quot; +</div><div class="line">                    &quot; layouts cannot be modified. Instead, fully configure the landscape and&quot; +</div><div class="line">                    &quot; portrait layouts individually before constructing the combined layout.&quot;);</div><div class="line">        &#125;</div><div class="line">        if (mActions == null) &#123;</div><div class="line">            mActions = new ArrayList&lt;Action&gt;();</div><div class="line">        &#125;</div><div class="line">        mActions.add(a);</div><div class="line"></div><div class="line">        // update the memory usage stats</div><div class="line">        a.updateMemoryUsageEstimate(mMemoryUsageCounter);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public View apply(Context context, ViewGroup parent, OnClickHandler handler) &#123;</div><div class="line">        RemoteViews rvToApply = getRemoteViewsToApply(context);</div><div class="line"></div><div class="line">        View result = inflateView(context, rvToApply, parent);</div><div class="line">        loadTransitionOverride(context, handler);</div><div class="line"></div><div class="line">        rvToApply.performApply(result, parent, handler);</div><div class="line"></div><div class="line">        return result;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">private View inflateView(Context context, RemoteViews rv, ViewGroup parent) &#123;</div><div class="line">        // RemoteViews may be built by an application installed in another</div><div class="line">        // user. So build a context that loads resources from that user but</div><div class="line">        // still returns the current users userId so settings like data / time formats</div><div class="line">        // are loaded without requiring cross user persmissions.</div><div class="line">        final Context contextForResources = getContextForResources(context);</div><div class="line">        Context inflationContext = new ContextWrapper(context) &#123;</div><div class="line">            @Override</div><div class="line">            public Resources getResources() &#123;</div><div class="line">                return contextForResources.getResources();</div><div class="line">            &#125;</div><div class="line">            @Override</div><div class="line">            public Resources.Theme getTheme() &#123;</div><div class="line">                return contextForResources.getTheme();</div><div class="line">            &#125;</div><div class="line">            @Override</div><div class="line">            public String getPackageName() &#123;</div><div class="line">                return contextForResources.getPackageName();</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">        LayoutInflater inflater = (LayoutInflater)</div><div class="line">                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);</div><div class="line"></div><div class="line">        // Clone inflater so we load resources from correct context and</div><div class="line">        // we don&apos;t add a filter to the static version returned by getSystemService.</div><div class="line">        inflater = inflater.cloneInContext(inflationContext);</div><div class="line">        inflater.setFilter(this);</div><div class="line">        return inflater.inflate(rv.getLayoutId(), parent, false);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">private void performApply(View v, ViewGroup parent, OnClickHandler handler) &#123;</div><div class="line">        if (mActions != null) &#123;</div><div class="line">            handler = handler == null ? DEFAULT_ON_CLICK_HANDLER : handler;</div><div class="line">            final int count = mActions.size();</div><div class="line">            for (int i = 0; i &lt; count; i++) &#123;</div><div class="line">                Action a = mActions.get(i);</div><div class="line">                a.apply(v, parent, handler);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/02/Android ImageView自适应属性/" rel="next" title="Android ImageView图片自适应">
+                <i class="fa fa-chevron-left"></i> Android ImageView图片自适应
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/12/Android中的Window与WindowManager/" rel="prev" title="Android中的Window与WindowManager">
+                Android中的Window与WindowManager <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="高沛" />
+          <p class="site-author-name" itemprop="name">高沛</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、简介"><span class="nav-number">1.</span> <span class="nav-text">一、简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、使用小部件"><span class="nav-number">2.</span> <span class="nav-text">二、使用小部件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-定义小部件界面"><span class="nav-number">2.1.</span> <span class="nav-text">1.定义小部件界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-定义小部件配置信息"><span class="nav-number">2.2.</span> <span class="nav-text">2.定义小部件配置信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-定义小部件的实现类"><span class="nav-number">2.3.</span> <span class="nav-text">3.定义小部件的实现类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-在AndroidManifest-xml中声明小部件"><span class="nav-number">2.4.</span> <span class="nav-text">4.在AndroidManifest.xml中声明小部件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、小部件常用方法"><span class="nav-number">3.</span> <span class="nav-text">三、小部件常用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、PendingIntent"><span class="nav-number">4.</span> <span class="nav-text">四、PendingIntent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、RemoteViews的内部机制"><span class="nav-number">5.</span> <span class="nav-text">五、RemoteViews的内部机制</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高沛</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

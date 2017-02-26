@@ -1,0 +1,872 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="RxJava–简洁的异步
+观察者模式RxJava使用的是观察者模式，即采用注册或订阅方式，在被观察者发生变化时通知观察者，我们经常看到的是点击监听–View设置OnClickListener，在这里View是被观察者，OnClickListener是观察者，当View被点击时，Android FrameWork会将点击事件发送给已经注册的OnClickLinstener，观察者模式相对于反复检索状">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxJava学习笔记">
+<meta property="og:url" content="http://yoursite.com/2016/08/14/RxJava/index.html">
+<meta property="og:site_name" content="高沛'blog">
+<meta property="og:description" content="RxJava–简洁的异步
+观察者模式RxJava使用的是观察者模式，即采用注册或订阅方式，在被观察者发生变化时通知观察者，我们经常看到的是点击监听–View设置OnClickListener，在这里View是被观察者，OnClickListener是观察者，当View被点击时，Android FrameWork会将点击事件发送给已经注册的OnClickLinstener，观察者模式相对于反复检索状">
+<meta property="og:updated_time" content="2017-02-26T03:55:29.734Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RxJava学习笔记">
+<meta name="twitter:description" content="RxJava–简洁的异步
+观察者模式RxJava使用的是观察者模式，即采用注册或订阅方式，在被观察者发生变化时通知观察者，我们经常看到的是点击监听–View设置OnClickListener，在这里View是被观察者，OnClickListener是观察者，当View被点击时，Android FrameWork会将点击事件发送给已经注册的OnClickLinstener，观察者模式相对于反复检索状">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/08/14/RxJava/"/>
+
+
+
+
+
+  <title> RxJava学习笔记 | 高沛'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">高沛'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/14/RxJava/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高沛">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="高沛'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                RxJava学习笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-14T23:06:33+08:00">
+                2016-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="RxJava–简洁的异步"><a href="#RxJava–简洁的异步" class="headerlink" title="RxJava–简洁的异步"></a>RxJava–简洁的异步</h3><hr>
+<h3 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h3><p>RxJava使用的是观察者模式，即采用注册或订阅方式，在被观察者发生变化时通知观察者，我们经常看到的是点击监听–View设置OnClickListener，在这里View是被观察者，OnClickListener是观察者，当View被点击时，Android FrameWork会将点击事件发送给已经注册的OnClickLinstener，观察者模式相对于反复检索状态的方式更加节省资源消耗，速度也更快。</p>
+<h3 id="RXJava的组成结构"><a href="#RXJava的组成结构" class="headerlink" title="RXJava的组成结构"></a>RXJava的组成结构</h3><p>RxJava有被观察者-Observable，观察者-Observer，以及订阅-subscribe，事件这四个基本概念。 Observable与Observer通过subscribe方法实现订阅，当Observable在特定的时候发出事件通知Observer。</p>
+<h4 id="1-Observer-观察者"><a href="#1-Observer-观察者" class="headerlink" title="1.Observer-观察者"></a>1.Observer-观察者</h4><p>RxJava中可以通过实现Observer接口和实现Observer得抽象类-Subscribe两种方式实现：</p>
+<pre><code>Observer&lt;String&gt; observer = new Observer&lt;String&gt;() {
+@Override
+public void onNext(String s) {   
+}
+
+@Override
+public void onCompleted() {    
+}
+
+@Override
+public void onError(Throwable e) {
+}
+};
+</code></pre><p>或者</p>
+<pre><code>Subscriber&lt;String&gt; subscriber = new Subscriber&lt;String&gt;() {
+@Override
+public void onNext(String s) {
+Log.d(tag, &quot;Item: &quot; + s);
+}
+
+@Override
+public void onCompleted() {
+Log.d(tag, &quot;Completed!&quot;);
+}
+
+@Override
+public void onError(Throwable e) {
+Log.d(tag, &quot;Error!&quot;);
+}
+};
+</code></pre><p>可以看出相对传统观察者模式，RxJava中回调方法有<code>onNext()</code> <code>onCompleted()</code> <code>onError()</code></p>
+<ul>
+<li><code>onNext()</code>普通执行方法，相当于<code>onClick()</code></li>
+<li><code>onCompleted()</code>事件队列完结</li>
+<li><code>onError()</code> 事件队列异常</li>
+</ul>
+<p>在一个正确运行的事件序列中, onCompleted() 和 onError() 有且只有一个，并且是事件序列中的最后一个。而且，onCompleted() 和 onError() 二者也是互斥的，即在队列中调用了其中一个，就不应该再调用另一个。</p>
+<p>上面的两种实现方法实质上，在 RxJava 的 subscribe 过程中，Observer 也总是会先被转换成一个 Subscriber 再使用。但是两种方法也有一些不同：</p>
+<ul>
+<li>在Subscriber中增加了<code>onStart()</code>方法，它会在subscribe开始而且事件没有发送以前就被调用，可以用于开始准备，它是在subscribe发生的线程被调用，所以一些需要指定线程的准备工作就不能用它了。</li>
+<li>Subscribe中还有一个unsubcribe方法，用于取消订阅，调用后，Subscriber将不再接收事件，在subscribe()后Observable会一直持有Subscriber的引用，如不及时释放将有可能导致内存泄漏，所以使用这个方法将避免内存泄漏的发生。一般在调用前使用isUnsubscribed()方法检查状态。</li>
+</ul>
+<h4 id="2-Observable–被观察者"><a href="#2-Observable–被观察者" class="headerlink" title="2.Observable–被观察者"></a>2.Observable–被观察者</h4><p>RxJava中使用create()方法来创建Observable，并为它定义事件触发规则</p>
+<pre><code>Observable observable = Observable.create(new Observable.OnSubscribe&lt;String&gt;() {
+@Override
+public void call(Subscriber&lt;? super String&gt; subscriber) {
+subscriber.onNext(&quot;Hello&quot;);
+subscriber.onNext(&quot;World&quot;);
+subscriber.onCompleted();
+}
+});
+</code></pre><p>可以看出，call()方法中传入一个OnSubscribe对象作为参数，当 Observable 被订阅的时候，OnSubscribe 的 call() 方法会自动被调用，事件序列就会依照设定依次触发（这里是观察者Subscriber 将会被调用两次 onNext() 和一次 onCompleted()）。</p>
+<p>除了create()方法还有一些方法用于快捷创建事件队列：</p>
+<ul>
+<li><p>just(T..)  –看完下面的小例子就懂了 </p>
+<pre><code>Observable observable = Observable.just(&quot;Hello&quot;, &quot;World&quot;);
+</code></pre><p>  // 将会依次调用：<br>  // onNext(“Hello”);<br>  // onNext(“World”);<br>  // onCompleted();</p>
+</li>
+<li><p>from(T[]) 或from(Iterable&lt;? extends </p>
+<p>  String[] words = {“Hello”, “World”};<br>  Observable observable = Observable.from(words);<br>  // 将会依次调用：<br>  // onNext(“Hello”);<br>  // onNext(“World”);<br>  // onCompleted(); </p>
+</li>
+</ul>
+<h4 id="3-Subscribe–订阅"><a href="#3-Subscribe–订阅" class="headerlink" title="3.Subscribe–订阅"></a>3.Subscribe–订阅</h4><p>使用subscribe()就可以将Observable和Observer链接起来了。</p>
+<pre><code>observable.subscribe(observer);
+// 或
+observable.subscribe(subscriber);
+</code></pre><p>订阅或将调用onStart()方法,之后调用Observable（被观察者）的call方法，可以看出Observable是在订阅的时候发送事件，而不是在创建的时候发送。<br>同时，subscribe()还可以使用不完全定义的回调，小例子：</p>
+<pre><code>Action1&lt;String&gt; onNextAction = new Action1&lt;String&gt;() {
+// onNext()
+@Override
+public void call(String s) {
+}
+};
+Action1&lt;Throwable&gt; onErrorAction = new Action1&lt;Throwable&gt;() {
+// onError()
+@Override
+public void call(Throwable throwable) {
+}
+};
+Action0 onCompletedAction = new Action0() {
+// onCompleted()
+@Override
+public void call() {
+}
+};
+
+// 自动创建 Subscriber ，并使用 onNextAction 来定义 onNext()
+observable.subscribe(onNextAction);
+// 自动创建 Subscriber ，并使用 onNextAction 和 onErrorAction 来定义 onNext() 和 onError()
+observable.subscribe(onNextAction, onErrorAction);
+// 自动创建 Subscriber ，并使用 onNextAction、 onErrorAction 和 onCompletedAction 来定义 onNext()、 onError() 和 onCompleted()
+observable.subscribe(onNextAction, onErrorAction, onCompletedAction);
+</code></pre><blockquote>
+<p>上面的Action1与Action0都是RxJava的接口，只有一个有1/0个参数无返回值的call()方法。</p>
+</blockquote>
+<h3 id="线程控制"><a href="#线程控制" class="headerlink" title="线程控制"></a>线程控制</h3><p>RaJava用于实现异步，当然得说它的线程控制咯。</p>
+<p>在上面讲的内容中都是不指定线程，RxJava遵循：在哪个线程调用subscribe()方法就在那个线程生成，消费事件。需要切换线程就要用到Scheduler了。</p>
+<p>Scheduler–调度器 RxJava通过它来指定代码的运行线程，RxJava中内置了以下几个Scheduler：</p>
+<ul>
+<li>Schedulers.immediate()  在当前线程运行，默认Schedulers</li>
+<li>Schedulers.newThread() 启用新线程，并在新线程中执行</li>
+<li>Schedulers.io()  I/O操作所使用的线程（读写文件，数据库，网络）它的行为模式和 newThread() 差不多，区别在于 io() 的内部实现是是用一个无数量上限的线程池，可以重用空闲的线程，因此多数情况下 io() 比 newThread() 更有效率。不要把计算工作放在 io() 中，可以避免创建不必要的线程。</li>
+<li>Schedulers.computation() 计算所使用的Schedulers.这个计算指的是 CPU 密集型计算，即不会被 I/O 等操作限制性能的操作，例如图形的计算。这个 Scheduler 使用的固定的线程池，大小为 CPU 核数。不要把 I/O 操作放在 computation() 中，否则 I/O 操作的等待时间会浪费 CPU。</li>
+<li>Android中专用的AndroidSchedulers.mainThread() 在主线程运行</li>
+</ul>
+<p>接下来，就可以用subscribeOn()与observeOn()两个方法对线程进行控制了， subscribeOn():subscribe()所发生的线程，即Observable.OnSubscribe被激活的线程。 （内容创建所在的线程） observeOn():指定Subcriber所运行的线程。（内容消费，Next（）执行所在线程） </p>
+<pre><code>Observable.just(1, 2, 3, 4)
+.subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 IO 线程
+.observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
+.subscribe(new Action1&lt;Integer&gt;() {
+@Override
+public void call(Integer number) {
+Log.d(tag, &quot;number:&quot; + number);
+}
+});
+</code></pre><p>这里事件创立是在io线程，而打印数字在主线程。</p>
+<p><strong>doOnSubscribe()</strong><br>这个方法可以解决上面讲的Subscriber的onStart()无法指定线程的问题，Observable.doOnSubscribe() 和 Subscriber.onStart() 同样是在 subscribe() 调用后而且在事件发送前执行，但区别在于它可以指定线程。默认情况下， doOnSubscribe() 执行在 subscribe() 发生的线程；而如果在 doOnSubscribe() 之后有 subscribeOn() 的话，它将执行在离它最近的 subscribeOn() 所指定的线程。</p>
+<pre><code>Observable.create(onSubscribe)
+.subscribeOn(Schedulers.io())
+.doOnSubscribe(new Action0() {
+@Override
+public void call() {
+progressBar.setVisibility(View.VISIBLE); // 需要在主线程执行
+}
+})
+.subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程
+.observeOn(AndroidSchedulers.mainThread())
+.subscribe(subscriber);
+</code></pre><h3 id="变换–RxJava厉害之处"><a href="#变换–RxJava厉害之处" class="headerlink" title="变换–RxJava厉害之处"></a>变换–RxJava厉害之处</h3><p>变换–将事件序列中的对象或整个序列进行加工处理，处理成不同的事件或者事件序列。</p>
+<p><strong>map()</strong></p>
+<p>小例子</p>
+<pre><code>Observable.just(&quot;images/logo.png&quot;) // 输入类型 String
+.map(new Func1&lt;String, Bitmap&gt;() {
+@Override
+public Bitmap call(String filePath) { // 参数类型 String
+return getBitmapFromPath(filePath); // 返回类型 Bitmap
+}
+})
+.subscribe(new Action1&lt;Bitmap&gt;() {
+@Override
+public void call(Bitmap bitmap) { // 参数类型 Bitmap
+showBitmap(bitmap);
+}
+});
+</code></pre><p>这里的Func1也是RxJava的一个接口，用于包装有一个参数的方法。Func1是有返回值的，这与Action1()不同。</p>
+<p>这里的map()方法就是将String 对象转换成一个Bitmap对象，返回Bitmap对象。</p>
+<p><strong>flatMap()</strong></p>
+<p>这个与map()一样是用来将传入的参数转变成另一个对象，但是与map()不同，flatMap()返回的是一个Observable对象，其原理是这样的：1. 使用传入的事件对象创建一个 Observable 对象 2. 并不发送这个 Observable, 而是将它激活，于是它开始发送事件；3. 每一个创建出来的 Observable 发送的事件，都被汇入同一个 Observable ，而这个 Observable 负责将这些事件统一交给 Subscriber 的回调方法。这三个步骤，把事件拆成了两级，通过一组新创建的 Observable 将初始的对象『铺平』之后通过统一路径分发了下去。而这个『铺平』就是 flatMap() 所谓的 flat。</p>
+<pre><code>Item[] itemss = ...;
+Subscriber&lt;Bitmap&gt; subscriber = new Subscriber&lt;Bitmap&gt;() {
+@Override
+public void onNext(Bitmap bitmap) {
+//处理bitmap
+}
+...
+};
+Observable.from(items)
+.flatMap(new Func1&lt;Item, Observable&lt;Bitmap&gt;&gt;() {
+@Override
+public Observable&lt;Bitmap&gt; call(Item item) {
+return Observable.from(student.getbitmaps());
+}
+})
+.subscribe(subscriber);
+</code></pre><p>这个小例子就是一开始利用传入Item对象创建一个Observable，然后发送事件(这里的bitmap),之后传入的Item对象一样，他们所发送的事件再统一传到一个Observable对象，之后这个Observable再交给Subscriber的回调方法next()中执行操作。</p>
+<p><strong>变换原理</strong></p>
+<p>变换就是将事件序列处理后再次发送，它们都是基于一个最基本的方法 lift(Operator)。</p>
+<p>在 Observable 执行了 lift(Operator) 方法之后，会返回一个新的 Observable，这个新的 Observable 会像一个代理一样，负责接收原始的 Observable 发出的事件，并在处理后发送给 Subscriber。这就有点像Android中的事件拦截机制了~</p>
+<p>###线程控制原理</p>
+<p>在了解变换原理后，我们应该可以想到变换将会执行不同的Observable，那么就可以对变换后的Observable更换线程呀。（ subscribeOn()  observeOn() 控制事件的产生和消费的线程。）</p>
+<pre><code>Observable.just(1, 2, 3, 4) // IO 线程，由 subscribeOn() 指定
+.subscribeOn(Schedulers.io())//控制事件产生线程
+.observeOn(Schedulers.newThread())//控制事件消费线程
+.map(mapOperator) // 新线程，由 observeOn() 指定
+.observeOn(Schedulers.io())
+.map(mapOperator2) // IO 线程，由 observeOn() 指定
+.observeOn(AndroidSchedulers.mainThread) 
+.subscribe(subscriber);  // Android 主线程，由 observeOn() 指定
+</code></pre><p>同样的，线程控制 subscribeOn()与observeOn()的原理也是lift()。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/14/Android的消息机制/" rel="next" title="Android的消息机制">
+                <i class="fa fa-chevron-left"></i> Android的消息机制
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/24/String源码解析/" rel="prev" title="String源码解析">
+                String源码解析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="高沛" />
+          <p class="site-author-name" itemprop="name">高沛</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#RxJava–简洁的异步"><span class="nav-number">1.</span> <span class="nav-text">RxJava–简洁的异步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#观察者模式"><span class="nav-number">2.</span> <span class="nav-text">观察者模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RXJava的组成结构"><span class="nav-number">3.</span> <span class="nav-text">RXJava的组成结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Observer-观察者"><span class="nav-number">3.1.</span> <span class="nav-text">1.Observer-观察者</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Observable–被观察者"><span class="nav-number">3.2.</span> <span class="nav-text">2.Observable–被观察者</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Subscribe–订阅"><span class="nav-number">3.3.</span> <span class="nav-text">3.Subscribe–订阅</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程控制"><span class="nav-number">4.</span> <span class="nav-text">线程控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变换–RxJava厉害之处"><span class="nav-number">5.</span> <span class="nav-text">变换–RxJava厉害之处</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高沛</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

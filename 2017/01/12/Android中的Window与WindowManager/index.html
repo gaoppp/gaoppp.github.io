@@ -1,0 +1,718 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="一、WindowAndroid中的所有视图，不管是Activity、Dialog还是Toast都是通过Window来呈现的，它们的视图都是附加在Window上面的，Window实际是View的直接管理者。Window是一个抽象类，它的具体实现是PhoneWindow，WindowManager是外界访问Window的入口，Window的具体实现位于WindowManagerService中，Wi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android中的Window与WindowManager">
+<meta property="og:url" content="http://yoursite.com/2017/01/12/Android中的Window与WindowManager/index.html">
+<meta property="og:site_name" content="高沛'blog">
+<meta property="og:description" content="一、WindowAndroid中的所有视图，不管是Activity、Dialog还是Toast都是通过Window来呈现的，它们的视图都是附加在Window上面的，Window实际是View的直接管理者。Window是一个抽象类，它的具体实现是PhoneWindow，WindowManager是外界访问Window的入口，Window的具体实现位于WindowManagerService中，Wi">
+<meta property="og:updated_time" content="2017-02-26T04:03:21.681Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android中的Window与WindowManager">
+<meta name="twitter:description" content="一、WindowAndroid中的所有视图，不管是Activity、Dialog还是Toast都是通过Window来呈现的，它们的视图都是附加在Window上面的，Window实际是View的直接管理者。Window是一个抽象类，它的具体实现是PhoneWindow，WindowManager是外界访问Window的入口，Window的具体实现位于WindowManagerService中，Wi">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/12/Android中的Window与WindowManager/"/>
+
+
+
+
+
+  <title> Android中的Window与WindowManager | 高沛'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">高沛'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/12/Android中的Window与WindowManager/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高沛">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="高沛'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android中的Window与WindowManager
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-12T20:32:23+08:00">
+                2017-01-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<h2 id="一、Window"><a href="#一、Window" class="headerlink" title="一、Window"></a>一、Window</h2><p>Android中的所有视图，不管是Activity、Dialog还是Toast都是通过Window来呈现的，它们的视图都是附加在Window上面的，Window实际是View的直接管理者。<br>Window是一个抽象类，它的具体实现是PhoneWindow，WindowManager是外界访问Window的入口，Window的具体实现位于WindowManagerService中，WindowManger与WindowMangerService的交互是个IPC过程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">mFloatingButton=new Button(this);</div><div class="line">mFloatingButton.setText(&quot;button&quot;);</div><div class="line">mLayoutParams=new WindowManger.LayoutParams(</div><div class="line">            LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT,0,0,</div><div class="line">            PixlFormat.TRANSAPARENT);</div><div class="line">mLayoutParams.flags=LayoutParams.FLAG_NOT_TOUCH_MODAL|LayoutParams.FLAG_NOT_FOCUSABLE</div><div class="line">                    |LaoutParams.FLAG_SHOW_WHEN_FOCUSABLE;</div><div class="line">mLayoutParams.x=100;</div><div class="line">mLayoutParams.y=200;</div><div class="line">mWindowManger.addView(mFloatingButton,mLayoutParams);</div></pre></td></tr></table></figure></p>
+<p>Flags表示Window的属性，以下为几个常见的属性：</p>
+<ul>
+<li>FLAG_NOT_TOUCH_MODAL 表示不需要获取焦点，也不需要接收各种输入，最终事件直接传递给下层具有焦点的Window。</li>
+<li>FLAG_NOT_FOCUSABLE：在此Window外的区域单击事件传递到底层Window中。当前的区域则自己处理，这个一般都要设置，很重要。</li>
+<li>FLAG_SHOW_WHEN_LOCKED：开启可以让Window显示在锁屏界面上。<br>Type表示Window的类型，类型分为：应用Window（Activity）、子Window（不能单独存在，必须依附在父Window中，Dialog等）、系统Window（需声明权限才能创建，Toast等）。<br>Window中存在分层，层级大会覆盖在层级小的上面，应用Window的层级一般为1-99，子Window的层级一般为1000-1999，系统Window为2000-2999。</li>
+</ul>
+<h2 id="二、Window内部机制"><a href="#二、Window内部机制" class="headerlink" title="二、Window内部机制"></a>二、Window内部机制</h2><p>Window是一个抽象的概念，一个Window对应一个View和一个ViewRootImpl,Window和View通过ViewRootImpl来建立联系，所以Window并不实际存在，它是以View存在的。<br>Window的操作需要通过WindowManager，WindowManager常用的只有三个方法，即添加/更新/删除View。<br>WindowManager是一个接口，它的实现类是WindowManagerImpl。WindowManagerImpl也并没有直接实现三大操作，而是委托给WindowManagerGlobal。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//WindowManger继承了这个类</div><div class="line">public interface ViewManager</div><div class="line">&#123;</div><div class="line">    public void addView(View view, ViewGroup.LayoutParams params);</div><div class="line">    public void updateViewLayout(View view, ViewGroup.LayoutParams params);</div><div class="line">    public void removeView(View view);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="2-1-添加Window"><a href="#2-1-添加Window" class="headerlink" title="2.1 添加Window"></a>2.1 添加Window</h3><p>addView的实现分为以下几步：<br>1.检查参数是否合法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">if (view == null) &#123;</div><div class="line">            throw new IllegalArgumentException(&quot;view must not be null&quot;);</div><div class="line">        &#125;</div><div class="line">        if (display == null) &#123;</div><div class="line">            throw new IllegalArgumentException(&quot;display must not be null&quot;);</div><div class="line">        &#125;</div><div class="line">        if (!(params instanceof WindowManager.LayoutParams)) &#123;</div><div class="line">            throw new IllegalArgumentException(&quot;Params must be WindowManager.LayoutParams&quot;);</div><div class="line">        &#125;</div><div class="line"> </div><div class="line">        final WindowManager.LayoutParams wparams = (WindowManager.LayoutParams)params;</div><div class="line">        if (parentWindow != null) &#123;</div><div class="line">            parentWindow.adjustLayoutParamsForSubWindow(wparams);</div><div class="line">        &#125; else &#123;</div><div class="line">            // If there&apos;s no parent and we&apos;re running on L or above (or in the</div><div class="line">            // system context), assume we want hardware acceleration.</div><div class="line">            final Context context = view.getContext();</div><div class="line">            if (context != null</div><div class="line">                    &amp;&amp; context.getApplicationInfo().targetSdkVersion &gt;= Build.VERSION_CODES.LOLLIPOP) &#123;</div><div class="line">                wparams.flags |= WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;</div><div class="line">            &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>2.创建ViewRootImpl并将View添加到列表中。<br>WindowMangerGlobal内部存在如下几个列表：</p>
+<ul>
+<li>ArrayList<view> mViews; 所有Window对应的View</view></li>
+<li>ArrayList<viewrootimpl> mRoots;  所有Window对应iewRootImpl</viewrootimpl></li>
+<li>ArrayList<layoutparams> mParams;  所有Window对应LayoutParams</layoutparams></li>
+<li>ArraySet<view> mDyingViews;   调用removeView但是删除还未完成的Window对象</view></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">root = new ViewRootImpl(view.getContext(), display);</div><div class="line">view.setLayoutParams(wparams);</div><div class="line">mViews.add(view);</div><div class="line">mRoots.add(root);</div><div class="line">mParams.add(wparams);</div></pre></td></tr></table></figure>
+<p>3.通过ViewRootImpl来更新界面并完成window的添加过程 。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root.setView(view, wparams, panelParentView);</div></pre></td></tr></table></figure></p>
+<p>setView内部会通过requestLayout异步刷新，最后通过IPC操作调用WindowManagerService实现Window添加。</p>
+<h3 id="2-2-删除Window"><a href="#2-2-删除Window" class="headerlink" title="2.2 删除Window"></a>2.2 删除Window</h3><p>同Window的添加一样，都是最终通过WindowManagerGlobal实现，下面是其中的removeView：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public void removeView(View view, boolean immediate) &#123;</div><div class="line">        if (view == null) &#123;</div><div class="line">            throw new IllegalArgumentException(&quot;view must not be null&quot;);</div><div class="line">        &#125;</div><div class="line"> </div><div class="line">        synchronized (mLock) &#123;</div><div class="line">            int index = findViewLocked(view, true);</div><div class="line">            View curView = mRoots.get(index).getView();</div><div class="line">            removeViewLocked(index, immediate);</div><div class="line">            if (curView == view) &#123;</div><div class="line">                return;</div><div class="line">            &#125;</div><div class="line"> </div><div class="line">            throw new IllegalStateException(&quot;Calling with view &quot; + view</div><div class="line">                    + &quot; but the ViewAncestor is attached to &quot; + curView);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>这里首先调用findViewLocked来查找删除view的索引，这个过程就是建立数组遍历。然后再调用removeViewLocked来做进一步的删除。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">private void removeViewLocked(int index, boolean immediate) &#123;</div><div class="line">        ViewRootImpl root = mRoots.get(index);</div><div class="line">        View view = root.getView();</div><div class="line"> </div><div class="line">        if (view != null) &#123;</div><div class="line">            InputMethodManager imm = InputMethodManager.getInstance();</div><div class="line">            if (imm != null) &#123;</div><div class="line">                imm.windowDismissed(mViews.get(index).getWindowToken());</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        boolean deferred = root.die(immediate);</div><div class="line">        if (view != null) &#123;</div><div class="line">            view.assignParent(null);</div><div class="line">            if (deferred) &#123;</div><div class="line">                mDyingViews.add(view);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>真正删除操作是viewRootImpl来完成的。windowManager提供了两种删除接口，removeViewImmediate，removeView。它们分别表示异步删除和同步删除。具体的删除操作由ViewRootImpl的die来完成。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">boolean die(boolean immediate) &#123;</div><div class="line">        if (immediate &amp;&amp; !mIsInTraversal) &#123;</div><div class="line">            doDie();</div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line"> </div><div class="line">        if (!mIsDrawing) &#123;</div><div class="line">            destroyHardwareRenderer();</div><div class="line">        &#125; else &#123;</div><div class="line">            Log.e(TAG, &quot;Attempting to destroy the window while drawing!\n&quot; +</div><div class="line">                    &quot;  window=&quot; + this + &quot;, title=&quot; + mWindowAttributes.getTitle());</div><div class="line">        &#125;</div><div class="line">        mHandler.sendEmptyMessage(MSG_DIE);</div><div class="line">        return true;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>由上可知如果是removeViewImmediate，立即调用doDie，如果是removeView，用handler发送消息，ViewRootImpl中的Handler会处理消息并调用doDie。<br>最终删除主要做四件事：</p>
+<ol>
+<li>垃圾回收相关工作，比如清数据，回调等。</li>
+<li>通过Session的remove方法删除Window,最终通过IPC调用WindowManagerService的removeWindow。</li>
+<li>调用dispathDetachedFromWindow，在内部会调用onDetachedFromWindow()和onDetachedFromWindowInternal()。当view移除时会调用onDetachedFromWindow，它用于作一些资源回收。</li>
+<li>通过doRemoveView刷新数据，删除相关数据，如在mRoot，mDyingViews等中删除对象。<h3 id="2-3-更新Window"><a href="#2-3-更新Window" class="headerlink" title="2.3 更新Window"></a>2.3 更新Window</h3>看下WindowManagerGlobal中的updateViewLayout。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">public void updateViewLayout(View view, ViewGroup.LayoutParams params) &#123;</div><div class="line">       if (view == null) &#123;</div><div class="line">           throw new IllegalArgumentException(&quot;view must not be null&quot;);</div><div class="line">       &#125;</div><div class="line">       if (!(params instanceof WindowManager.LayoutParams)) &#123;</div><div class="line">           throw new IllegalArgumentException(&quot;Params must be WindowManager.LayoutParams&quot;);</div><div class="line">       &#125;</div><div class="line"> </div><div class="line">       final WindowManager.LayoutParams wparams = (WindowManager.LayoutParams)params;</div><div class="line"> </div><div class="line">       view.setLayoutParams(wparams);</div><div class="line"> </div><div class="line">       synchronized (mLock) &#123;</div><div class="line">           int index = findViewLocked(view, true);</div><div class="line">           ViewRootImpl root = mRoots.get(index);</div><div class="line">           mParams.remove(index);</div><div class="line">           mParams.add(index, wparams);</div><div class="line">           root.setLayoutParams(wparams, false);</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>过viewRootImpl的setLayoutParams更新ViewRootImpl的LayoutParams,接着scheduleTraversals对View重新布局，包括测量，布局，重绘，此外它还会通过WindowSession来更新Window。这个过程通过IPC由WindowManagerService实现。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/14/Android桌面小部件与RemoteViews/" rel="next" title="Android桌面小部件与RemoteViews">
+                <i class="fa fa-chevron-left"></i> Android桌面小部件与RemoteViews
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/11/Android中的线程池/" rel="prev" title="Android中的线程池">
+                Android中的线程池 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="高沛" />
+          <p class="site-author-name" itemprop="name">高沛</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、Window"><span class="nav-number">1.</span> <span class="nav-text">一、Window</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Window内部机制"><span class="nav-number">2.</span> <span class="nav-text">二、Window内部机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-添加Window"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 添加Window</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-删除Window"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 删除Window</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-更新Window"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 更新Window</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高沛</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
