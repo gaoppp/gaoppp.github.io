@@ -1,0 +1,699 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="ArrayList是我们最常用的集合框架之一，它的实现是基于一个动态数组的，其容量能够自动增长。以下便是ArrayList源码中的主要内容。
+定义12public class ArrayList&amp;lt;E&amp;gt; extends AbstractList&amp;lt;E&amp;gt;        implements List&amp;lt;E&amp;gt;, RandomAccess, Cloneable, java.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ArrayList源码解析">
+<meta property="og:url" content="http://yoursite.com/2016/12/27/ArrayList源码解析/index.html">
+<meta property="og:site_name" content="高沛'blog">
+<meta property="og:description" content="ArrayList是我们最常用的集合框架之一，它的实现是基于一个动态数组的，其容量能够自动增长。以下便是ArrayList源码中的主要内容。
+定义12public class ArrayList&amp;lt;E&amp;gt; extends AbstractList&amp;lt;E&amp;gt;        implements List&amp;lt;E&amp;gt;, RandomAccess, Cloneable, java.">
+<meta property="og:updated_time" content="2017-02-27T09:41:28.677Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ArrayList源码解析">
+<meta name="twitter:description" content="ArrayList是我们最常用的集合框架之一，它的实现是基于一个动态数组的，其容量能够自动增长。以下便是ArrayList源码中的主要内容。
+定义12public class ArrayList&amp;lt;E&amp;gt; extends AbstractList&amp;lt;E&amp;gt;        implements List&amp;lt;E&amp;gt;, RandomAccess, Cloneable, java.">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/27/ArrayList源码解析/"/>
+
+
+
+
+
+  <title> ArrayList源码解析 | 高沛'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">高沛'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/27/ArrayList源码解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高沛">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="高沛'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ArrayList源码解析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-27T21:23:24+08:00">
+                2016-12-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>ArrayList是我们最常用的集合框架之一，它的实现是基于一个动态数组的，其容量能够自动增长。以下便是ArrayList源码中的主要内容。</p>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">public class ArrayList&lt;E&gt; extends AbstractList&lt;E&gt;</div><div class="line">        implements List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable</div></pre></td></tr></table></figure>
+<p>可以看出ArrayList是支持泛型的，他继承了AbstractList，实现了List、TandomAcces、Cloneable、Seriablizable接口。 </p>
+<ul>
+<li><p>AbstractList继承AbstractCollection<e>，实现List,主要提供了List接口的一些默认实现（toArray()、toString()、haseCode()、equals(Object o)等方法），下面贴了其中两个方法。</e></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">   </div><div class="line">public boolean equals(Object o) &#123;</div><div class="line">    if (o == this)</div><div class="line">        return true;</div><div class="line">    if (!(o instanceof List))</div><div class="line">        return false;</div><div class="line"></div><div class="line">    ListIterator&lt;E&gt; e1 = listIterator();</div><div class="line">    ListIterator&lt;?&gt; e2 = ((List&lt;?&gt;) o).listIterator();</div><div class="line">    while (e1.hasNext() &amp;&amp; e2.hasNext()) &#123;</div><div class="line">        E o1 = e1.next();</div><div class="line">        Object o2 = e2.next();</div><div class="line">        if (!(o1==null ? o2==null : o1.equals(o2)))</div><div class="line">            return false;</div><div class="line">    &#125;</div><div class="line">    return !(e1.hasNext() || e2.hasNext());</div><div class="line">&#125;</div><div class="line"></div><div class="line"> </div><div class="line">public int hashCode() &#123;</div><div class="line">    int hashCode = 1;</div><div class="line">    for (E e : this)</div><div class="line">        hashCode = 31*hashCode + (e==null ? 0 : e.hashCode());</div><div class="line">    return hashCode;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>List接口定义必须实现的方法</p>
+</li>
+<li>RandomAccess接口为标记接口，用来表明其支持快速（通常是固定时间）随机访问。</li>
+<li>Cloneable也为标记接口，用于表示可以拷贝。</li>
+<li>ava.io.Serializable 接口以启用其序列化功能。未实现此接口的类将无法使其任何状态序列化或反序列化。序列化接口没有方法或字段，仅用于标识可序列化的语义。</li>
+</ul>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">//默认数组大小</div><div class="line">private static final int DEFAULT_CAPACITY = 10;</div><div class="line">//用于保存数据，transient表示序列化时可以忽略它</div><div class="line">transient Object[] elementData;</div><div class="line">//数组大小</div><div class="line">private int size;</div><div class="line">//空数组</div><div class="line">private static final Object[] EMPTY_ELEMENTDATA = &#123;&#125;;</div><div class="line">//默认空数组</div><div class="line">private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = &#123;&#125;;</div></pre></td></tr></table></figure>
+<h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">//指定容量大小</div><div class="line">  public ArrayList(int initialCapacity) &#123;</div><div class="line">        if (initialCapacity &gt; 0) &#123;</div><div class="line">            this.elementData = new Object[initialCapacity];</div><div class="line">        &#125; else if (initialCapacity == 0) &#123;</div><div class="line">            this.elementData = EMPTY_ELEMENTDATA;</div><div class="line">        &#125; else &#123;</div><div class="line">            throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+</div><div class="line">                                               initialCapacity);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    //构造一个默认空数组</div><div class="line">    public ArrayList() &#123;</div><div class="line">        this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;</div><div class="line">    &#125;</div><div class="line">    //构造一个指定元素的ArrayList</div><div class="line">    public ArrayList(Collection&lt;? extends E&gt; c) &#123;</div><div class="line">        elementData = c.toArray();</div><div class="line">        if ((size = elementData.length) != 0) &#123;</div><div class="line">            // c.toArray might (incorrectly) not return Object[] (see 6260652)</div><div class="line">            if (elementData.getClass() != Object[].class)</div><div class="line">                elementData = Arrays.copyOf(elementData, size, Object[].class);</div><div class="line">        &#125; else &#123;</div><div class="line">            // replace with empty array.</div><div class="line">            this.elementData = EMPTY_ELEMENTDATA;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">//末尾添加元素</div><div class="line">public boolean add(E e) &#123;</div><div class="line">        ensureCapacityInternal(size + 1);  // Increments modCount!! 扩容检查</div><div class="line">        elementData[size++] = e;</div><div class="line">        return true;</div><div class="line">    &#125;</div><div class="line">//指定位置插入</div><div class="line"> public void add(int index, E element) &#123;</div><div class="line">        rangeCheckForAdd(index);//检查index是否越界</div><div class="line">        ensureCapacityInternal(size + 1);  // Increments modCount!! 扩容检查</div><div class="line">        //复制数组</div><div class="line">        System.arraycopy(elementData, index, elementData, index + 1,</div><div class="line">                         size - index);</div><div class="line">        elementData[index] = element;</div><div class="line">        size++;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="扩容检查"><a href="#扩容检查" class="headerlink" title="扩容检查"></a>扩容检查</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"> private void ensureCapacityInternal(int minCapacity) &#123;</div><div class="line">        //空数组在第一次add时初始化，初始化容量为10</div><div class="line">        if (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;</div><div class="line">            minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);</div><div class="line">        &#125;</div><div class="line">        ensureExplicitCapacity(minCapacity);</div><div class="line">    &#125;</div><div class="line">//判断是否需要扩容</div><div class="line"> private void ensureExplicitCapacity(int minCapacity) &#123;</div><div class="line">        modCount++;//用于fail-fast</div><div class="line"></div><div class="line">        // overflow-conscious code</div><div class="line">        if (minCapacity - elementData.length &gt; 0)</div><div class="line">            //扩容</div><div class="line">            grow(minCapacity);</div><div class="line">    &#125;</div><div class="line">//扩容</div><div class="line">private void grow(int minCapacity) &#123;</div><div class="line">        // overflow-conscious code</div><div class="line">        int oldCapacity = elementData.length;</div><div class="line">        //newCapacity为以前的1.5倍  </div><div class="line">        int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);</div><div class="line">        if (newCapacity - minCapacity &lt; 0)</div><div class="line">            newCapacity = minCapacity;</div><div class="line">        //判断容量是否到达long int 最大临界值  </div><div class="line">        if (newCapacity - MAX_ARRAY_SIZE &gt; 0)</div><div class="line">            newCapacity = hugeCapacity(minCapacity);</div><div class="line">        // 复制数组</div><div class="line">        elementData = Arrays.copyOf(elementData, newCapacity);</div><div class="line">    &#125;</div><div class="line">//检查是否超过最大容量，是否抛出异常  </div><div class="line">private static int hugeCapacity(int minCapacity) &#123;  </div><div class="line">        if (minCapacity &lt; 0) // overflow  </div><div class="line">            throw new OutOfMemoryError();  </div><div class="line">        return (minCapacity &gt; MAX_ARRAY_SIZE) ?  </div><div class="line">            Integer.MAX_VALUE :  </div><div class="line">            MAX_ARRAY_SIZE;  </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">//删除指定元素</div><div class="line"> public E remove(int index) &#123;</div><div class="line">        //检查index是否越界</div><div class="line">        rangeCheck(index);</div><div class="line"></div><div class="line">        modCount++;//用于fail-fast</div><div class="line">        E oldValue = elementData(index);</div><div class="line">        //计算复制数量</div><div class="line">        int numMoved = size - index - 1;</div><div class="line">        if (numMoved &gt; 0)</div><div class="line">            System.arraycopy(elementData, index+1, elementData, index,</div><div class="line">                             numMoved);</div><div class="line">        elementData[--size] = null; // clear to let GC do its work</div><div class="line">        return oldValue;</div><div class="line">    &#125;</div><div class="line">//根据元素删除，删除第一个匹配的</div><div class="line"> public boolean remove(Object o) &#123;</div><div class="line">        if (o == null) &#123;</div><div class="line">            for (int index = 0; index &lt; size; index++)</div><div class="line">                if (elementData[index] == null) &#123;</div><div class="line">                    fastRemove(index);</div><div class="line">                    return true;</div><div class="line">                &#125;</div><div class="line">        &#125; else &#123;</div><div class="line">            for (int index = 0; index &lt; size; index++)</div><div class="line">                if (o.equals(elementData[index])) &#123;</div><div class="line">                    fastRemove(index);</div><div class="line">                    return true;</div><div class="line">                &#125;</div><div class="line">        &#125;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line"> //删除</div><div class="line"> private void fastRemove(int index) &#123;</div><div class="line">        modCount++;</div><div class="line">        int numMoved = size - index - 1;</div><div class="line">        if (numMoved &gt; 0)</div><div class="line">            System.arraycopy(elementData, index+1, elementData, index,</div><div class="line">                             numMoved);</div><div class="line">        elementData[--size] = null; // clear to let GC do its work</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="缩小容量"><a href="#缩小容量" class="headerlink" title="缩小容量"></a>缩小容量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public void trimToSize() &#123;</div><div class="line">       modCount++;</div><div class="line">       if (size &lt; elementData.length) &#123;</div><div class="line">           elementData = (size == 0)</div><div class="line">             ? EMPTY_ELEMENTDATA</div><div class="line">             : Arrays.copyOf(elementData, size);</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<h3 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line">//创建迭代器</div><div class="line">public Iterator&lt;E&gt; iterator() &#123;</div><div class="line">    return new Itr();</div><div class="line">&#125;</div><div class="line"></div><div class="line">//内部类</div><div class="line">private class Itr implements Iterator&lt;E&gt; &#123;</div><div class="line">    int cursor;       // index of next element to return</div><div class="line">    int lastRet = -1; // index of last element returned; -1 if no such</div><div class="line">    int expectedModCount = modCount;//获取ArrayList中modCount 用于fail-fast</div><div class="line"></div><div class="line">    public boolean hasNext() &#123;</div><div class="line">        return cursor != size;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @SuppressWarnings(&quot;unchecked&quot;)</div><div class="line">    public E next() &#123;</div><div class="line">        //检查是否有bug</div><div class="line">        checkForComodification();</div><div class="line">        int i = cursor;</div><div class="line">        if (i &gt;= size)</div><div class="line">            throw new NoSuchElementException();</div><div class="line">        Object[] elementData = ArrayList.this.elementData;</div><div class="line">        if (i &gt;= elementData.length)</div><div class="line">            throw new ConcurrentModificationException();</div><div class="line">        cursor = i + 1;</div><div class="line">        return (E) elementData[lastRet = i];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void remove() &#123;</div><div class="line">        if (lastRet &lt; 0)</div><div class="line">            throw new IllegalStateException();</div><div class="line">        checkForComodification();</div><div class="line"></div><div class="line">        try &#123;</div><div class="line">            ArrayList.this.remove(lastRet);</div><div class="line">            cursor = lastRet;</div><div class="line">            lastRet = -1;</div><div class="line">            expectedModCount = modCount;</div><div class="line">        &#125; catch (IndexOutOfBoundsException ex) &#123;</div><div class="line">            throw new ConcurrentModificationException();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    @SuppressWarnings(&quot;unchecked&quot;)</div><div class="line">    public void forEachRemaining(Consumer&lt;? super E&gt; consumer) &#123;</div><div class="line">        Objects.requireNonNull(consumer);</div><div class="line">        final int size = ArrayList.this.size;</div><div class="line">        int i = cursor;</div><div class="line">        if (i &gt;= size) &#123;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">        final Object[] elementData = ArrayList.this.elementData;</div><div class="line">        if (i &gt;= elementData.length) &#123;</div><div class="line">            throw new ConcurrentModificationException();</div><div class="line">        &#125;</div><div class="line">        while (i != size &amp;&amp; modCount == expectedModCount) &#123;</div><div class="line">            consumer.accept((E) elementData[i++]);</div><div class="line">        &#125;</div><div class="line">        // update once at end of iteration to reduce heap write traffic</div><div class="line">        cursor = i;</div><div class="line">        lastRet = i - 1;</div><div class="line">        checkForComodification();</div><div class="line">    &#125;</div><div class="line">    //fail-fast机制实现</div><div class="line">    final void checkForComodification() &#123;</div><div class="line">        if (modCount != expectedModCount)</div><div class="line">            throw new ConcurrentModificationException();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/14/Android桌面小部件与RemoteViews/" rel="next" title="Android桌面小部件与RemoteViews">
+                <i class="fa fa-chevron-left"></i> Android桌面小部件与RemoteViews
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/12/Android中的Window与WindowManager/" rel="prev" title="Android中的Window与WindowManager">
+                Android中的Window与WindowManager <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="高沛" />
+          <p class="site-author-name" itemprop="name">高沛</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">2.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造方法"><span class="nav-number">3.</span> <span class="nav-text">构造方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加"><span class="nav-number">4.</span> <span class="nav-text">添加</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩容检查"><span class="nav-number">5.</span> <span class="nav-text">扩容检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除"><span class="nav-number">6.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缩小容量"><span class="nav-number">7.</span> <span class="nav-text">缩小容量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迭代器"><span class="nav-number">8.</span> <span class="nav-text">迭代器</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高沛</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
