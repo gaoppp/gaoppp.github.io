@@ -1,0 +1,695 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Retrofit是一个基于OkHttp的网络请求工具，其功能与Volley很相似，但是使用起来就很不一样。Retrofit不用你去创建Request对象，每次指定Get还是Post等，它请求一个api只需你去调用一个Java方法。
+使用1.首先需要创建一个Retrofit对象,并指定域名：123456//使用Builder模式构建对象private static final String BASE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Retrofit使用与解析">
+<meta property="og:url" content="http://yoursite.com/2017/01/18/Retrofit使用与解析/index.html">
+<meta property="og:site_name" content="高沛'blog">
+<meta property="og:description" content="Retrofit是一个基于OkHttp的网络请求工具，其功能与Volley很相似，但是使用起来就很不一样。Retrofit不用你去创建Request对象，每次指定Get还是Post等，它请求一个api只需你去调用一个Java方法。
+使用1.首先需要创建一个Retrofit对象,并指定域名：123456//使用Builder模式构建对象private static final String BASE">
+<meta property="og:updated_time" content="2017-02-28T14:19:31.553Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Retrofit使用与解析">
+<meta name="twitter:description" content="Retrofit是一个基于OkHttp的网络请求工具，其功能与Volley很相似，但是使用起来就很不一样。Retrofit不用你去创建Request对象，每次指定Get还是Post等，它请求一个api只需你去调用一个Java方法。
+使用1.首先需要创建一个Retrofit对象,并指定域名：123456//使用Builder模式构建对象private static final String BASE">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/18/Retrofit使用与解析/"/>
+
+
+
+
+
+  <title> Retrofit使用与解析 | 高沛'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">高沛'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/18/Retrofit使用与解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高沛">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="高沛'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Retrofit使用与解析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-18T17:23:54+08:00">
+                2017-01-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Retrofit是一个基于OkHttp的网络请求工具，其功能与Volley很相似，但是使用起来就很不一样。<br>Retrofit不用你去创建Request对象，每次指定Get还是Post等，它请求一个api只需你去调用一个Java方法。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p><strong>1.首先需要创建一个Retrofit对象,并指定域名：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//使用Builder模式构建对象</div><div class="line">private static final String BASE_URL = &quot;http://xxx&quot;;//域名</div><div class="line">Retrofit retrofit = new Retrofit.Builder()</div><div class="line">    .baseUrl(BASE_URL)</div><div class="line">    .addConverterFactory(GsonConverterFactory.create())</div><div class="line">    .build();</div></pre></td></tr></table></figure></p>
+<p>Retrofit中Bulider类的build方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">public Retrofit build() &#123;</div><div class="line">     if (baseUrl == null) &#123;</div><div class="line">       throw new IllegalStateException(&quot;Base URL required.&quot;);</div><div class="line">     &#125;</div><div class="line"></div><div class="line">     okhttp3.Call.Factory callFactory = this.callFactory;</div><div class="line">     if (callFactory == null) &#123;</div><div class="line">       callFactory = new OkHttpClient();//默认使用OkHttp</div><div class="line">     &#125;</div><div class="line"></div><div class="line">     Executor callbackExecutor = this.callbackExecutor;</div><div class="line">     if (callbackExecutor == null) &#123;</div><div class="line">       callbackExecutor = platform.defaultCallbackExecutor();</div><div class="line">     &#125;</div><div class="line"></div><div class="line">     // Make a defensive copy of the adapters and add the default Call adapter.</div><div class="line">     List&lt;CallAdapter.Factory&gt; adapterFactories = new ArrayList&lt;&gt;(this.adapterFactories);</div><div class="line">     adapterFactories.add(platform.defaultCallAdapterFactory(callbackExecutor));</div><div class="line"></div><div class="line">     // Make a defensive copy of the converters.</div><div class="line">     List&lt;Converter.Factory&gt; converterFactories = new ArrayList&lt;&gt;(this.converterFactories);</div><div class="line"></div><div class="line">     return new Retrofit(callFactory, baseUrl, converterFactories, adapterFactories,</div><div class="line">         callbackExecutor, validateEagerly);</div><div class="line">   &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<p><strong>2.之后，你只要根据api新建一个Java接口，并使用注解进行相关描述：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">//Get请求</div><div class="line">public interface ElectricAPI &#123;</div><div class="line">        @GET(&quot;/api/v1/get/power/&#123;lou&#125;/&#123;hao&#125;&quot;)</div><div class="line">        Call&lt;Electric&gt; electricData(@Path(&quot;lou&quot;) String lou,@Path(&quot;hao&quot;) String hao);</div><div class="line">&#125;</div><div class="line">//Post请求</div><div class="line">public interface FeedBackAPI &#123;</div><div class="line">    @FormUrlEncoded</div><div class="line">    @POST(&quot;/home/msg/0&quot;)</div><div class="line">    Call&lt;ResponseBody&gt; feed(@Field(&quot;email&quot;) String email,</div><div class="line">                                      @Field(&quot;content&quot;) String content);</div><div class="line">&#125;</div><div class="line">//文件上传</div><div class="line">public interface FileUploadAPI &#123;</div><div class="line">    @Multipart</div><div class="line">    @POST(&quot;api/v1/stuff/upload&quot;)</div><div class="line">    Call&lt;HttpResult&lt;String&gt;&gt; uploadImage(@Part MultipartBody.Part file);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>3.最后只要通过retrofit对象创建Api对象了,并使用call对象进行请求和处理：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">ElectricAPI api = retrofit.create(ElectricAPI.class);</div><div class="line">Call&lt;Electric&gt; call = api.electricData(&quot;12&quot;,&quot;122&quot;);</div><div class="line">// 请求数据，并且处理response</div><div class="line">call.enqueue(new Callback&lt;Electric&gt;() &#123;</div><div class="line">    @Override</div><div class="line">    public void onResponse(Response&lt;Electric&gt; r) &#123;</div><div class="line">        System.out.println(&quot;请求成功&quot;);</div><div class="line">    &#125;</div><div class="line">    @Override</div><div class="line">    public void onFailure(Throwable t) &#123;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>从使用上可以看出，Retrofit其实是把一个Java接口对象翻译成一个Http请求，然后使用OkHttp请求。Retrofit使用的技术就是动态代理。<br>先看create方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">public &lt;T&gt; T create(final Class&lt;T&gt; service) &#123;</div><div class="line">    Utils.validateServiceInterface(service);//检查是否是接口</div><div class="line">    if (validateEagerly) &#123;</div><div class="line">      eagerlyValidateMethods(service);</div><div class="line">    &#125;</div><div class="line">    return (T) Proxy.newProxyInstance(service.getClassLoader(), new Class&lt;?&gt;[] &#123; service &#125;,</div><div class="line">        new InvocationHandler() &#123;</div><div class="line">          private final Platform platform = Platform.get();</div><div class="line"></div><div class="line">          @Override public Object invoke(Object proxy, Method method, Object... args)</div><div class="line">              throws Throwable &#123;</div><div class="line">            // If the method is a method from Object then defer to normal invocation.</div><div class="line">            if (method.getDeclaringClass() == Object.class) &#123;</div><div class="line">              return method.invoke(this, args);</div><div class="line">            &#125;</div><div class="line">            if (platform.isDefaultMethod(method)) &#123;//默认返回false</div><div class="line">              return platform.invokeDefaultMethod(method, service, proxy, args);</div><div class="line">            &#125;</div><div class="line">            ServiceMethod serviceMethod = loadServiceMethod(method);//处理注解</div><div class="line">            OkHttpCall okHttpCall = new OkHttpCall&lt;&gt;(serviceMethod, args);</div><div class="line">            return serviceMethod.callAdapter.adapt(okHttpCall);</div><div class="line">          &#125;</div><div class="line">        &#125;);</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>接着是create方法的使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ElectricAPI api = retrofit.create(ElectricAPI.class);</div><div class="line">Call&lt;Electric&gt; call = api.electricData(&quot;12&quot;,&quot;122&quot;);</div></pre></td></tr></table></figure></p>
+<p>这里的api对象其实是一个动态代理，并不是实现了相关接口的对象。当api对象调用eletricData方法时，会被动态代理拦截，然后调用Proxy.newProxyInstance方法中的InvocationHandler对象的invoke方法。这里invoke方法传入三个对象，依次为代理对象（不用管）、method（这里是electricData方法），方法的参数（这里是”12”，”122”）。</p>
+<p>这里Retrofit关心的就是method和它的参数args，接下去Retrofit就会用Java反射获取到electricData方法的注解信息，配合args参数，创建一个ServiceMethod对象。</p>
+<p>ServiceMethod就像是一个处理器，传入Retrofit对象和Method对象，调用各个接口和解析器，最终生成一个Request，包含api 的域名、path、http请求方法、请求头、是否有body、是否是multipart等等。最后返回一个Call对象，Retrofit2中Call接口的默认实现是OkHttpCall，它默认使用OkHttp3作为底层http请求client。</p>
+<p>接着看下上面的<strong>loadServiceMethod(Method method)</strong>方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">ServiceMethod loadServiceMethod(Method method) &#123;</div><div class="line">    ServiceMethod result;</div><div class="line">    synchronized (serviceMethodCache) &#123;</div><div class="line">      result = serviceMethodCache.get(method);</div><div class="line">      if (result == null) &#123;</div><div class="line">        result = new ServiceMethod.Builder(this, method).build();</div><div class="line">        serviceMethodCache.put(method, result);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    return result;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  </div><div class="line"> private final Map&lt;Method, ServiceMethod&gt; serviceMethodCache = new LinkedHashMap&lt;&gt;();</div></pre></td></tr></table></figure>
+<p>这里对解析请求进行了缓存，用于避免解析过慢。这里同样使用Builder模式构建ServiceMethod方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">public ServiceMethod build() &#123;</div><div class="line">      callAdapter = createCallAdapter();</div><div class="line">      responseType = callAdapter.responseType();</div><div class="line">      if (responseType == Response.class || responseType == okhttp3.Response.class) &#123;</div><div class="line">        throw methodError(&quot;&apos;&quot;</div><div class="line">            + Utils.getRawType(responseType).getName()</div><div class="line">            + &quot;&apos; is not a valid response body type. Did you mean ResponseBody?&quot;);</div><div class="line">      &#125;</div><div class="line">      responseConverter = createResponseConverter();</div><div class="line">      //处理注解</div><div class="line">      for (Annotation annotation : methodAnnotations) &#123;</div><div class="line">        parseMethodAnnotation(annotation);</div><div class="line">      &#125;</div><div class="line">      if (httpMethod == null) &#123;</div><div class="line">        throw methodError(&quot;HTTP method annotation is required (e.g., @GET, @POST, etc.).&quot;);</div><div class="line">      &#125;</div><div class="line">      //检查错误</div><div class="line">      if (!hasBody) &#123;</div><div class="line">        if (isMultipart) &#123;</div><div class="line">          throw methodError(</div><div class="line">              &quot;Multipart can only be specified on HTTP methods with request body (e.g., @POST).&quot;);</div><div class="line">        &#125;</div><div class="line">        if (isFormEncoded) &#123;</div><div class="line">          throw methodError(&quot;FormUrlEncoded can only be specified on HTTP methods with &quot;</div><div class="line">              + &quot;request body (e.g., @POST).&quot;);</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">      //处理api中的参数&#123; &#125;占位符，真实参数在Java方法中传入，这里Retrofit会使用一个ParameterHandler来进行替换</div><div class="line">      int parameterCount = parameterAnnotationsArray.length;</div><div class="line">      parameterHandlers = new ParameterHandler&lt;?&gt;[parameterCount];</div><div class="line">      for (int p = 0; p &lt; parameterCount; p++) &#123;</div><div class="line">        Type parameterType = parameterTypes[p];</div><div class="line">        if (Utils.hasUnresolvableType(parameterType)) &#123;</div><div class="line">          throw parameterError(p, &quot;Parameter type must not include a type variable or wildcard: %s&quot;,</div><div class="line">              parameterType);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Annotation[] parameterAnnotations = parameterAnnotationsArray[p];</div><div class="line">        if (parameterAnnotations == null) &#123;</div><div class="line">          throw parameterError(p, &quot;No Retrofit annotation found.&quot;);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        parameterHandlers[p] = parseParameter(p, parameterType, parameterAnnotations);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      if (relativeUrl == null &amp;&amp; !gotUrl) &#123;</div><div class="line">        throw methodError(&quot;Missing either @%s URL or @Url parameter.&quot;, httpMethod);</div><div class="line">      &#125;</div><div class="line">      if (!isFormEncoded &amp;&amp; !isMultipart &amp;&amp; !hasBody &amp;&amp; gotBody) &#123;</div><div class="line">        throw methodError(&quot;Non-body HTTP method cannot contain @Body.&quot;);</div><div class="line">      &#125;</div><div class="line">      if (isFormEncoded &amp;&amp; !gotField) &#123;</div><div class="line">        throw methodError(&quot;Form-encoded method must contain at least one @Field.&quot;);</div><div class="line">      &#125;</div><div class="line">      if (isMultipart &amp;&amp; !gotPart) &#123;</div><div class="line">        throw methodError(&quot;Multipart method must contain at least one @Part.&quot;);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      return new ServiceMethod&lt;&gt;(this);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<h2 id="执行Http请求"><a href="#执行Http请求" class="headerlink" title="执行Http请求"></a>执行Http请求</h2><p>之前讲到，OkHttpCall是实现了Call接口的，并且是真正调用OkHttp3发送Http请求的类。OkHttp3发送一个Http请求需要一个Request对象，而这个Request对象就是从ServiceMethod的toRequest返回的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">Request toRequest(Object... args) throws IOException &#123;</div><div class="line">   RequestBuilder requestBuilder = new RequestBuilder(httpMethod, baseUrl, relativeUrl, headers,</div><div class="line">       contentType, hasBody, isFormEncoded, isMultipart);</div><div class="line"></div><div class="line">   @SuppressWarnings(&quot;unchecked&quot;) // It is an error to invoke a method with the wrong arg types.</div><div class="line">   ParameterHandler&lt;Object&gt;[] handlers = (ParameterHandler&lt;Object&gt;[]) parameterHandlers;</div><div class="line">   //参数替换</div><div class="line">   int argumentCount = args != null ? args.length : 0;</div><div class="line">   if (argumentCount != handlers.length) &#123;</div><div class="line">     throw new IllegalArgumentException(&quot;Argument count (&quot; + argumentCount</div><div class="line">         + &quot;) doesn&apos;t match expected count (&quot; + handlers.length + &quot;)&quot;);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   for (int p = 0; p &lt; argumentCount; p++) &#123;</div><div class="line">     handlers[p].apply(requestBuilder, args[p]);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   return requestBuilder.build();</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<p>总的来说，OkHttpCall就是调用ServiceMethod获得一个可以执行的Request对象，然后等到Http请求返回后，再将response body传入ServiceMethod中，ServiceMethod就可以调用Converter接口将response body转成一个Java对象。</p>
+<p>结合上面说的就可以看出，ServiceMethod中几乎保存了一个api请求所有需要的数据，OkHttpCall需要从ServiceMethod中获得一个Request对象，然后得到response后，还需要传入ServiceMethod用Converter转换成Java对象。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/12/Android中的Window与WindowManager/" rel="next" title="Android中的Window与WindowManager">
+                <i class="fa fa-chevron-left"></i> Android中的Window与WindowManager
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/11/Android中的线程池/" rel="prev" title="Android中的线程池">
+                Android中的线程池 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="高沛" />
+          <p class="site-author-name" itemprop="name">高沛</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">1.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行Http请求"><span class="nav-number">3.</span> <span class="nav-text">执行Http请求</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高沛</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

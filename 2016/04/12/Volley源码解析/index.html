@@ -100,7 +100,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/android-cn/android-open-project-analysis/master/tool-lib/network/volley/image/CacheDispatcher-run-flow-chart.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/android-cn/android-open-project-analysis/master/tool-lib/network/volley/image/NetworkDispatcher-run-flow-chart.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/android-cn/android-open-project-analysis/master/tool-lib/network/volley/image/Volley-run-flow-chart.png">
-<meta property="og:updated_time" content="2017-02-28T11:23:37.107Z">
+<meta property="og:updated_time" content="2017-02-28T12:03:05.198Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Volley源码解析">
 <meta name="twitter:description" content="一.使用Volley通过newRequestQueue(…)方法新建并启动一个请求队列RequestQueue后，只要往这个RequestQueue不断add Request即可。
@@ -365,6 +365,14 @@
 <p><strong> 8） ResponseDeliveryRunnable.java </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">private class ResponseDeliveryRunnable implements Runnable &#123;  </div><div class="line">    private final Request mRequest;  </div><div class="line">    private final Response mResponse;  </div><div class="line">    private final Runnable mRunnable;  </div><div class="line">  </div><div class="line">    public ResponseDeliveryRunnable(Request request, Response response, Runnable runnable) &#123;  </div><div class="line">        mRequest = request;  </div><div class="line">        mResponse = response;  </div><div class="line">        mRunnable = runnable;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    @SuppressWarnings(&quot;unchecked&quot;)  </div><div class="line">    @Override  </div><div class="line">    public void run() &#123;  </div><div class="line">        // If this request has canceled, finish it and don&apos;t deliver.  </div><div class="line">        if (mRequest.isCanceled()) &#123;  </div><div class="line">            mRequest.finish(&quot;canceled-at-delivery&quot;);  </div><div class="line">            return;  </div><div class="line">        &#125;  </div><div class="line">        // Deliver a normal response or error, depending.  </div><div class="line">        if (mResponse.isSuccess()) &#123;  </div><div class="line">            mRequest.deliverResponse(mResponse.result);  </div><div class="line">        &#125; else &#123;  </div><div class="line">            mRequest.deliverError(mResponse.error);  </div><div class="line">        &#125;  </div><div class="line">        // If this is an intermediate response, add a marker, otherwise we&apos;re done  </div><div class="line">        // and the request can be finished.  </div><div class="line">        if (mResponse.intermediate) &#123;  </div><div class="line">            mRequest.addMarker(&quot;intermediate-response&quot;);  </div><div class="line">        &#125; else &#123;  </div><div class="line">            mRequest.finish(&quot;done&quot;);  </div><div class="line">        &#125;  </div><div class="line">        // If we have been provided a post-delivery runnable, run it.  </div><div class="line">        if (mRunnable != null) &#123;  </div><div class="line">            mRunnable.run();  </div><div class="line">        &#125;  </div><div class="line">   &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>其中在第22行调用了Request的deliverResponse()方法，这个自定义Request时需要重写的一个方法，每一条网络请求的响应都是回调到这个方法中，最后我们再在这个方法中将响应的数据回调到Response.Listener的onResponse()方法中就可以了。</p>
 <h3 id="三、总体流程图"><a href="#三、总体流程图" class="headerlink" title="三、总体流程图"></a>三、总体流程图</h3><p><img src="https://raw.githubusercontent.com/android-cn/android-open-project-analysis/master/tool-lib/network/volley/image/Volley-run-flow-chart.png" alt="此处输入图片的描述"></p>
+<h3 id="四、优缺点"><a href="#四、优缺点" class="headerlink" title="四、优缺点"></a>四、优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>可以取消请求</li>
+<li>容易扩展</li>
+</ul>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>在BasicNetWork中判断statusCode(statusCode<200 ||="" statuscode="">299 )直接抛出IOException(),不够合理</200></li>
+<li>图片加载性能一般</li>
+</ul>
 
       
     </div>
@@ -485,7 +493,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -531,7 +539,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-使用"><span class="nav-number">1.</span> <span class="nav-text">一.使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、关键类分析"><span class="nav-number">2.</span> <span class="nav-text">二、关键类分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、总体流程图"><span class="nav-number">3.</span> <span class="nav-text">三、总体流程图</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-使用"><span class="nav-number">1.</span> <span class="nav-text">一.使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、关键类分析"><span class="nav-number">2.</span> <span class="nav-text">二、关键类分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、总体流程图"><span class="nav-number">3.</span> <span class="nav-text">三、总体流程图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、优缺点"><span class="nav-number">4.</span> <span class="nav-text">四、优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">4.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点"><span class="nav-number">4.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></div>
             
 
           </div>
