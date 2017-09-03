@@ -1,0 +1,712 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="最近在做图片压缩，所以对一些图片压缩方法进行总结。
+一、质量压缩质量压缩采用设置options属性的方法，改变图片的质量，而且质量压缩不会降低这个图片的大小尺寸，但是会通过降低图片质量降低这个图片的文件大小，由于大小尺寸不变，所以将这个图片转成 bitmap 之后占用的内存大小和压缩前是一样的。它是在保持像素的前提下改变图片的位深及透明度等，来达到压缩图片的目的。12345678910111213">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android图片压缩总结">
+<meta property="og:url" content="http://yoursite.com/2017/07/30/Android图片压缩算法总结/index.html">
+<meta property="og:site_name" content="高沛'blog">
+<meta property="og:description" content="最近在做图片压缩，所以对一些图片压缩方法进行总结。
+一、质量压缩质量压缩采用设置options属性的方法，改变图片的质量，而且质量压缩不会降低这个图片的大小尺寸，但是会通过降低图片质量降低这个图片的文件大小，由于大小尺寸不变，所以将这个图片转成 bitmap 之后占用的内存大小和压缩前是一样的。它是在保持像素的前提下改变图片的位深及透明度等，来达到压缩图片的目的。12345678910111213">
+<meta property="og:updated_time" content="2017-09-03T12:28:34.812Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android图片压缩总结">
+<meta name="twitter:description" content="最近在做图片压缩，所以对一些图片压缩方法进行总结。
+一、质量压缩质量压缩采用设置options属性的方法，改变图片的质量，而且质量压缩不会降低这个图片的大小尺寸，但是会通过降低图片质量降低这个图片的文件大小，由于大小尺寸不变，所以将这个图片转成 bitmap 之后占用的内存大小和压缩前是一样的。它是在保持像素的前提下改变图片的位深及透明度等，来达到压缩图片的目的。12345678910111213">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/30/Android图片压缩算法总结/"/>
+
+
+
+
+
+  <title> Android图片压缩总结 | 高沛'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=61860048";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">高沛'blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/30/Android图片压缩算法总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="高沛">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="高沛'blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android图片压缩总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-30T15:45:55+08:00">
+                2017-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近在做图片压缩，所以对一些图片压缩方法进行总结。</p>
+<h2 id="一、质量压缩"><a href="#一、质量压缩" class="headerlink" title="一、质量压缩"></a>一、质量压缩</h2><p>质量压缩采用设置options属性的方法，改变图片的质量，而且质量压缩不会降低这个图片的大小尺寸，但是会通过降低图片质量降低这个图片的文件大小，由于大小尺寸不变，所以将这个图片转成 bitmap 之后占用的内存大小和压缩前是一样的。它是在保持像素的前提下改变图片的位深及透明度等，来达到压缩图片的目的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> *</div><div class="line"> * 设置bitmap options属性，降低图片的质量，像素不会减少</div><div class="line"> * 第一个参数为需要压缩的bitmap图片对象，第二个参数为压缩后图片保存的位置</div><div class="line"> * 设置options 属性0-100，来实现压缩</div><div class="line"> * @param bmp</div><div class="line"> * @param file</div><div class="line"> */</div><div class="line">public static void compressImageToFile(Bitmap bmp,File file) &#123;</div><div class="line">    // 0-100 100为不压缩</div><div class="line">    int options = 20;</div><div class="line">    ByteArrayOutputStream baos = new ByteArrayOutputStream();</div><div class="line">    // 把压缩后的数据存放到baos中</div><div class="line">    bmp.compress(Bitmap.CompressFormat.JPEG, options, baos);</div><div class="line">    try &#123;</div><div class="line">        FileOutputStream fos = new FileOutputStream(file);</div><div class="line">        fos.write(baos.toByteArray());</div><div class="line">        fos.flush();</div><div class="line">        fos.close();</div><div class="line">    &#125; catch (Exception e) &#123;</div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="二、尺寸压缩"><a href="#二、尺寸压缩" class="headerlink" title="二、尺寸压缩"></a>二、尺寸压缩</h2><p>尺寸压缩意味着要改变图片的size(width&amp;height),<br>双线性采样（Bilinear Resampling）,改变图片的size其实就是一个图片重新采样的过程，放大图片称为上采样，缩小图片称为下采样，显然，图片压缩为下采样。重采样有多中算法，在Android中主要有两种方法，一种叫做邻近采样（subsample）／邻近采样（Nearest Neighbour Resampling），另一种叫做双线性采样（Bilinear Resampling下面将进行简单的介绍。</p>
+<h3 id="1-邻近采样"><a href="#1-邻近采样" class="headerlink" title="1. 邻近采样"></a>1. 邻近采样</h3><p>邻近采样是最简单粗暴的重采样算法，在Android中的实现如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"> /**</div><div class="line">        * 设置图片的采样率，降低图片像素</div><div class="line">        * @param filePath</div><div class="line">        * @param file</div><div class="line">        */</div><div class="line">       public static void compressBitmap1(InputStream filePath, File file)&#123;</div><div class="line">           // 数值越高，图片像素越低</div><div class="line">           int inSampleSize = 4;</div><div class="line">           BitmapFactory.Options options = new BitmapFactory.Options();</div><div class="line">//         options.inJustDecodeBounds = false;</div><div class="line">           options.inJustDecodeBounds = true;//为true的时候不会真正加载图片，而是得到图片的宽高信息。</div><div class="line">           //采样率</div><div class="line">           options.inSampleSize = inSampleSize;</div><div class="line">           Bitmap bitmap = BitmapFactory.decodeStream(filePath,null ,options);</div><div class="line"></div><div class="line">           ByteArrayOutputStream baos = new ByteArrayOutputStream();</div><div class="line">           // 把压缩后的数据存放到baos中</div><div class="line">           bitmap.compress(Bitmap.CompressFormat.JPEG, 100 ,baos);</div><div class="line">           try &#123;</div><div class="line">               if(file.exists())</div><div class="line">               &#123;</div><div class="line">                   file.delete();</div><div class="line">               &#125;</div><div class="line">               else &#123;</div><div class="line">                   file.createNewFile();</div><div class="line">               &#125;</div><div class="line">               FileOutputStream fos = new FileOutputStream(file);</div><div class="line">               fos.write(baos.toByteArray());</div><div class="line">               fos.flush();</div><div class="line">               fos.close();</div><div class="line">           &#125; catch (Exception e) &#123;</div><div class="line">               e.printStackTrace();</div><div class="line">           &#125;</div><div class="line">       &#125;</div></pre></td></tr></table></figure></p>
+<p>假设一张图片的像素点颜色是这样的</p>
+<p>红 绿 红 绿<br>红 绿 红 绿<br>红 绿 红 绿<br>红 绿 红 绿</p>
+<p>图片中是一个红色像素隔着一个绿色像素，采样率设置为 1/2，所以是两个像素生成一个像素，邻近采样的方法貌似比较粗暴，直接选择其中的一个像素作为生成像素，另一个像素直接抛弃，这样就造成了图片变成了纯红色（绿色像素被抛弃），这就是邻近采样的方式，邻近采样采用的算法叫做邻近点插值算法。</p>
+<h3 id="2-双线性采样"><a href="#2-双线性采样" class="headerlink" title="2.双线性采样"></a>2.双线性采样</h3><p>相对与邻近采样，双线性就好一些了。Android中主要有两种方式实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//第一种方式</div><div class="line">Matrix matrix = new Matrix();</div><div class="line">matrix.setScale(0.5f, 0.5f);</div><div class="line">bm = Bitmap.createBitmap(bitmap, 0, 0, bit.getWidth(), bit.getHeight(), matrix, true);</div><div class="line"></div><div class="line">//第二种方式</div><div class="line">Bitmap bitmap = BitmapFactory.decodeFile(&quot;/sdcard/text.png&quot;);</div><div class="line">Bitmap compress = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth()/2, bitmap.getHeight()/2, true);</div></pre></td></tr></table></figure></p>
+<p>看到表现稍微比邻近采样要好一些。双线性采样使用的是双线性內插值算法，这个算法不像邻近点插值算法一样，直接粗暴的选择一个像素，而是参考了源像素相应位置周围 2 <em> 2 个点的值，根据相对位置取相应的权重，从而得到目标图像。双线性内插值算法在图像的放缩处理中具有抗锯齿功能, 是最简单和常见的图像放缩算法，当对相邻 2 </em> 2 个像素点采用双线性插值时，所得表面在邻域处是吻合的，但斜率不吻合，并且双线性灰度插值的平滑作用可能使得图像的细节产生退化，这种现象在上采样时尤其明显。</p>
+<h2 id="三、RGB-565-压缩"><a href="#三、RGB-565-压缩" class="headerlink" title="三、RGB 565 压缩"></a>三、RGB 565 压缩</h2><p>首先说下ARGB_8888和RGB565表示的意义：<br>ARGB_8888表示32位ARGB位图，即A=8,R=8,G=8,B=8,一个像素点占8+8+8+8=32位，4个字节。<br>RGB_565表示16位RGB位图,即R=5,G=6,B=5,它没有透明度(A),一个像素点占5+6+5=16位，2个字节。<br>所以RGB_565 相对于 ARGB_8888 来说可以节省一半的内存，但是只限于 decode 没有透明度的png图片，要不然会损失图片透明度，它的使用也很简单。只需在加载图片设置options:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">BitmapFactory.Options options = new BitmapFactory.Options();</div><div class="line">options.inPreferredConfig = Bitmap.Config.RGB_565;//ARGB8888</div><div class="line">Bitmap bitmap = BitmapFactory.decodeFile(&quot;/sdcard/test.png&quot;, options);</div><div class="line">ByteArrayOutputStream baos = new ByteArrayOutputStream();</div><div class="line">bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);</div></pre></td></tr></table></figure></p>
+<h2 id="四、哈夫曼编码压缩"><a href="#四、哈夫曼编码压缩" class="headerlink" title="四、哈夫曼编码压缩"></a>四、哈夫曼编码压缩</h2><p>说起哈夫曼编码压缩，不得不说一个事实：Android的图片压缩质量要比iOS的压缩质量差很多，其原因是：虽然Android和iOS都是skia引擎进行图片处理，但是Android用的是阉割版，它在进行jpeg压缩编码的时候，考虑到了效率问题使用了定长编码方式进行编码（因为当时的手机性能都比较低），而iOS使用了变长编码的算法——哈夫曼算法。而且iOS对skia引擎也做了优化。所有我们看到同样的图片在iOS上压缩会好一点。</p>
+<p>大家应该都知道哈夫曼编码需要先计算信息出现的概率，所以需要扫描整个信息（即整张图片的信息—每一个像素就包括ARGB四个信息），这显然需要大量的进行计算，非常吃CPU。例如，一张1280<em>720的图片需要计算的次数为 720</em>1280*4（ARGB），这对于当时的安卓手机来说可以是一个灾难（07年Android推出）。所以Google当时去掉哈夫曼编码压缩也不无道理。</p>
+<p>下面用一个例子比较一下哈夫曼编码对于定长编码的优势：<br>假设有一段复杂度为5的信息，信息分别为A、B、C、D、E，并且计算机中的表达方式要按照二进制编码的形式表示。<br>通常情况下A、B、C、D、E用以下的方式表达：<br>A:0001<br>B:0010<br>C:0011<br>D:0100<br>E:0101<br>由于五个信息第一位都是0，所以采用定长编码的话，可以表示为：<br>A:001<br>B:010<br>C:011<br>D:100<br>E:101<br>而在使用哈夫曼编码时，我们可以给信息赋予权重。这里假设A占据了60%，B占据了30%，C占据了10%，D和E都是0%，那么信息可以表示为：<br>A:01<br>B:10<br>C:11<br>显然采用哈夫曼编码的方式存储信息，将节省节省很多空间损耗。虽然Android去除了哈夫曼编码压缩，但是我们还是可以通过移植开源的libjpeg来实现图片压缩，具体可参考：<a href="http://blog.csdn.net/a992036795/article/details/53814178。" target="_blank" rel="external">http://blog.csdn.net/a992036795/article/details/53814178。</a> </p>
+<p><a href="http://blog.csdn.net/maqianli23/article/details/53980798" target="_blank" rel="external">http://blog.csdn.net/maqianli23/article/details/53980798</a><br><a href="http://blog.csdn.net/lanergaming/article/details/49207435" target="_blank" rel="external">http://blog.csdn.net/lanergaming/article/details/49207435</a><br><a href="http://blog.csdn.net/zouxy09/article/details/49080029" target="_blank" rel="external">http://blog.csdn.net/zouxy09/article/details/49080029</a><br><a href="http://blog.csdn.net/a992036795/article/details/53814178" target="_blank" rel="external">http://blog.csdn.net/a992036795/article/details/53814178</a><br><a href="http://www.jianshu.com/p/7423cb1393d3" target="_blank" rel="external">http://www.jianshu.com/p/7423cb1393d3</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/12/Picasso从使用到源码解析/" rel="next" title="Picasso从使用到源码解析">
+                <i class="fa fa-chevron-left"></i> Picasso从使用到源码解析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="高沛" />
+          <p class="site-author-name" itemprop="name">高沛</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/github_36704374" title="C_Li的博客" target="_blank">C_Li的博客</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、质量压缩"><span class="nav-number">1.</span> <span class="nav-text">一、质量压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、尺寸压缩"><span class="nav-number">2.</span> <span class="nav-text">二、尺寸压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-邻近采样"><span class="nav-number">2.1.</span> <span class="nav-text">1. 邻近采样</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-双线性采样"><span class="nav-number">2.2.</span> <span class="nav-text">2.双线性采样</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、RGB-565-压缩"><span class="nav-number">3.</span> <span class="nav-text">三、RGB 565 压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、哈夫曼编码压缩"><span class="nav-number">4.</span> <span class="nav-text">四、哈夫曼编码压缩</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">高沛</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
